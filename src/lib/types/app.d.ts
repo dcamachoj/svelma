@@ -86,40 +86,15 @@ namespace app {
 		hasAnyRole(...roles: string[]): boolean;
 		isMenuAllowed(menu: app.MenuItem): boolean;
 	}
-	export interface IUser extends IPrincipal, IValid {
-		birthday?: Date;
-		height?: number;
-		phone?: string;
-		expires?: Date;
-		measurement?: IMeasurement;
-		improvement?: IImprovement;
+
+	export interface I18nLang {
+		en: string;
+		es: string;
 	}
-	export interface IMeasurement extends IEntity, IValid {
-		id?: string;
-		createdAt: Date;
-		weight: number;
-		fatPercentage: number;
-		musclePercentage: number;
-		visceralFat: number;
-		fatWeight: number;
-		muscleWeight: number;
-		weightFixed: string;
-		fatFixed: string;
-		muscleFixed: string;
-		visceralFatFixed: string;
-	}
-	export interface IImprovement extends IValid, IMap {
-		weight: number;
-		fat: number;
-		muscle: number;
-		weightFixed: string;
-		fatFixed: string;
-		muscleFixed: string;
-	}
-	export interface IMeasurementAdd {
-		weight: number;
-		fatPercentage: number;
-		musclePercentage: number;
-		visceralFat: number;
+	export type I18nData = { [key: string]: string };
+	export type I18nParams = { [key: string]: any };
+	export interface I18nValue {
+		key: string;
+		getValue(params?: I18nParams): string;
 	}
 }

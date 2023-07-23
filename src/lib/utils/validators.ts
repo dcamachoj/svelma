@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import type { Readable } from 'svelte/store';
+import { i18n } from './i18n.js';
 
 const reEmail =
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -26,50 +27,62 @@ export const Val = {
 		return !results.find((it) => !it.valid);
 	},
 	required: (message?: val.Message) =>
-		new Validator((v) => v !== undefined && v !== null, message || 'Es Requerido'),
+		new Validator(
+			(v) => v !== undefined && v !== null,
+			message || i18n.toString('validator_required')
+		),
 	notEmpty: (message?: val.Message) =>
-		new Validator((v) => v !== undefined && v !== null && v !== '', message || 'Es Requerido'),
+		new Validator(
+			(v) => v !== undefined && v !== null && v !== '',
+			message || i18n.toString('validator_empty')
+		),
 	email: (message?: val.Message) =>
 		new Validator(
 			(v) => v && reEmail.test(v.toString()),
-			message || 'Correo Electrónico no válido'
+			message || i18n.toString('validator_email_not_valid')
 		),
 	typeOf: (vType: string, message?: val.Message) =>
 		new Validator(
 			(v) => v === null || v === undefined || typeof v === vType,
-			message || ((v) => `No es de tipo ${vType}. Actual: ${typeof v}`)
+			message || ((v) => i18n.toString('validator_type_of', { expected: vType, actual: typeof v }))
 		),
 	isArray: (message?: val.Message) =>
-		new Validator((v) => Array.isArray(v), message || 'No es array'),
+		new Validator((v) => Array.isArray(v), message || i18n.toString('validator_array')),
 	ne: (actual: () => any, message?: val.Message) =>
-		new Validator((v) => v != actual(), message || ((v) => `Debe ser distinto a ${actual()}`)),
+		new Validator(
+			(v) => v != actual(),
+			message || ((v) => i18n.toString('validator_ne', { actual: actual() }))
+		),
 	gt: (min: number, message?: val.Message) =>
 		new Validator(
 			(v) => typeof v !== 'number' || v > min,
-			message || ((v) => `Debe ser mayor a ${min}`)
+			message || ((v) => i18n.toString('validator_gt', { min }))
 		),
 	ge: (min: number, message?: val.Message) =>
 		new Validator(
 			(v) => typeof v !== 'number' || v >= min,
-			message || ((v) => `Debe ser mayor o igual a ${min}`)
+			message || ((v) => i18n.toString('validator_ge', { min }))
 		),
 	lt: (max: number, message?: val.Message) =>
 		new Validator(
 			(v) => typeof v !== 'number' || v < max,
-			message || ((v) => `Debe ser menor a ${max}`)
+			message || ((v) => i18n.toString('validator_lt', { max }))
 		),
 	le: (max: number, message?: val.Message) =>
 		new Validator(
 			(v) => typeof v !== 'number' || v <= max,
-			message || ((v) => `Debe ser menor o igual a ${max}`)
+			message || ((v) => i18n.toString('validator_le', { max }))
 		),
 	between: (min: number, max: number, message?: val.Message) =>
 		new Validator(
 			(v) => typeof v !== 'number' || (v >= min && v <= max),
-			message || ((v) => `Debe estar entre ${min} y ${max}`)
+			message || ((v) => i18n.toString('validator_between', { min, max }))
 		),
 	regExp: (re: RegExp, message?: val.Message) =>
-		new Validator((v) => typeof v !== 'string' || re.test(`${v}`), message || 'No es válido')
+		new Validator(
+			(v) => typeof v !== 'string' || re.test(`${v}`),
+			message || i18n.toString('validator_not_valid')
+		)
 };
 
 class ValAction {
