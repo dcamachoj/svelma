@@ -31,7 +31,7 @@ export class BrowserLangGetter {
     getLang() {
         if (!browser)
             return '';
-        return (navigator.language || navigator.userLanguage).split(',')[0];
+        return (navigator.language || navigator.userLanguage).split(',')[0].split('-')[0];
     }
 }
 export class CookieLangGetter {

@@ -33,7 +33,7 @@ export class CompositeLangGetter implements LangGetter {
 export class BrowserLangGetter implements LangGetter {
 	getLang(): string {
 		if (!browser) return '';
-		return (navigator.language || (navigator as any).userLanguage).split(',')[0];
+		return (navigator.language || (navigator as any).userLanguage).split(',')[0].split('-')[0];
 	}
 }
 
