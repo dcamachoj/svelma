@@ -83,7 +83,7 @@ export class StaticI18nLangsGetter implements I18nGetter {
 		const data: app.I18nData = {};
 		Object.entries(this.data).forEach(([key, val]) => {
 			const kLang = lang as keyof app.I18nLang;
-			data[key] = val[kLang];
+			data[key] = val[kLang] || '';
 		});
 		return Promise.resolve(data);
 	}

@@ -92,7 +92,7 @@ export class StaticI18nLangsGetter {
         const data = {};
         Object.entries(this.data).forEach(([key, val]) => {
             const kLang = lang;
-            data[key] = val[kLang];
+            data[key] = val[kLang] || '';
         });
         return Promise.resolve(data);
     }
