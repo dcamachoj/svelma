@@ -1,5 +1,7 @@
-import { browser } from '$app/environment';
+import type { app } from '$lib/types/index.js';
 import type { I18nGetter, LangGetter, LangSetter } from './i18n.js';
+
+const browser = !!window;
 
 function getCookie(name: string): string {
 	const value = `; ${document.cookie}`;
@@ -72,6 +74,18 @@ export class StaticI18nGetter implements I18nGetter {
 	constructor(private readonly data: Record<string, app.I18nData>) {}
 	getI18nData(lang: string): PromiseLike<app.I18nData> {
 		return Promise.resolve(this.data[lang] || {});
+	}
+}
+
+export class StaticI18nLangsGetter implements I18nGetter {
+	constructor(private readonly data: Record<string, app.I18nLang>) {}
+	getI18nData(lang: string): PromiseLike<app.I18nData> {
+		const data: app.I18nData = {};
+		Object.entries(this.data).forEach(([key, val]) => {
+			const kLang = lang as keyof app.I18nLang;
+			data[key] = val[kLang];
+		});
+		return Promise.resolve(data);
 	}
 }
 

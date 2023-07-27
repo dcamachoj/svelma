@@ -1,3 +1,4 @@
+import type { app, bulma } from '$lib/types/index.js';
 import { classnames } from '$lib/utils/classnames.js';
 
 export function bulmaHelper(src: bulma.Helper = {}, className: app.ClsArgument = ''): string {

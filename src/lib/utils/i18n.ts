@@ -1,3 +1,5 @@
+import type { app } from '$lib/types/index.js';
+
 export interface LangGetter {
 	getLang(): string;
 }
@@ -27,6 +29,13 @@ class I18n {
 		});
 		return this;
 	}
+	load(data: Record<string, app.I18nLang>): I18n {
+		Object.entries(data).forEach(([key, val]) => {
+			const lang = this._lang as keyof app.I18nLang;
+			this.data[key] = val[lang];
+		});
+		return this;
+	}
 
 	toString(key: string, params?: app.I18nParams): string {
 		let value = this.has(key) ? this.data[key] : key.toUpperCase();
@@ -37,6 +46,16 @@ class I18n {
 			value = value.replace(`{${key.toUpperCase()}}`, `${val}`);
 		});
 		return value;
+	}
+
+	translate<S extends { [key: string]: app.I18nParams }, R extends Record<keyof S, string>>(
+		src: S
+	): R {
+		const data: Record<string, string> = {};
+		Object.entries(src).forEach(([key, param]) => {
+			data[key] = this.toString(key);
+		});
+		return data as R;
 	}
 }
 

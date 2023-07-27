@@ -1,3 +1,5 @@
+import type { app } from '$lib/types/index.js';
+
 export function classnames(...args: app.ClsArgument[]): string {
 	const hasOwn = {}.hasOwnProperty;
 	var classes: string[] = [];

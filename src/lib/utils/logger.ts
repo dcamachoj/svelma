@@ -3,7 +3,7 @@ const LogLevelError = 0;
 const LogLevelWarn = 1;
 const LogLevelInfo = 2;
 const LogLevelDebug = 3;
-const LogLevel = import.meta.env.VITE_LOG_LEVEL || 'info';
+let LogLevel = 'info';
 
 class Logger {
 	_level: number;
@@ -35,3 +35,8 @@ class Logger {
 }
 
 export const logger = new Logger();
+export function initLogger(level?: string) {
+	if (level && LogLevels.includes(level)) {
+		LogLevel = level;
+	}
+}

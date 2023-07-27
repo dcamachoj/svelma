@@ -1,4 +1,6 @@
-const data: Record<string, app.I18nLang> = {
+import type { app } from '$lib/types/index.js';
+
+export const translations: Record<string, app.I18nLang> = {
 	validator_required: {
 		en: 'Required',
 		es: 'Requerido'
@@ -48,11 +50,3 @@ const data: Record<string, app.I18nLang> = {
 		es: 'Debe estar entre {MIN} y {MAX}'
 	}
 };
-
-export function getValidatorI18n(lang: keyof app.I18nLang): app.I18nData {
-	const result: app.I18nData = {};
-	Object.entries(data).forEach(([key, val]) => {
-		result[key] = val[lang];
-	});
-	return result;
-}
