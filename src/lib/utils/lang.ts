@@ -1,7 +1,7 @@
 import type { app } from '$lib/types/index.js';
 import type { I18nGetter, LangGetter, LangSetter } from './i18n.js';
 
-const browser = !!window;
+const browser = typeof window !== 'undefined';
 
 function getCookie(name: string): string {
 	const value = `; ${document.cookie}`;

@@ -1,4 +1,4 @@
-const browser = !!window;
+const browser = typeof window !== 'undefined';
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
