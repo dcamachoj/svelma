@@ -5,6 +5,7 @@ declare const __propDef: {
         active: boolean;
         header?: string | undefined;
         actions?: app.Action[] | undefined;
+        classes?: app.ClsArgument;
     };
     events: {
         close: CustomEvent<any>;

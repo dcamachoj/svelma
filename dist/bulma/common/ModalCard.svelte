@@ -5,8 +5,9 @@ const dispatch = createEventDispatcher();
 export let active;
 export let header = "";
 export let actions = void 0;
+export let classes = "";
 $:
-  cls = classnames("modal", { "is-active": active });
+  cls = classnames("modal", { "is-active": active }, classes);
 function onClose() {
   dispatch("close");
 }

@@ -10,8 +10,9 @@
 	export let active: boolean;
 	export let header: string = '';
 	export let actions: app.Action[] | undefined = undefined;
+	export let classes: app.ClsArgument = '';
 
-	$: cls = classnames('modal', { 'is-active': active });
+	$: cls = classnames('modal', { 'is-active': active }, classes);
 
 	function onClose() {
 		dispatch('close');
