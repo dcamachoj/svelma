@@ -1,4 +1,5 @@
 import { SvelteComponent } from "svelte";
+import type { app } from '../../types/index.js';
 declare const __propDef: {
     props: {
         active: boolean;

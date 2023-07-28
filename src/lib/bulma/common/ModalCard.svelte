@@ -3,6 +3,7 @@
 
 	import { createEventDispatcher } from 'svelte';
 	import Icon from './Icon.svelte';
+	import type { app } from '$lib/types/index.js';
 
 	const dispatch = createEventDispatcher();
 
