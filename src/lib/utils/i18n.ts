@@ -12,7 +12,7 @@ export interface I18nGetter {
 	getI18nData(lang: string): PromiseLike<app.I18nData>;
 }
 
-class I18n {
+export class I18n {
 	private readonly data: app.I18nData = {};
 	private _lang: string = '';
 
@@ -56,6 +56,15 @@ class I18n {
 			data[key] = this.toString(key);
 		});
 		return data as R;
+	}
+
+	clone(): I18n {
+		const copy = new I18n();
+		copy._lang = this._lang;
+		Object.entries(this.data).forEach(([key, val]) => {
+			copy.data[key] = val;
+		});
+		return copy;
 	}
 }
 

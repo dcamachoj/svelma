@@ -1,4 +1,4 @@
-class I18n {
+export class I18n {
     data = {};
     _lang = '';
     get lang() {
@@ -37,6 +37,14 @@ class I18n {
             data[key] = this.toString(key);
         });
         return data;
+    }
+    clone() {
+        const copy = new I18n();
+        copy._lang = this._lang;
+        Object.entries(this.data).forEach(([key, val]) => {
+            copy.data[key] = val;
+        });
+        return copy;
     }
 }
 export const i18n = new I18n();

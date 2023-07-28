@@ -8,7 +8,7 @@ export interface LangSetter {
 export interface I18nGetter {
     getI18nData(lang: string): PromiseLike<app.I18nData>;
 }
-declare class I18n {
+export declare class I18n {
     private readonly data;
     private _lang;
     get lang(): string;
@@ -19,8 +19,8 @@ declare class I18n {
     translate<S extends {
         [key: string]: app.I18nParams;
     }, R extends Record<keyof S, string>>(src: S): R;
+    clone(): I18n;
 }
 export declare const i18n: I18n;
 export declare function initI18n(langGetter: LangGetter, i18nGetter: I18nGetter): Promise<I18n>;
 export declare function prefixLang(prefix: string, src: Record<string, app.I18nLang>): Record<string, app.I18nLang>;
-export {};
