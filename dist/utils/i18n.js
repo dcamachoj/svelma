@@ -46,3 +46,10 @@ export async function initI18n(langGetter, i18nGetter) {
     i18n.merge(lang, data);
     return i18n;
 }
+export function prefixLang(prefix, src) {
+    const result = {};
+    Object.entries(src).forEach(([key, val]) => {
+        result[`${prefix}_${key}`] = val;
+    });
+    return result;
+}

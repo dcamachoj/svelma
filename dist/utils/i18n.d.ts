@@ -22,4 +22,5 @@ declare class I18n {
 }
 export declare const i18n: I18n;
 export declare function initI18n(langGetter: LangGetter, i18nGetter: I18nGetter): Promise<I18n>;
+export declare function prefixLang(prefix: string, src: Record<string, app.I18nLang>): Record<string, app.I18nLang>;
 export {};

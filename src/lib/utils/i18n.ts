@@ -67,3 +67,14 @@ export async function initI18n(langGetter: LangGetter, i18nGetter: I18nGetter): 
 	i18n.merge(lang, data);
 	return i18n;
 }
+
+export function prefixLang(
+	prefix: string,
+	src: Record<string, app.I18nLang>
+): Record<string, app.I18nLang> {
+	const result: Record<string, app.I18nLang> = {};
+	Object.entries(src).forEach(([key, val]) => {
+		result[`${prefix}_${key}`] = val;
+	});
+	return result;
+}
