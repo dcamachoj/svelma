@@ -19,6 +19,9 @@ export class I18n {
 	get lang(): string {
 		return this._lang;
 	}
+	get loaded(): boolean {
+		return Object.keys(this.data).length > 0;
+	}
 	has(key: string): boolean {
 		return this.data.hasOwnProperty(key);
 	}
@@ -38,6 +41,7 @@ export class I18n {
 	}
 
 	toString(key: string, params?: app.I18nParams): string {
+		if (!this.loaded) return '';
 		let value = this.has(key) ? this.data[key] : key.toUpperCase();
 		if (!params) {
 			return value;

@@ -12,6 +12,7 @@ export declare class I18n {
     private readonly data;
     private _lang;
     get lang(): string;
+    get loaded(): boolean;
     has(key: string): boolean;
     merge(lang: string, data: app.I18nData): I18n;
     load(data: Record<string, app.I18nLang>): I18n;

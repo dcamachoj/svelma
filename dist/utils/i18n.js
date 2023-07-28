@@ -4,6 +4,9 @@ export class I18n {
     get lang() {
         return this._lang;
     }
+    get loaded() {
+        return Object.keys(this.data).length > 0;
+    }
     has(key) {
         return this.data.hasOwnProperty(key);
     }
@@ -22,6 +25,8 @@ export class I18n {
         return this;
     }
     toString(key, params) {
+        if (!this.loaded)
+            return '';
         let value = this.has(key) ? this.data[key] : key.toUpperCase();
         if (!params) {
             return value;
