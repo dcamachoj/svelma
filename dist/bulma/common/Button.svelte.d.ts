@@ -1,8 +1,9 @@
 import { SvelteComponent } from "svelte";
+import type { app, bulma } from '../../types/index.js';
 declare const __propDef: {
     props: {
-        className?: any;
-        helper?: any;
+        className?: app.ClsArgument;
+        helper?: bulma.Helper | undefined;
         href?: string | undefined;
         icon?: string | undefined;
         text?: string | undefined;
@@ -17,6 +18,7 @@ declare const __propDef: {
         loading?: boolean | undefined;
         isStatic?: boolean | undefined;
         disabled?: boolean | undefined;
+        target: ((string & {}) | "_self" | "_blank" | "_parent" | "_top") | null | undefined;
     };
     events: {
         click: MouseEvent;

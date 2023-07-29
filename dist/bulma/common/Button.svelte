@@ -16,6 +16,7 @@ export let rounded = false;
 export let loading = false;
 export let isStatic = false;
 export let disabled = void 0;
+export let target;
 $:
   cls = bulmaHelper(helper, [
     "button",
@@ -40,7 +41,7 @@ $:
 </script>
 
 {#if href}
-	<a {href} class={cls} {...props}>
+	<a {href} class={cls} {target} {...props}>
 		{#if icon}
 			<Icon {icon} className={{ 'pr-1': text }} />
 		{/if}

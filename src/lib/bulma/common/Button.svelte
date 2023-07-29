@@ -1,7 +1,9 @@
 <script lang="ts">
+	import type { app, bulma } from '$lib/types/index.js';
 	import { bulmaHelper } from '$lib/utils/bulma.js';
 
 	import Icon from './Icon.svelte';
+	type HTMLAttributeAnchorTarget = '_self' | '_blank' | '_parent' | '_top' | (string & {});
 
 	export let className: app.ClsArgument = '';
 	export let helper: bulma.Helper = {};
@@ -32,6 +34,7 @@
 	export let loading: boolean = false;
 	export let isStatic: boolean = false;
 	export let disabled: boolean | undefined = undefined;
+	export let target: HTMLAttributeAnchorTarget | undefined | null;
 
 	$: cls = bulmaHelper(helper, [
 		'button',
@@ -56,7 +59,7 @@
 </script>
 
 {#if href}
-	<a {href} class={cls} {...props}>
+	<a {href} class={cls} {target} {...props}>
 		{#if icon}
 			<Icon {icon} className={{ 'pr-1': text }} />
 		{/if}
