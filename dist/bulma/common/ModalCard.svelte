@@ -22,7 +22,7 @@ function onAction(action) {
 	<div class="modal-background" />
 	<div class="modal-card">
 		<header class="modal-card-head">
-			<p class="modal-card-title">{header}<slot name="header" /></p>
+			<p class="modal-card-title"><span>{header}</span><slot name="header" /></p>
 			<button class="delete" aria-label="close" on:click={onClose} />
 		</header>
 		<section class="modal-card-body">
@@ -45,3 +45,11 @@ function onAction(action) {
 		</footer>
 	</div>
 </div>
+
+<style>
+	.modal-card-title {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+</style>
