@@ -34,7 +34,7 @@
 	export let loading: boolean = false;
 	export let isStatic: boolean = false;
 	export let disabled: boolean | undefined = undefined;
-	export let target: HTMLAttributeAnchorTarget | undefined | null;
+	export let target: HTMLAttributeAnchorTarget | undefined | null = undefined;
 
 	$: cls = bulmaHelper(helper, [
 		'button',

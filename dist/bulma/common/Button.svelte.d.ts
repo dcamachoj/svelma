@@ -18,7 +18,7 @@ declare const __propDef: {
         loading?: boolean | undefined;
         isStatic?: boolean | undefined;
         disabled?: boolean | undefined;
-        target: ((string & {}) | "_self" | "_blank" | "_parent" | "_top") | null | undefined;
+        target?: ((string & {}) | "_self" | "_blank" | "_parent" | "_top") | null | undefined;
     };
     events: {
         click: MouseEvent;

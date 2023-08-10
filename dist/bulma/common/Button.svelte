@@ -16,7 +16,7 @@ export let rounded = false;
 export let loading = false;
 export let isStatic = false;
 export let disabled = void 0;
-export let target;
+export let target = void 0;
 $:
   cls = bulmaHelper(helper, [
     "button",
