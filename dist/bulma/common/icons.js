@@ -1,4 +1,4 @@
-import { mdiAccountCircleOutline, mdiBackspace, mdiCancel, mdiClose, mdiCog, mdiContentSave, mdiCreditCardOutline, mdiHome, mdiImageBroken, mdiLogin, mdiLogout, mdiPlus, mdiRuler, mdiThumbDown, mdiThumbUp, mdiTrashCan, mdiUpload } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiBackspace, mdiCancel, mdiChevronDown, mdiClose, mdiCog, mdiContentSave, mdiCreditCardOutline, mdiHome, mdiImageBroken, mdiLogin, mdiLogout, mdiPlus, mdiRuler, mdiThumbDown, mdiThumbUp, mdiTrashCan, mdiUpload } from '@mdi/js';
 export const icons = {
     noImage: mdiImageBroken,
     home: mdiHome,
@@ -15,5 +15,6 @@ export const icons = {
     payment: mdiCreditCardOutline,
     add: mdiPlus,
     trash: mdiTrashCan,
-    back: mdiBackspace
+    back: mdiBackspace,
+    chevronDown: mdiChevronDown
 };

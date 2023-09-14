@@ -1,12 +1,14 @@
 <script lang="ts">
-	import { bulmaHelper } from '$lib/utils/bulma.js';
+	import { bulmaHelper, type BulmaHelper } from '$lib/utils/bulma.js';
 	import { icons } from '$lib/bulma/common/icons.js';
+	import type { ClsArgument } from '$lib/utils/classnames.js';
 
 	export let icon: string;
-	export let className: app.ClsArgument = '';
-	export let helper: bulma.Helper = {};
+	export let iconClass: string = 'icon';
+	export let className: ClsArgument = '';
+	export let helper: BulmaHelper = {};
 
-	$: cls = bulmaHelper(helper, ['icon', className]);
+	$: cls = bulmaHelper(helper, [iconClass, className]);
 	$: iconData = icon || icons.noImage;
 </script>
 

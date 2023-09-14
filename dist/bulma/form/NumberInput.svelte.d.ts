@@ -1,4 +1,5 @@
 import { SvelteComponent } from "svelte";
+import type { Action, Result } from '../../utils/validators.js';
 declare const __propDef: {
     props: {
         id: string;
@@ -6,8 +7,8 @@ declare const __propDef: {
         placeholder?: string | undefined;
         value: number | undefined;
         step?: number | undefined;
-        valid?: val.Result | undefined;
-        action?: val.Action | undefined;
+        valid?: Result | undefined;
+        action?: Action | undefined;
     };
     events: {
         'value-changed': CustomEvent<any>;

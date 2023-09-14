@@ -1,9 +1,12 @@
 import { SvelteComponent } from "svelte";
+import { type BulmaHelper } from '../../utils/bulma.js';
+import type { ClsArgument } from '../../utils/classnames.js';
 declare const __propDef: {
     props: {
         icon: string;
-        className?: any;
-        helper?: any;
+        iconClass?: string | undefined;
+        className?: ClsArgument;
+        helper?: BulmaHelper | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

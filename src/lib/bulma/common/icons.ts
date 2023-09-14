@@ -2,6 +2,7 @@ import {
 	mdiAccountCircleOutline,
 	mdiBackspace,
 	mdiCancel,
+	mdiChevronDown,
 	mdiClose,
 	mdiCog,
 	mdiContentSave,
@@ -34,7 +35,8 @@ export const icons = {
 	payment: mdiCreditCardOutline,
 	add: mdiPlus,
 	trash: mdiTrashCan,
-	back: mdiBackspace
+	back: mdiBackspace,
+	chevronDown: mdiChevronDown
 };
 
 export type Icons = keyof typeof icons;

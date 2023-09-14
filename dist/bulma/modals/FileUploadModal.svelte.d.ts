@@ -1,11 +1,12 @@
 import { SvelteComponent } from "svelte";
+import type { FileItem, ModalCheck } from '../../utils/bulma.js';
 declare const __propDef: {
     props: {
         active: boolean;
         header: string;
         accept?: string | undefined;
         progress?: number | undefined;
-        check?: app.ModalCheck<app.FileItem> | undefined;
+        check?: ModalCheck<FileItem> | undefined;
     };
     events: {
         select: CustomEvent<any>;

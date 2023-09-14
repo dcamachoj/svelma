@@ -1,16 +1,17 @@
 <script lang="ts">
-	import { bulmaHelper } from '$lib/utils/bulma.js';
+	import { bulmaHelper, type BulmaHelper } from '$lib/utils/bulma.js';
+	import type { ClsArgument } from '$lib/utils/classnames.js';
 
 	export let avatar: string;
-	export let className: app.ClsArgument = '';
-	export let helper: bulma.Helper = {};
+	export let className: ClsArgument = '';
+	export let bulma: BulmaHelper = {};
 	export let size: number = 24;
 
 	const noImage = '/images/no-image.png';
 
 	let hasError: boolean = false;
 
-	$: cls = bulmaHelper(helper, ['avatar', className]);
+	$: cls = bulmaHelper(bulma, ['avatar', className]);
 
 	function onError() {
 		hasError = true;

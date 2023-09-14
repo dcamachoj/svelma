@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Action, Result } from '$lib/utils/validators.js';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -7,8 +8,8 @@
 	export let placeholder: string | undefined = undefined;
 	export let value: number | undefined;
 	export let step: number | undefined = undefined;
-	export let valid: val.Result | undefined = undefined;
-	export let action: val.Action | undefined = undefined;
+	export let valid: Result | undefined = undefined;
+	export let action: Action | undefined = undefined;
 
 	$: message = valid?.message || '';
 

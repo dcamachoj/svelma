@@ -1,4 +1,5 @@
 import { SvelteComponent } from "svelte";
+import type { Result, Action } from '../../utils/validators.js';
 declare const __propDef: {
     props: {
         id: string;
@@ -7,12 +8,12 @@ declare const __propDef: {
         label: string;
         type?: "number" | "text" | "password" | "email" | "tel" | undefined;
         value: string | undefined;
-        valid?: val.Result | undefined;
-        action?: val.Action | undefined;
+        valid?: Result | undefined;
+        action?: Action | undefined;
         okLabel?: string | undefined;
-        okIcon?: "cancel" | "close" | "noImage" | "home" | "login" | "logout" | "settings" | "save" | "yes" | "no" | "upload" | "ruler" | "payment" | "add" | "trash" | "back" | undefined;
+        okIcon?: "no" | "cancel" | "close" | "noImage" | "home" | "login" | "logout" | "settings" | "save" | "yes" | "upload" | "ruler" | "payment" | "add" | "trash" | "back" | "chevronDown" | undefined;
         clrLabel?: string | undefined;
-        clrIcon?: "cancel" | "close" | "noImage" | "home" | "login" | "logout" | "settings" | "save" | "yes" | "no" | "upload" | "ruler" | "payment" | "add" | "trash" | "back" | undefined;
+        clrIcon?: "no" | "cancel" | "close" | "noImage" | "home" | "login" | "logout" | "settings" | "save" | "yes" | "upload" | "ruler" | "payment" | "add" | "trash" | "back" | "chevronDown" | undefined;
     };
     events: {
         clear: CustomEvent<any>;

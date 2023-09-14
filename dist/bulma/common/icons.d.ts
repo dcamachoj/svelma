@@ -15,5 +15,6 @@ export declare const icons: {
     add: string;
     trash: string;
     back: string;
+    chevronDown: string;
 };
 export type Icons = keyof typeof icons;

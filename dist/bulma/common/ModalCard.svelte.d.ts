@@ -1,11 +1,12 @@
 import { SvelteComponent } from "svelte";
-import type { app } from '../../types/index.js';
+import { type ClsArgument } from '../../utils/classnames.js';
+import type { Action } from '../../utils/bulma.js';
 declare const __propDef: {
     props: {
         active: boolean;
         header?: string | undefined;
-        actions?: app.Action[] | undefined;
-        classes?: app.ClsArgument;
+        actions?: Action[] | undefined;
+        classes?: ClsArgument;
     };
     events: {
         close: CustomEvent<any>;

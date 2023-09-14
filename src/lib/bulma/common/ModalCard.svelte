@@ -1,23 +1,24 @@
 <script lang="ts">
-	import { classnames } from '$lib/utils/classnames.js';
+	import { classnames, type ClsArgument } from '$lib/utils/classnames.js';
+	import type { Action, Click } from '$lib/utils/bulma.js';
 
 	import { createEventDispatcher } from 'svelte';
 	import Icon from './Icon.svelte';
-	import type { app } from '$lib/types/index.js';
+	import IconText from './IconText.svelte';
 
 	const dispatch = createEventDispatcher();
 
 	export let active: boolean;
 	export let header: string = '';
-	export let actions: app.Action[] | undefined = undefined;
-	export let classes: app.ClsArgument = '';
+	export let actions: Action[] | undefined = undefined;
+	export let classes: ClsArgument = '';
 
 	$: cls = classnames('modal', { 'is-active': active }, classes);
 
 	function onClose() {
 		dispatch('close');
 	}
-	function onAction(action: app.Action): app.Click {
+	function onAction(action: Action): Click {
 		return (e?: any) => {
 			dispatch('action', action);
 		};
@@ -38,12 +39,7 @@
 			{#if actions}
 				{#each actions as action (action.name)}
 					<button class="button" on:click={onAction(action)}>
-						{#if action.icon}
-							<Icon icon={action.icon} className={{ 'pr-1': action.text }} />
-						{/if}
-						{#if action.text}
-							<span>{action.text}</span>
-						{/if}
+						<IconText icon={action.icon} text={action.text} />
 					</button>
 				{/each}
 			{/if}

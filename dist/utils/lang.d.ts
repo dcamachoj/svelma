@@ -1,5 +1,4 @@
-import type { app } from '../types/index.js';
-import type { I18nGetter, LangGetter, LangSetter } from './i18n.js';
+import type { I18nData, I18nGetter, I18nLang, LangGetter, LangSetter } from './i18n.js';
 export declare class CompositeLangGetter implements LangGetter {
     private readonly children;
     constructor(children: LangGetter[]);
@@ -28,17 +27,17 @@ export declare class StorageLangSetter implements LangSetter {
 }
 export declare class StaticI18nGetter implements I18nGetter {
     private readonly data;
-    constructor(data: Record<string, app.I18nData>);
-    getI18nData(lang: string): PromiseLike<app.I18nData>;
+    constructor(data: Record<string, I18nData>);
+    getI18nData(lang: string): PromiseLike<I18nData>;
 }
 export declare class StaticI18nLangsGetter implements I18nGetter {
     private readonly data;
-    constructor(data: Record<string, app.I18nLang>);
-    getI18nData(lang: string): PromiseLike<app.I18nData>;
+    constructor(data: Record<string, I18nLang>);
+    getI18nData(lang: string): PromiseLike<I18nData>;
 }
 export declare class FetchI18nGetter implements I18nGetter {
     private fetch;
     private readonly urlGetter;
     constructor(fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>, urlGetter: (lang: string) => string);
-    getI18nData(lang: string): PromiseLike<app.I18nData>;
+    getI18nData(lang: string): PromiseLike<I18nData>;
 }

@@ -1,12 +1,13 @@
 <script lang="ts">
-	import type { app, bulma } from '$lib/types/index.js';
-	import { bulmaHelper } from '$lib/utils/bulma.js';
+	import { bulmaHelper, type BulmaHelper } from '$lib/utils/bulma.js';
+	import type { ClsArgument } from '$lib/utils/classnames.js';
 
 	import Icon from './Icon.svelte';
+	import IconText from './IconText.svelte';
 	type HTMLAttributeAnchorTarget = '_self' | '_blank' | '_parent' | '_top' | (string & {});
 
-	export let className: app.ClsArgument = '';
-	export let helper: bulma.Helper = {};
+	export let className: ClsArgument = '';
+	export let bulma: BulmaHelper = {};
 	export let href: string = '';
 	export let icon: string = '';
 	export let text: string = '';
@@ -36,7 +37,7 @@
 	export let disabled: boolean | undefined = undefined;
 	export let target: HTMLAttributeAnchorTarget | undefined | null = undefined;
 
-	$: cls = bulmaHelper(helper, [
+	$: cls = bulmaHelper(bulma, [
 		'button',
 		className,
 		{
@@ -60,22 +61,12 @@
 
 {#if href}
 	<a {href} class={cls} {target} {...props}>
-		{#if icon}
-			<Icon {icon} className={{ 'pr-1': text }} />
-		{/if}
-		{#if text}
-			<span>{text}</span>
-		{/if}
+		<IconText {icon} {text} />
 		<slot />
 	</a>
 {:else}
 	<buttton role="button" tabindex="-1" on:click class={cls} {...props}>
-		{#if icon}
-			<Icon {icon} className={{ 'pr-1': text }} />
-		{/if}
-		{#if text}
-			<span>{text}</span>
-		{/if}
+		<IconText {icon} {text} />
 		<slot />
 	</buttton>
 {/if}

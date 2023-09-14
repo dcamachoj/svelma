@@ -5,6 +5,7 @@
 
 	import Button from '$lib/bulma/common/Button.svelte';
 	import ModalCard from '$lib/bulma/common/ModalCard.svelte';
+	import type { Action, Result } from '$lib/utils/validators.js';
 
 	const dispatch = createEventDispatcher();
 
@@ -14,8 +15,8 @@
 	export let label: string;
 	export let value: Date | undefined;
 	export let step: string | number | undefined = undefined;
-	export let valid: val.Result | undefined = undefined;
-	export let action: val.Action | undefined = undefined;
+	export let valid: Result | undefined = undefined;
+	export let action: Action | undefined = undefined;
 	export let okLabel: string = 'Guardar';
 	export let okIcon: Icons = 'save';
 	export let clrLabel: string = '';

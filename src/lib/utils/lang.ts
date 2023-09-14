@@ -1,5 +1,4 @@
-import type { app } from '$lib/types/index.js';
-import type { I18nGetter, LangGetter, LangSetter } from './i18n.js';
+import type { I18nData, I18nGetter, I18nLang, LangGetter, LangSetter } from './i18n.js';
 
 const browser = typeof window !== 'undefined';
 
@@ -71,18 +70,18 @@ export class StorageLangSetter implements LangSetter {
 }
 
 export class StaticI18nGetter implements I18nGetter {
-	constructor(private readonly data: Record<string, app.I18nData>) {}
-	getI18nData(lang: string): PromiseLike<app.I18nData> {
+	constructor(private readonly data: Record<string, I18nData>) {}
+	getI18nData(lang: string): PromiseLike<I18nData> {
 		return Promise.resolve(this.data[lang] || {});
 	}
 }
 
 export class StaticI18nLangsGetter implements I18nGetter {
-	constructor(private readonly data: Record<string, app.I18nLang>) {}
-	getI18nData(lang: string): PromiseLike<app.I18nData> {
-		const data: app.I18nData = {};
+	constructor(private readonly data: Record<string, I18nLang>) {}
+	getI18nData(lang: string): PromiseLike<I18nData> {
+		const data: I18nData = {};
 		Object.entries(this.data).forEach(([key, val]) => {
-			const kLang = lang as keyof app.I18nLang;
+			const kLang = lang as keyof I18nLang;
 			data[key] = val[kLang] || '';
 		});
 		return Promise.resolve(data);
@@ -94,7 +93,7 @@ export class FetchI18nGetter implements I18nGetter {
 		private fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>,
 		private readonly urlGetter: (lang: string) => string
 	) {}
-	getI18nData(lang: string): PromiseLike<app.I18nData> {
+	getI18nData(lang: string): PromiseLike<I18nData> {
 		return this.fetch(this.urlGetter(lang)).then((res) => {
 			if (res.ok) return res.json();
 			return Promise.reject(res.statusText);

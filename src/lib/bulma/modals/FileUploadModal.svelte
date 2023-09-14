@@ -4,6 +4,7 @@
 	import ModalCard from '$lib/bulma/common/ModalCard.svelte';
 	import Icon from '$lib/bulma/common/Icon.svelte';
 	import Button from '$lib/bulma/common/Button.svelte';
+	import type { FileItem, ModalCheck } from '$lib/utils/bulma.js';
 
 	const dispatch = createEventDispatcher();
 
@@ -11,7 +12,7 @@
 	export let header: string;
 	export let accept: string | undefined = undefined;
 	export let progress: number | undefined = undefined;
-	export let check: app.ModalCheck<app.FileItem> | undefined = undefined;
+	export let check: ModalCheck<FileItem> | undefined = undefined;
 
 	let loading: boolean = false;
 	let files: FileList | undefined;
@@ -36,7 +37,7 @@
 		rd.addEventListener('load', (e) => {
 			const dataUrl = e.target?.result?.toString();
 			if (!dataUrl) return;
-			const fileItem: app.FileItem = {
+			const fileItem: FileItem = {
 				filename: file!.name,
 				dataUrl,
 				type: file!.type,

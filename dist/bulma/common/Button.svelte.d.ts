@@ -1,9 +1,10 @@
 import { SvelteComponent } from "svelte";
-import type { app, bulma } from '../../types/index.js';
+import { type BulmaHelper } from '../../utils/bulma.js';
+import type { ClsArgument } from '../../utils/classnames.js';
 declare const __propDef: {
     props: {
-        className?: app.ClsArgument;
-        helper?: bulma.Helper | undefined;
+        className?: ClsArgument;
+        bulma?: BulmaHelper | undefined;
         href?: string | undefined;
         icon?: string | undefined;
         text?: string | undefined;

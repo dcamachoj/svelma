@@ -1,12 +1,12 @@
 <script>import { bulmaHelper } from "../../utils/bulma.js";
 export let avatar;
 export let className = "";
-export let helper = {};
+export let bulma = {};
 export let size = 24;
 const noImage = "/images/no-image.png";
 let hasError = false;
 $:
-  cls = bulmaHelper(helper, ["avatar", className]);
+  cls = bulmaHelper(bulma, ["avatar", className]);
 function onError() {
   hasError = true;
 }

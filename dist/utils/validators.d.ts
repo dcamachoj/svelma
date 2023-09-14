@@ -1,30 +1,57 @@
 import type { Readable } from 'svelte/store';
-import type { val } from '../types/index.js';
-export type ValidatorStore = Readable<val.Result>;
+export type Function = (value: any) => boolean;
+export type MessageFunction = (value: any) => string;
+export type Message = string | MessageFunction;
+export type DirtyCheck = (value: any, dirty: boolean) => boolean;
+export type ActionResult = {
+    update(value: any): void;
+};
+export type ActionFunction = (node: HTMLElement, binding: any) => ActionResult;
+export interface ActionInterface {
+    setDirty(value: boolean): void;
+}
+export type Action = ActionInterface & {
+    use: ActionFunction;
+    input: SmuiActionFunction;
+};
+export type SmuiActionFunction = (node: HTMLElement) => {
+    destroy: () => void;
+};
+export interface Result {
+    dirty: boolean;
+    valid: boolean;
+    message?: string;
+    value?: any;
+}
+export interface IValidator {
+    validate(value: any): boolean;
+    message(value: any): string;
+}
+export type ValidatorStore = Readable<Result>;
 export declare function nop(): void;
 export declare class Validator {
     private _validate;
     private _message;
-    constructor(_validate: val.Function, _message?: val.Message);
+    constructor(_validate: Function, _message?: Message);
     validate(value: any): boolean;
     message(value: any): string;
 }
 export declare const Val: {
     field: typeof createFieldInputValidator;
-    isDirty(...results: val.Result[]): boolean;
-    isValid(...results: val.Result[]): boolean;
-    required: (message?: val.Message) => Validator;
-    notEmpty: (message?: val.Message) => Validator;
-    email: (message?: val.Message) => Validator;
-    typeOf: (vType: string, message?: val.Message) => Validator;
-    isArray: (message?: val.Message) => Validator;
-    ne: (actual: () => any, message?: val.Message) => Validator;
-    gt: (min: number, message?: val.Message) => Validator;
-    ge: (min: number, message?: val.Message) => Validator;
-    lt: (max: number, message?: val.Message) => Validator;
-    le: (max: number, message?: val.Message) => Validator;
-    between: (min: number, max: number, message?: val.Message) => Validator;
-    regExp: (re: RegExp, message?: val.Message) => Validator;
+    isDirty(...results: Result[]): boolean;
+    isValid(...results: Result[]): boolean;
+    required: (message?: Message) => Validator;
+    notEmpty: (message?: Message) => Validator;
+    email: (message?: Message) => Validator;
+    typeOf: (vType: string, message?: Message) => Validator;
+    isArray: (message?: Message) => Validator;
+    ne: (actual: () => any, message?: Message) => Validator;
+    gt: (min: number, message?: Message) => Validator;
+    ge: (min: number, message?: Message) => Validator;
+    lt: (max: number, message?: Message) => Validator;
+    le: (max: number, message?: Message) => Validator;
+    between: (min: number, max: number, message?: Message) => Validator;
+    regExp: (re: RegExp, message?: Message) => Validator;
 };
-declare function createFieldInputValidator(...validators: val.IValidator[]): [ValidatorStore, val.Action];
+declare function createFieldInputValidator(...validators: IValidator[]): [ValidatorStore, Action];
 export {};

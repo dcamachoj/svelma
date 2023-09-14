@@ -1,7 +1,8 @@
 <script>import { bulmaHelper } from "../../utils/bulma.js";
 import Icon from "./Icon.svelte";
+import IconText from "./IconText.svelte";
 export let className = "";
-export let helper = {};
+export let bulma = {};
 export let href = "";
 export let icon = "";
 export let text = "";
@@ -18,7 +19,7 @@ export let isStatic = false;
 export let disabled = void 0;
 export let target = void 0;
 $:
-  cls = bulmaHelper(helper, [
+  cls = bulmaHelper(bulma, [
     "button",
     className,
     {
@@ -42,22 +43,12 @@ $:
 
 {#if href}
 	<a {href} class={cls} {target} {...props}>
-		{#if icon}
-			<Icon {icon} className={{ 'pr-1': text }} />
-		{/if}
-		{#if text}
-			<span>{text}</span>
-		{/if}
+		<IconText {icon} {text} />
 		<slot />
 	</a>
 {:else}
 	<buttton role="button" tabindex="-1" on:click class={cls} {...props}>
-		{#if icon}
-			<Icon {icon} className={{ 'pr-1': text }} />
-		{/if}
-		{#if text}
-			<span>{text}</span>
-		{/if}
+		<IconText {icon} {text} />
 		<slot />
 	</buttton>
 {/if}

@@ -1,4 +1,13 @@
-import type { app } from '$lib/types/index.js';
+export interface I18nLang {
+	en: string;
+	es: string;
+}
+export type I18nData = { [key: string]: string };
+export type I18nParams = { [key: string]: any };
+export interface I18nValue {
+	key: string;
+	getValue(params?: I18nParams): string;
+}
 
 export interface LangGetter {
 	getLang(): string;
@@ -9,11 +18,11 @@ export interface LangSetter {
 }
 
 export interface I18nGetter {
-	getI18nData(lang: string): PromiseLike<app.I18nData>;
+	getI18nData(lang: string): PromiseLike<I18nData>;
 }
 
 export class I18n {
-	private readonly data: app.I18nData = {};
+	private readonly data: I18nData = {};
 	private _lang: string = '';
 
 	get lang(): string {
@@ -25,22 +34,22 @@ export class I18n {
 	has(key: string): boolean {
 		return this.data.hasOwnProperty(key);
 	}
-	merge(lang: string, data: app.I18nData): I18n {
+	merge(lang: string, data: I18nData): I18n {
 		this._lang = lang;
 		Object.entries(data).forEach(([key, val]) => {
 			this.data[key] = val;
 		});
 		return this;
 	}
-	load(data: Record<string, app.I18nLang>): I18n {
+	load(data: Record<string, I18nLang>): I18n {
 		Object.entries(data).forEach(([key, val]) => {
-			const lang = this._lang as keyof app.I18nLang;
+			const lang = this._lang as keyof I18nLang;
 			this.data[key] = val[lang];
 		});
 		return this;
 	}
 
-	toString(key: string, params?: app.I18nParams): string {
+	toString(key: string, params?: I18nParams): string {
 		if (!this.loaded) return '';
 		let value = this.has(key) ? this.data[key] : key.toUpperCase();
 		if (!params) {
@@ -52,9 +61,7 @@ export class I18n {
 		return value;
 	}
 
-	translate<S extends { [key: string]: app.I18nParams }, R extends Record<keyof S, string>>(
-		src: S
-	): R {
+	translate<S extends { [key: string]: I18nParams }, R extends Record<keyof S, string>>(src: S): R {
 		const data: Record<string, string> = {};
 		Object.entries(src).forEach(([key, param]) => {
 			data[key] = this.toString(key);
@@ -83,9 +90,9 @@ export async function initI18n(langGetter: LangGetter, i18nGetter: I18nGetter): 
 
 export function prefixLang(
 	prefix: string,
-	src: Record<string, app.I18nLang>
-): Record<string, app.I18nLang> {
-	const result: Record<string, app.I18nLang> = {};
+	src: Record<string, I18nLang>
+): Record<string, I18nLang> {
+	const result: Record<string, I18nLang> = {};
 	Object.entries(src).forEach(([key, val]) => {
 		result[`${prefix}_${key}`] = val;
 	});

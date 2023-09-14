@@ -1,4 +1,6 @@
 import { SvelteComponent } from "svelte";
+import type { Action, Result } from '../../utils/validators.js';
+import type { Colors, InputSize } from '../../utils/bulma.js';
 declare const __propDef: {
     props: {
         id: string;
@@ -6,8 +8,12 @@ declare const __propDef: {
         placeholder?: string | undefined;
         type?: "text" | "password" | "email" | "tel" | undefined;
         value: string | undefined;
-        valid?: val.Result | undefined;
-        action?: val.Action | undefined;
+        valid?: Result | undefined;
+        action?: Action | undefined;
+        color?: Colors | undefined;
+        size?: InputSize | undefined;
+        isRounded?: boolean | undefined;
+        isLoading?: boolean | undefined;
     };
     events: {
         'value-changed': CustomEvent<any>;

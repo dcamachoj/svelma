@@ -1,2 +1,6 @@
-import type { app } from '../types/index.js';
-export declare function classnames(...args: app.ClsArgument[]): string;
+export type ClsValue = string | number | undefined | null;
+export type ClsMapping = {
+    [key: string]: any;
+};
+export type ClsArgument = ClsValue | ClsMapping | ClsArgument[];
+export declare function classnames(...args: ClsArgument[]): string;

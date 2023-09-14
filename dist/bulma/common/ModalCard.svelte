@@ -1,6 +1,7 @@
 <script>import { classnames } from "../../utils/classnames.js";
 import { createEventDispatcher } from "svelte";
 import Icon from "./Icon.svelte";
+import IconText from "./IconText.svelte";
 const dispatch = createEventDispatcher();
 export let active;
 export let header = "";
@@ -32,12 +33,7 @@ function onAction(action) {
 			{#if actions}
 				{#each actions as action (action.name)}
 					<button class="button" on:click={onAction(action)}>
-						{#if action.icon}
-							<Icon icon={action.icon} className={{ 'pr-1': action.text }} />
-						{/if}
-						{#if action.text}
-							<span>{action.text}</span>
-						{/if}
+						<IconText icon={action.icon} text={action.text} />
 					</button>
 				{/each}
 			{/if}

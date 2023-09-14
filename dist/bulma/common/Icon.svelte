@@ -1,10 +1,11 @@
 <script>import { bulmaHelper } from "../../utils/bulma.js";
 import { icons } from "./icons.js";
 export let icon;
+export let iconClass = "icon";
 export let className = "";
 export let helper = {};
 $:
-  cls = bulmaHelper(helper, ["icon", className]);
+  cls = bulmaHelper(helper, [iconClass, className]);
 $:
   iconData = icon || icons.noImage;
 </script>
