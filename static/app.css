@@ -1,0 +1,49 @@
+html,
+body,
+#sveltekit-body {
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+#sveltekit-body {
+	display: grid !important;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas: 'navbar' 'main' 'footer';
+}
+#sveltekit-body > .navbar {
+	grid-area: navbar;
+}
+#sveltekit-body > main {
+	grid-area: main;
+	padding: 0.5rem;
+	max-height: calc(100vh - 100px);
+}
+#sveltekit-body > main > div {
+	max-height: calc(100vh - 100px - 1rem);
+	height: 100%;
+}
+#sveltekit-body > footer {
+	grid-area: footer;
+	max-height: 3rem;
+	padding: 1rem;
+	text-align: center;
+}
+
+.layout-responsive > .columns,
+.layout-responsive > .columns > .column {
+	max-height: calc(100vh - 100px);
+}
+
+.fullwidth {
+	width: 100%;
+}
+
+.navbar .navbar-brand .logo {
+	background-color: white;
+	-webkit-mask: url(/favicon.svg) no-repeat center;
+	mask: url(/favicon.svg) no-repeat center;
+}
+.navbar.is-test .navbar-brand .logo {
+	background-color: black;
+}

@@ -1,0 +1,15 @@
+<script lang="ts">
+	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
+	import ModalCardBody from './ModalCardBody.svelte';
+	import ModalCardFoot from './ModalCardFoot.svelte';
+	import ModalCardHead from './ModalCardHead.svelte';
+	import { modalCard } from './modal.js';
+
+	export let opts: BulmaOptions = {};
+
+	$: cls = modalCard.cls({ opts });
+</script>
+
+<div class={cls}>
+	<slot {ModalCardHead} {ModalCardBody} {ModalCardFoot} />
+</div>
