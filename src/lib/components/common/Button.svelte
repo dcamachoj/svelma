@@ -8,7 +8,7 @@
 	type HTMLAttributeAnchorTarget = '_self' | '_blank' | '_parent' | '_top' | (string & {});
 
 	export let opts: BulmaOptions = {};
-	export let type: 'button' | 'submit' = 'button';
+	export let type: 'button' | 'submit' | 'reset' = 'button';
 	export let href: string = '';
 	export let icon: string = '';
 	export let text: string = '';
@@ -54,6 +54,11 @@
 	</a>
 {:else if type == 'submit'}
 	<button type="submit" tabindex="-1" class={cls} class:is-not-centered={notCentered} {...props}>
+		<IconText {icon} {text} />
+		<slot />
+	</button>
+{:else if type == 'reset'}
+	<button type="reset" tabindex="-1" class={cls} class:is-not-centered={notCentered} {...props}>
 		<IconText {icon} {text} />
 		<slot />
 	</button>

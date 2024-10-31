@@ -1,10 +1,10 @@
 import { writable } from 'svelte/store';
 import type { Readable } from 'svelte/store';
-import { i18n } from './i18n.js';
+import type { I18n } from './i18n.js';
 
 export type Function = (value: any) => boolean;
-export type MessageFunction = (value: any) => string;
-export type Message = string | MessageFunction;
+export type MessageFunction = (value: any, i18n: I18n) => string;
+export type MessageType = string | MessageFunction;
 export type DirtyCheck = (value: any, dirty: boolean) => boolean;
 export type ActionResult = {
 	update(value: any): void;
@@ -13,7 +13,7 @@ export type ActionFunction = (node: HTMLElement, binding: any) => ActionResult;
 export interface ActionInterface {
 	setDirty(value: boolean): void;
 }
-export type Action = ActionInterface & {
+export type ValidatorAction = ActionInterface & {
 	use: ActionFunction;
 	input: SmuiActionFunction;
 };
@@ -31,7 +31,7 @@ export interface IValidator {
 	message(value: any): string;
 }
 
-export function getNopAction(): Action {
+export function getNopAction(): ValidatorAction {
 	return {
 		setDirty(value: boolean) {},
 		use: getNopUse(),
@@ -73,16 +73,16 @@ const reEmail =
 export type ValidatorStore = Readable<Result>;
 export function nop() {}
 
-export class Validator {
+export class ValidatorBase {
 	constructor(
 		private _validate: Function,
-		private _message: Message = '*',
+		private _message: MessageType = '*',
 	) {}
 	validate(value: any): boolean {
 		return this._validate(value);
 	}
-	message(value: any): string {
-		return typeof this._message === 'function' ? this._message(value) : this._message;
+	message(value: any, i18n: I18n): string {
+		return typeof this._message === 'function' ? this._message(value, i18n) : this._message;
 	}
 }
 
@@ -94,68 +94,72 @@ export const Val = {
 	isValid(...results: Result[]): boolean {
 		return !results.find((it) => !it.valid);
 	},
-	required: (message?: Message) =>
-		new Validator(
+	required: (message?: MessageType) =>
+		new ValidatorBase(
 			(v) => v !== undefined && v !== null,
-			message || i18n.toString('validator_required'),
+			message || ((v, i18n) => i18n.str('validator_required')),
 		),
-	notEmpty: (message?: Message) =>
-		new Validator(
+	notEmpty: (message?: MessageType) =>
+		new ValidatorBase(
 			(v) => v !== undefined && v !== null && v !== '',
-			message || i18n.toString('validator_empty'),
+			message || ((v, i18n) => i18n.str('validator_empty')),
 		),
-	email: (message?: Message) =>
-		new Validator(
+	email: (message?: MessageType) =>
+		new ValidatorBase(
 			(v) => v && reEmail.test(v.toString()),
-			message || i18n.toString('validator_email_not_valid'),
+			message || ((v, i18n) => i18n.str('validator_email_not_valid')),
 		),
-	typeOf: (vType: string, message?: Message) =>
-		new Validator(
+	typeOf: (vType: string, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => v === null || v === undefined || typeof v === vType,
-			message || ((v) => i18n.toString('validator_type_of', { expected: vType, actual: typeof v })),
+			message ||
+				((v, i18n) => i18n.str('validator_type_of', { expected: vType, actual: typeof v })),
 		),
-	isArray: (message?: Message) =>
-		new Validator((v) => Array.isArray(v), message || i18n.toString('validator_array')),
-	allowedChars: (validChars: string, message?: Message) =>
-		new Validator(
+	isArray: (message?: MessageType) =>
+		new ValidatorBase(
+			(v) => Array.isArray(v),
+			message || ((v, i18n) => i18n.str('validator_array')),
+		),
+	allowedChars: (validChars: string, message?: MessageType) =>
+		new ValidatorBase(
 			(v: any) =>
 				(v.toString() as string).split('').some((c) => validChars.indexOf(c) == -1) == false,
-			message || ((v) => i18n.toString('validator_allowed_chars', { validChars })),
+			message || ((v, i18n) => i18n.str('validator_allowed_chars', { validChars })),
 		),
-	ne: (actual: () => any, message?: Message) =>
-		new Validator(
+	ne: (actual: () => any, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => v != actual(),
-			message || ((v) => i18n.toString('validator_ne', { actual: actual() })),
+			message || ((v, i18n) => i18n.str('validator_ne', { actual: actual() })),
 		),
-	gt: (min: number, message?: Message) =>
-		new Validator(
+	gt: (min: number, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => typeof v !== 'number' || v > min,
-			message || ((v) => i18n.toString('validator_gt', { min })),
+			message || ((v, i18n) => i18n.str('validator_gt', { min })),
 		),
-	ge: (min: number, message?: Message) =>
-		new Validator(
+	ge: (min: number, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => typeof v !== 'number' || v >= min,
-			message || ((v) => i18n.toString('validator_ge', { min })),
+			message || ((v, i18n) => i18n.str('validator_ge', { min })),
 		),
-	lt: (max: number, message?: Message) =>
-		new Validator(
+	lt: (max: number, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => typeof v !== 'number' || v < max,
-			message || ((v) => i18n.toString('validator_lt', { max })),
+			message || ((v, i18n) => i18n.str('validator_lt', { max })),
 		),
-	le: (max: number, message?: Message) =>
-		new Validator(
+	le: (max: number, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => typeof v !== 'number' || v <= max,
-			message || ((v) => i18n.toString('validator_le', { max })),
+			message || ((v, i18n) => i18n.str('validator_le', { max })),
 		),
-	between: (min: number, max: number, message?: Message) =>
-		new Validator(
+	between: (min: number, max: number, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => typeof v !== 'number' || (v >= min && v <= max),
-			message || ((v) => i18n.toString('validator_between', { min, max })),
+			message || ((v, i18n) => i18n.str('validator_between', { min, max })),
 		),
-	regExp: (re: RegExp, message?: Message) =>
-		new Validator(
+	regExp: (re: RegExp, message?: MessageType) =>
+		new ValidatorBase(
 			(v) => typeof v !== 'string' || re.test(`${v}`),
-			message || i18n.toString('validator_not_valid'),
+			message || ((v, i18n) => i18n.str('validator_not_valid')),
 		),
 };
 
@@ -197,7 +201,7 @@ class ValAction {
 	}
 }
 
-function createFieldInputValidator(...validators: IValidator[]): [ValidatorStore, Action] {
+function createFieldInputValidator(...validators: IValidator[]): [ValidatorStore, ValidatorAction] {
 	const { subscribe, set } = writable<Result>({
 		dirty: false,
 		valid: false,

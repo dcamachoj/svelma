@@ -1,4 +1,4 @@
-import { BulmaClassComponent, type BulmaClassOptions } from '$lib/utils/bulma.js';
+import { BulmaClassComponent, isKey, type BulmaClassOptions } from '$lib/utils/bulma.js';
 
 export type DropdownOptions = BulmaClassOptions & {
 	active?: boolean;

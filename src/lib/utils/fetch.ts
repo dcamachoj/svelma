@@ -1,5 +1,6 @@
+import { Logger } from './logger.js';
 import { setAppMessage } from './stores.js';
-import type { ValidatorErrors } from './validation.js';
+import type { ValidationError, ValidatorErrors } from './validation.js';
 
 export type URLSearchValues = {
 	[key: string]: string | number;
@@ -78,6 +79,7 @@ export async function appFetchJsonErrors<Req extends {}, Res extends {}>(
 	if (!response.ok) {
 		if (response.headers?.get('content-type') == 'application/json') {
 			const result = await response.json();
+			Logger.getInstance().debug({ input, init, body, result });
 			if (result.hasOwnProperty('message')) {
 				setAppMessage(result.message, 'error');
 			}
@@ -91,15 +93,15 @@ export async function appFetchJsonErrors<Req extends {}, Res extends {}>(
 	return [result, null];
 }
 
-export function formDataToObject<T extends {}>(formData: FormData): T {
+export function formDataToObject<T extends {}>(formData: FormData): Record<keyof T, string> {
 	const res: any = {};
 	for (const [key, val] of formData) {
 		res[key] = val.toString();
 	}
-	return res as T;
+	return res;
 }
 
-export function formToObject<T extends {}>(form: HTMLFormElement): T {
+export function formToObject<T extends {}>(form: HTMLFormElement): Record<keyof T, string> {
 	const formData = new FormData(form);
 	return formDataToObject(formData);
 }

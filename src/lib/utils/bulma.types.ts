@@ -1,3 +1,5 @@
+import type { ClsArgument } from './classnames.js';
+
 export type Colors = 'primary' | 'link' | 'info' | 'success' | 'warning' | 'danger';
 export type BwColors = 'white' | 'black' | 'light' | 'dark';
 export type GreyColors =
@@ -84,6 +86,7 @@ export type ButtonColor =
 export type ButtonSize = 'small' | 'normal' | 'medium' | 'large';
 
 export interface BulmaOptions {
+	classArg?: ClsArgument;
 	textColor?: Colors | BwColors | GreyColors | LightColors | DarkColors;
 	backColor?: Colors | BwColors | GreyColors | LightColors | DarkColors;
 	m?: Sizes06;
@@ -245,7 +248,7 @@ export interface Action {
 	text?: string;
 	icon?: string;
 	href?: string;
-	isActive?: boolean;
+	active?: boolean;
 	click?: () => void;
 }
 export type BreadcrumbSeparator = 'arrow' | 'bullet' | 'dot' | 'succeeds';

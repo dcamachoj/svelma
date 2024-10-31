@@ -1,5 +1,5 @@
-import type { Action } from 'svelte/action';
-import { writable, type Readable, type Writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
+import type { I18n, I18nParams } from './i18n.js';
 
 const reEmail =
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -18,7 +18,8 @@ export type InputConstraintsType =
 	| 'time'
 	| 'datetime'
 	| 'url'
-	| 'checkbox';
+	| 'checkbox'
+	| 'select-one';
 export type InputConstraints = {
 	type?: InputConstraintsType;
 	required?: boolean;
@@ -33,40 +34,50 @@ export type UseTextArea = (node: HTMLTextAreaElement) => { destroy(): void };
 export type UseSelect = (node: HTMLSelectElement) => { destroy(): void };
 
 export type Validator = (errors: ValidatorErrors, value: any) => void;
+export type ValidationError = {
+	message: string;
+	params?: I18nParams;
+};
 export type ValidatorErrors = {
-	[key: string]: string[];
+	[field: string]: ValidationError[];
 };
 
 export abstract class FieldValidator {
-	_name = '';
+	field = '';
+	prefix = '';
 	readonly validators: Validator[] = [];
 	constructor(
-		readonly title: string,
 		readonly constraints: InputConstraints,
-		readonly message?: string,
+		readonly message: string,
 	) {
 		this.actionInput = this.actionInput.bind(this);
 		this.actionSelect = this.actionSelect.bind(this);
 	}
 
-	get name() {
-		return this._name;
-	}
-	setName(value: string) {
-		this._name = value;
-	}
 	get input() {
 		return {
-			id: this.name,
-			name: this.name,
+			id: this.field,
+			name: this.field,
 			...this.constraints,
 		};
 	}
 	abstract map(src: any): any;
+	label(i18n: I18n): string {
+		return i18n.str([this.prefix, this.field].filter(Boolean).join('_'));
+	}
+	validate(errors: ValidatorErrors, value: any) {
+		this.validators.forEach((v) => v(errors, value));
+		return errors;
+	}
+	pushError(errors: ValidatorErrors, message: string, params?: I18nParams) {
+		const messages = errors[this.field] || [];
+		messages.push({ message, params });
+		errors[this.field] = messages;
+	}
 	actionInput(
 		error: Writable<string>,
 		dirty?: Writable<boolean>,
-		action?: (value: string) => void,
+		action?: (value: string, validationMessage?: string) => void,
 	): UseInput {
 		return (node: HTMLInputElement) => {
 			const self = this;
@@ -77,11 +88,11 @@ export abstract class FieldValidator {
 				dirty?.set(true);
 				const validationMessage = node.validationMessage;
 				if (validationMessage) {
-					error.set(self.message || validationMessage);
+					error.set(validationMessage || self.message);
 				} else {
 					error.set('');
 				}
-				if (e && action && !validationMessage) action((e.target as HTMLInputElement).value);
+				if (e && action) action((e.target as HTMLInputElement).value, validationMessage);
 			}
 			return {
 				destroy() {
@@ -93,7 +104,7 @@ export abstract class FieldValidator {
 	actionTextarea(
 		error: Writable<string>,
 		dirty?: Writable<boolean>,
-		action?: (value: string) => void,
+		action?: (value: string, validationMessage?: string) => void,
 	): UseTextArea {
 		return (node: HTMLTextAreaElement) => {
 			const self = this;
@@ -102,13 +113,9 @@ export abstract class FieldValidator {
 			node.addEventListener('input', onInput);
 			function onInput(e?: Event) {
 				dirty?.set(true);
-				const validationMessage = node.validationMessage;
-				if (validationMessage) {
-					error.set(self.message || validationMessage);
-				} else {
-					error.set('');
-				}
-				if (e && action && !validationMessage) action((e.target as HTMLInputElement).value);
+				const validationMessage = node.validationMessage || '';
+				error.set(validationMessage);
+				if (e && action) action((e.target as HTMLInputElement).value, validationMessage);
 			}
 			return {
 				destroy() {
@@ -125,12 +132,8 @@ export abstract class FieldValidator {
 			node.addEventListener('change', onChange);
 			function onChange() {
 				dirty?.set(true);
-				const validationMessage = node.validationMessage;
-				if (validationMessage) {
-					error.set(self.message || validationMessage);
-				} else {
-					error.set('');
-				}
+				const validationMessage = node.validationMessage || '';
+				error.set(validationMessage);
 			}
 			return {
 				destroy() {
@@ -142,7 +145,7 @@ export abstract class FieldValidator {
 	actionCheckbox(
 		error: Writable<string>,
 		dirty?: Writable<boolean>,
-		action?: (value: boolean) => void,
+		action?: (value: boolean, validationMessage?: string) => void,
 	): UseInput {
 		return (node: HTMLInputElement) => {
 			const self = this;
@@ -151,13 +154,9 @@ export abstract class FieldValidator {
 			node.addEventListener('input', onInput);
 			function onInput(e?: Event) {
 				dirty?.set(true);
-				const validationMessage = node.validationMessage;
-				if (validationMessage) {
-					error.set(self.message || validationMessage);
-				} else {
-					error.set('');
-				}
-				if (e && action && !validationMessage) action((e.target as HTMLInputElement).checked);
+				const validationMessage = node.validationMessage || '';
+				error.set(validationMessage);
+				if (e && action) action((e.target as HTMLInputElement).checked, validationMessage);
 			}
 			return {
 				destroy() {
@@ -166,30 +165,20 @@ export abstract class FieldValidator {
 			};
 		};
 	}
-	validate(errors: ValidatorErrors, value: any) {
-		this.validators.forEach((v) => v(errors, value));
-		return errors;
-	}
-	pushError(errors: ValidatorErrors, message: string) {
-		const messages = errors[this.name] || [];
-		messages.push(message);
-		errors[this.name] = messages;
-	}
 }
 
 export class StringValidator extends FieldValidator {
 	_trim = false;
 	passwordMessage = '';
 	constructor(
-		title: string,
-		message: string | undefined = undefined,
+		message: string = 'validator_type_string',
 		constraints: InputConstraints = { type: 'text' },
 	) {
-		super(title, constraints, message);
+		super(constraints, message);
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (typeof value !== 'string') {
-				this.pushError(errors, message || `${title} debe ser texto`);
+				this.pushError(errors, message);
 			}
 		});
 	}
@@ -198,23 +187,23 @@ export class StringValidator extends FieldValidator {
 		return this._trim ? src.trim() : src;
 	}
 
-	required(message?: string): StringValidator {
+	required(message: string = 'validator_required'): StringValidator {
 		this.constraints.required = true;
 		this.validators.push((errors, value) => {
 			if (value == null || value == '') {
-				this.pushError(errors, message || `${this.title} es requerido`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
 	}
 
-	maxlength(max: number, message?: string): StringValidator {
+	maxlength(max: number, message: string = 'validator_max_length'): StringValidator {
 		const self = this;
 		this.constraints.maxlength = max;
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (value.toString().length > max) {
-				this.pushError(errors, message || `Longitud de ${self.title} no debe ser mayor a ${max}`);
+				this.pushError(errors, message, { max });
 			}
 		});
 		return this;
@@ -230,35 +219,33 @@ export class StringValidator extends FieldValidator {
 		return this;
 	}
 	password(): StringValidator {
-		this.passwordMessage =
-			'Debe tener al menos 8 letras, un símbolo, una mayúscula, una minúscula y un número';
-		this.pattern(
-			'^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+.])).{8,}$',
-			this.passwordMessage,
-		);
 		this.constraints.type = 'password';
+		return this;
+	}
+	selectOne(): StringValidator {
+		this.constraints.type == 'select-one';
 		return this;
 	}
 	trim(): StringValidator {
 		this._trim = true;
 		return this;
 	}
-	email(message?: string): StringValidator {
+	email(message: string = 'validator_email_not_valid'): StringValidator {
 		this.constraints.type = 'email';
 		this.validators.push((errors, value) => {
 			if (!value) return;
 			if (!reEmail.test(value)) {
-				this.pushError(errors, message || `${this.title} debe ser un correo electónico`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
 	}
-	url(message?: string): StringValidator {
+	url(message: string = 'validator_url_not_valid'): StringValidator {
 		this.constraints.type = 'url';
 		this.validators.push((errors, value) => {
 			if (!value) return;
 			if (!reUrl.test(value)) {
-				this.pushError(errors, message || `${this.title} debe ser un hipervínculo`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
@@ -268,10 +255,7 @@ export class StringValidator extends FieldValidator {
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (values.indexOf(value) == -1) {
-				this.pushError(
-					errors,
-					message || `${this.title} debe ser cualquiera de: ${values.join(', ')}`,
-				);
+				this.pushError(errors, message, { values: values.join(', ') });
 			}
 		});
 		return this;
@@ -280,15 +264,14 @@ export class StringValidator extends FieldValidator {
 
 export class NumberValidator extends FieldValidator {
 	constructor(
-		title: string,
-		message: string | undefined = undefined,
+		message: string = 'validator_number_not_valid',
 		constraints: InputConstraints = { type: 'number' },
 	) {
-		super(title, constraints, message);
+		super(constraints, message);
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (typeof value != 'number' || isNaN(value)) {
-				this.pushError(errors, this.message || `${this.title} debe ser un número`);
+				this.pushError(errors, message);
 			}
 		});
 	}
@@ -299,11 +282,11 @@ export class NumberValidator extends FieldValidator {
 		}
 		return +src.toString();
 	}
-	required(message?: string): NumberValidator {
+	required(message: string = 'validator_required'): NumberValidator {
 		this.constraints.required = true;
 		this.validators.push((errors, value) => {
 			if (value == null || value === '') {
-				this.pushError(errors, message || `${this.title} es requerido`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
@@ -312,24 +295,24 @@ export class NumberValidator extends FieldValidator {
 		this.constraints.step = step;
 		return this;
 	}
-	min(min: number, message?: string): NumberValidator {
+	min(min: number, message: string = 'validator_ge'): NumberValidator {
 		const self = this;
 		this.constraints.min = min;
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (+value < min) {
-				this.pushError(errors, message || `${self.title} no debe ser menor a ${min}`);
+				this.pushError(errors, message, { min });
 			}
 		});
 		return this;
 	}
-	max(max: number, message?: string): NumberValidator {
+	max(max: number, message: string = 'validator_le'): NumberValidator {
 		const self = this;
 		this.constraints.max = max;
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (+value > max) {
-				this.pushError(errors, message || `${self.title} no debe ser mayor a ${max}`);
+				this.pushError(errors, message, { max });
 			}
 		});
 		return this;
@@ -338,15 +321,14 @@ export class NumberValidator extends FieldValidator {
 
 export class BigintValidator extends FieldValidator {
 	constructor(
-		title: string,
-		message: string | undefined = undefined,
-		constraints: InputConstraints = { type: 'number' },
+		message: string = 'validator_bigint_not_valid',
+		constraints: InputConstraints = { type: 'text' },
 	) {
-		super(title, constraints, message);
+		super(constraints, message);
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (typeof value != 'bigint') {
-				this.pushError(errors, this.message || `${this.title} debe ser un número bigint`);
+				this.pushError(errors, message);
 			}
 		});
 	}
@@ -355,11 +337,11 @@ export class BigintValidator extends FieldValidator {
 		if (src == null || src == '') return null;
 		return BigInt(src);
 	}
-	required(message?: string): BigintValidator {
+	required(message: string = 'validator_required'): BigintValidator {
 		this.constraints.required = true;
 		this.validators.push((errors, value) => {
 			if (value == null || value === '') {
-				this.pushError(errors, message || `${this.title} es requerido`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
@@ -368,16 +350,15 @@ export class BigintValidator extends FieldValidator {
 
 export class DateValidator extends FieldValidator {
 	constructor(
-		title: string,
-		message: string | undefined = undefined,
+		message: string = 'validator_date_not_valid',
 		constraints: InputConstraints = { type: 'date' },
 	) {
-		super(title, constraints, message);
+		super(constraints, message);
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			const isValid = !isNaN(+new Date(value));
 			if (!isValid) {
-				this.pushError(errors, message || `${this.title} debe ser una fecha`);
+				this.pushError(errors, message);
 			}
 		});
 	}
@@ -385,11 +366,11 @@ export class DateValidator extends FieldValidator {
 		if (src == null) return null;
 		return new Date(src);
 	}
-	required(message?: string): DateValidator {
+	required(message: string = 'validator_required'): DateValidator {
 		this.constraints.required = true;
 		this.validators.push((errors, value) => {
 			if (value == null || value == '') {
-				this.pushError(errors, message || `${this.title} es requerido`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
@@ -398,17 +379,16 @@ export class DateValidator extends FieldValidator {
 
 export class TimeValidator extends FieldValidator {
 	constructor(
-		title: string,
-		message: string | undefined = undefined,
+		message: string = 'validator_time_not_valid',
 		withSeconds: boolean = false,
 		constraints: InputConstraints = { type: 'time' },
 	) {
-		super(title, constraints, message);
+		super(constraints, message);
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			const isValid = (withSeconds ? reTimeSS : reTimeMM).test(value);
 			if (!isValid) {
-				this.pushError(errors, message || `${this.title} debe ser una hora`);
+				this.pushError(errors, message);
 			}
 		});
 	}
@@ -416,11 +396,11 @@ export class TimeValidator extends FieldValidator {
 		if (src == null) return null;
 		return src.toString();
 	}
-	required(message?: string): TimeValidator {
+	required(message: string = 'validator_required'): TimeValidator {
 		this.constraints.required = true;
 		this.validators.push((errors, value) => {
 			if (value == null || value == '') {
-				this.pushError(errors, message || `${this.title} es requerido`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
@@ -429,16 +409,15 @@ export class TimeValidator extends FieldValidator {
 
 export class DateTimeValidator extends FieldValidator {
 	constructor(
-		title: string,
-		message: string | undefined = undefined,
+		message: string = 'validator_datetime_not_valid',
 		constraints: InputConstraints = { type: 'datetime' },
 	) {
-		super(title, constraints, message);
+		super(constraints, message);
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			const isValid = !isNaN(+new Date(value));
 			if (!isValid) {
-				this.pushError(errors, message || `${this.title} debe ser una fecha y hora`);
+				this.pushError(errors, message);
 			}
 		});
 	}
@@ -446,11 +425,11 @@ export class DateTimeValidator extends FieldValidator {
 		if (src == null) return null;
 		return new Date(src);
 	}
-	required(message?: string): DateTimeValidator {
+	required(message: string = 'validator_required'): DateTimeValidator {
 		this.constraints.required = true;
 		this.validators.push((errors, value) => {
 			if (value == null || value == '') {
-				this.pushError(errors, message || `${this.title} es requerido`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
@@ -459,15 +438,14 @@ export class DateTimeValidator extends FieldValidator {
 
 export class BooleanValidator extends FieldValidator {
 	constructor(
-		title: string,
-		message: string | undefined = undefined,
+		message: string = 'validator_boolean_not_valid',
 		constraints: InputConstraints = { type: 'checkbox' },
 	) {
-		super(title, constraints, message);
+		super(constraints, message);
 		this.validators.push((errors, value) => {
 			if (value == null) return;
 			if (typeof value !== 'boolean') {
-				this.pushError(errors, message || `${this.title} debe ser booleano`);
+				this.pushError(errors, message);
 			}
 		});
 	}
@@ -478,11 +456,11 @@ export class BooleanValidator extends FieldValidator {
 		const isFalse = ['no', 'false', '0'].some((s) => s === src);
 		return isTrue || isFalse ? isTrue : null;
 	}
-	required(message?: string): BooleanValidator {
+	required(message: string = 'validator_required'): BooleanValidator {
 		this.constraints.required = true;
 		this.validators.push((errors, value) => {
 			if (value === null || value === undefined || value === '') {
-				this.pushError(errors, message || `${this.title} es requerido`);
+				this.pushError(errors, message);
 			}
 		});
 		return this;
@@ -494,9 +472,14 @@ export type SchemaDefinition<T extends {}> = {
 };
 
 export class Schema<T extends {}, V extends SchemaDefinition<T>> {
-	constructor(readonly def: V) {
+	constructor(
+		readonly def: V,
+		prefix: string = 'field',
+	) {
 		Object.entries(def).forEach(([key, val]) => {
-			(val as FieldValidator).setName(key);
+			const fVal = val as FieldValidator;
+			fVal.field = key;
+			fVal.prefix = prefix;
 		});
 	}
 
@@ -509,6 +492,7 @@ export class Schema<T extends {}, V extends SchemaDefinition<T>> {
 			res[key] = value;
 			val.validate(errors, value);
 		});
+
 		return [res as T, Object.keys(errors).length ? errors : null];
 	}
 	dirty(): Writable<boolean> {
@@ -520,42 +504,31 @@ export class Schema<T extends {}, V extends SchemaDefinition<T>> {
 	stores(): [Writable<string>, Writable<boolean>] {
 		return [this.error(), this.dirty()];
 	}
-	field<Use extends UseInput | UseSelect | UseTextArea>(
-		cb: (def: V, e: Writable<string>, d?: Writable<boolean>) => Use,
-	): { error: Writable<string>; dirty: Writable<boolean>; use: Use } {
-		const error = this.error();
-		const dirty = this.dirty();
-		return { error, dirty, use: cb(this.def, error, dirty) };
-	}
-	flatErrors(errors?: ValidatorErrors | null): string[] | null {
-		return errors ? Object.values(errors).reduce((prev, curr) => [...prev, ...curr], []) : null;
-	}
 }
 
-export function valNumber(title: string, message?: string | null): NumberValidator {
-	return new NumberValidator(title, message || undefined);
+export function valStores(): [Writable<string>, Writable<boolean>] {
+	return [writable(''), writable(false)];
 }
-export function valBigint(title: string, message?: string | null): BigintValidator {
-	return new BigintValidator(title, message || undefined);
+export function valNumber(message?: string | null): NumberValidator {
+	return new NumberValidator(message || undefined);
 }
-export function valString(title: string, message?: string | null): StringValidator {
-	return new StringValidator(title, message || undefined);
+export function valBigint(message?: string | null): BigintValidator {
+	return new BigintValidator(message || undefined);
 }
-export function valDate(title: string, message?: string | null): DateValidator {
-	return new DateValidator(title, message || undefined);
+export function valString(message?: string | null): StringValidator {
+	return new StringValidator(message || undefined);
 }
-export function valTime(
-	title: string,
-	message?: string | null,
-	withSeconds: boolean = false,
-): TimeValidator {
-	return new TimeValidator(title, message || undefined, withSeconds);
+export function valDate(message?: string | null): DateValidator {
+	return new DateValidator(message || undefined);
 }
-export function valDateTime(title: string, message?: string | null): DateTimeValidator {
-	return new DateTimeValidator(title, message || undefined);
+export function valTime(message?: string | null, withSeconds: boolean = false): TimeValidator {
+	return new TimeValidator(message || undefined, withSeconds);
 }
-export function valBoolean(title: string, message?: string | null): BooleanValidator {
-	return new BooleanValidator(title, message || undefined);
+export function valDateTime(message?: string | null): DateTimeValidator {
+	return new DateTimeValidator(message || undefined);
+}
+export function valBoolean(message?: string | null): BooleanValidator {
+	return new BooleanValidator(message || undefined);
 }
 
 export function hasErrorFromList(src: string[]): boolean {

@@ -1,2 +1,3 @@
-export * as i18nValidation from './validator.i18n.js';
-export * as baseIcons from './base-icons.js';
+export * from './validator.i18n.js';
+export * from './password-validators.i18n.js';
+export * from './base-icons.js';

@@ -3,34 +3,39 @@
 	import type { FieldValidator, UseInput } from '$lib/utils/validation.js';
 	import { mdiCancel, mdiPencil } from '@mdi/js';
 	import Field from './Field.svelte';
+	import type { I18n } from '$lib/utils/i18n.js';
+	import type { Writable } from 'svelte/store';
 
-	export let id: string;
 	export let validator: FieldValidator;
+	export let error: Writable<string> | undefined = undefined;
+	export let i18n: I18n;
 	export let use: UseInput | undefined = undefined;
-	export let label: string = '';
-	export let error: string = '';
+
+	$: id = validator.field;
+	$: label = validator.label(i18n);
+	$: err = error && $error ? i18n.str($error) : '';
 </script>
 
 <Field let:Control let:Label let:Help>
-	<Label {id}>{label || validator.title}</Label>
-	<Control iconLeft>
-		{#if !use}
-			<input {id} name={id} class="input" type="text" placeholder={validator.title} readonly />
-		{:else}
+	<Label {id}>{label}</Label>
+	<Control iconsLeft>
+		{#if use}
 			<input
 				{id}
 				name={id}
 				class="input"
+				class:is-warning={!!use && !!err}
 				type="text"
-				placeholder={validator.title}
 				{...validator.constraints}
 				use:use
 			/>
+		{:else}
+			<input {id} name={id} class="input" type="text" readonly />
 		{/if}
 		<Icon icon={use ? mdiPencil : mdiCancel} size="small" iconClass="is-left" />
 	</Control>
-	{#if error}
-		<Help color="danger">{error}</Help>
+	{#if use && err}
+		<Help color="danger">{err}</Help>
 	{/if}
 </Field>
 

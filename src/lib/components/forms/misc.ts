@@ -51,8 +51,8 @@ export class FieldBodyClass extends BulmaClassComponent<BulmaClassOptions> {
 }
 
 export type ControlOptions = BulmaClassOptions & {
-	iconLeft?: boolean;
-	iconRight?: boolean;
+	iconsLeft?: boolean;
+	iconsRight?: boolean;
 	expanded?: boolean;
 	loading?: boolean;
 };
@@ -60,8 +60,8 @@ export type ControlOptions = BulmaClassOptions & {
 export class ControlClass extends BulmaClassComponent<ControlOptions> {
 	constructor() {
 		super('control', {
-			iconLeft: 'has-$',
-			iconRight: 'has-$',
+			iconsLeft: 'has-$',
+			iconsRight: 'has-$',
 			expanded: isKey,
 			loading: isKey,
 		});

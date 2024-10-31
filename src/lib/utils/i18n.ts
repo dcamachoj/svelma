@@ -1,7 +1,8 @@
-export interface I18nLang {
-	en: string;
-	es: string;
-}
+import { injectable } from './injectable.js';
+
+export type I18nLang = {
+	[key: string]: symbol;
+};
 export type I18nData = { [key: string]: string };
 export type I18nParams = { [key: string]: any };
 export interface I18nValue {
@@ -23,35 +24,24 @@ export interface I18nGetter {
 
 export class I18n {
 	private readonly data: I18nData = {};
-	private _lang: string = '';
 
-	get lang(): string {
-		return this._lang;
-	}
-	get loaded(): boolean {
-		return Object.keys(this.data).length > 0;
-	}
+	constructor(readonly lang: string) {}
+
 	has(key: string): boolean {
 		return this.data.hasOwnProperty(key);
 	}
-	merge(lang: string, data: I18nData): I18n {
-		this._lang = lang;
-		Object.entries(data).forEach(([key, val]) => {
-			this.data[key] = val;
-		});
-		return this;
+	set(key: string, value: string) {
+		this.data[key] = value;
 	}
-	load(data: Record<string, I18nLang>): I18n {
+	merge(data: I18nData, prefix: string = ''): I18n {
 		Object.entries(data).forEach(([key, val]) => {
-			const lang = this._lang as keyof I18nLang;
-			this.data[key] = val[lang];
+			this.data[`${prefix}${key}`] = val;
 		});
 		return this;
 	}
 
-	toString(key: string, params?: I18nParams): string {
-		if (!this.loaded) return '';
-		let value = this.has(key) ? this.data[key] : key.toUpperCase();
+	str(key: string, params?: I18nParams): string {
+		let value = this.has(key) ? this.data[key] : key;
 		if (!params) {
 			return value;
 		}
@@ -60,18 +50,8 @@ export class I18n {
 		});
 		return value;
 	}
-
-	translate<S extends { [key: string]: I18nParams }, R extends Record<keyof S, string>>(src: S): R {
-		const data: Record<string, string> = {};
-		Object.entries(src).forEach(([key, param]) => {
-			data[key] = this.toString(key, param);
-		});
-		return data as R;
-	}
-
 	clone(): I18n {
-		const copy = new I18n();
-		copy._lang = this._lang;
+		const copy = new I18n(this.lang);
 		Object.entries(this.data).forEach(([key, val]) => {
 			copy.data[key] = val;
 		});
@@ -79,22 +59,31 @@ export class I18n {
 	}
 }
 
-export const i18n = new I18n();
+export class I18nLanguages {
+	static readonly DI = Symbol.for('I18nLanguages');
+	static getInstance(): I18nLanguages {
+		return injectable.get(I18nLanguages.DI);
+	}
+	constructor(
+		readonly defaultLang: string,
+		readonly di: I18nLang,
+	) {
+		injectable.set(I18nLanguages.DI, this);
+		if (!(defaultLang in di))
+			throw new Error(`Default Language '${defaultLang}' not in [${Object.keys(di).join(',')}]`);
+		Object.entries(di).forEach(([key, val]) => {
+			const i18n = new I18n(key);
+			injectable.set(val, i18n);
+		});
+	}
 
-export async function initI18n(langGetter: LangGetter, i18nGetter: I18nGetter): Promise<I18n> {
-	const lang = langGetter.getLang();
-	const data = await i18nGetter.getI18nData(lang);
-	i18n.merge(lang, data);
-	return i18n;
-}
+	getLanguage(lang: string): I18n {
+		return injectable.get(this.di[lang] || this.di[this.defaultLang]);
+	}
 
-export function prefixLang(
-	prefix: string,
-	src: Record<string, I18nLang>
-): Record<string, I18nLang> {
-	const result: Record<string, I18nLang> = {};
-	Object.entries(src).forEach(([key, val]) => {
-		result[`${prefix}_${key}`] = val;
-	});
-	return result;
+	findLanguage(lang: string): I18n | undefined {
+		const di = this.di[lang];
+		if (!di) return undefined;
+		return injectable.get(di);
+	}
 }

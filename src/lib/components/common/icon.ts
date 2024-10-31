@@ -1,4 +1,4 @@
-import { BulmaClassComponent, isKey, type BulmaClassOptions } from '$lib/utils/bulma.js';
+import { BulmaClassComponent, isVal, type BulmaClassOptions } from '$lib/utils/bulma.js';
 import type {
 	BwColors,
 	Colors,
@@ -20,10 +20,10 @@ export type IconOptions = BulmaClassOptions & {
 export class IconClass extends BulmaClassComponent<IconOptions> {
 	constructor() {
 		super([], {
-			type: '$',
+			type: '#',
 			color: 'has-text-#',
-			size: isKey,
-			align: isKey,
+			size: isVal,
+			align: isVal,
 		});
 	}
 }

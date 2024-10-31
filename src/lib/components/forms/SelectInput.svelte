@@ -6,28 +6,32 @@
 	import { select, selectWrapper } from './input.js';
 	import type { Option } from '$lib/utils/bulma.types.js';
 	import IconText from '../common/IconText.svelte';
+	import type { Writable } from 'svelte/store';
+	import type { I18n } from '$lib/utils/i18n.js';
 
-	export let id: string;
 	export let validator: FieldValidator;
+	export let error: Writable<string> | undefined = undefined;
+	export let i18n: I18n;
 	export let use: UseSelect | undefined = undefined;
 	export let options: Option[];
-	export let label: string = '';
-	export let error: string = '';
 
+	$: id = validator.field;
+	$: label = validator.label(i18n);
+	$: err = error && $error ? i18n.str($error) : '';
 	$: clsWrapper = selectWrapper.cls({ fullwidth: true });
 	$: clsSelect = select.cls({});
 </script>
 
 <Field let:Control let:Label let:Help>
-	<Label {id}>{label || validator.title}</Label>
+	<Label {id}>{label}</Label>
 	{#if !use}
-		<Control iconLeft>
-			<input {id} name={id} class="input" type="text" placeholder={validator.title} readonly />
+		<Control iconsLeft>
+			<input {id} name={id} class="input" type="text" placeholder={label} readonly />
 			<Icon icon={mdiCancel} size="small" iconClass="is-left" />
 		</Control>
 	{:else}
-		<Control iconLeft expanded>
-			<div class={clsWrapper}>
+		<Control iconsLeft expanded>
+			<div class={clsWrapper} class:is-warning={!!use && !!err}>
 				<select {id} name={id} class={clsSelect} {...validator.constraints} use:use>
 					{#each options as option (option.value)}
 						<option value={option.value}>
@@ -40,8 +44,8 @@
 		</Control>
 	{/if}
 
-	{#if error}
-		<Help color="danger">{error}</Help>
+	{#if use && err}
+		<Help color="danger">{err}</Help>
 	{/if}
 </Field>
 

@@ -1,5 +1,4 @@
-import { BulmaClassComponent, bulmaClassnames, type BulmaClassOptions } from '$lib/utils/bulma.js';
-import type { BulmaOptions } from '$lib/utils/bulma.types.js';
+import { BulmaClassComponent, isKey, type BulmaClassOptions } from '$lib/utils/bulma.js';
 
 export type CardHeaderTitleOptions = BulmaClassOptions & {
 	centered?: boolean;

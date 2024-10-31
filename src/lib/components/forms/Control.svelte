@@ -4,12 +4,12 @@
 	import { control } from './misc.js';
 
 	export let opts: BulmaOptions = {};
-	export let iconLeft: boolean = false;
-	export let iconRight: boolean = false;
+	export let iconsLeft: boolean = false;
+	export let iconsRight: boolean = false;
 	export let expanded: boolean = false;
 	export let loading: boolean = false;
 
-	$: cls = control.cls({ opts, iconLeft, iconRight, expanded, loading });
+	$: cls = control.cls({ opts, iconsLeft, iconsRight, expanded, loading });
 </script>
 
 <div class={cls}>

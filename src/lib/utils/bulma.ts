@@ -4,7 +4,7 @@ import { classnames, type ClsArgument } from './classnames.js';
 import { getContext, setContext } from 'svelte';
 
 export function bulmaClassnames(opts: BulmaOptions = {}, className: ClsArgument = ''): string {
-	return classnames(className, {
+	return classnames(className, opts.classArg || '', {
 		[`has-text-${opts.textColor}`]: opts.textColor,
 		[`has-background-${opts.backColor}`]: opts.backColor,
 
@@ -112,14 +112,14 @@ export type BulmaClassType = string | string[] | BulmaClassTypeFunction;
 export class BulmaClassComponent<T extends BulmaClassOptions> {
 	constructor(
 		readonly args: ClsArgument,
-		protected readonly fields: Record<keyof Omit<T, 'opts'>, BulmaClassType>,
+		protected readonly fields: Record<keyof Omit<T, 'opts' | 'classArg'>, BulmaClassType>,
 	) {}
 	cls(opts: T): string {
 		opts = this.overrideValue(opts);
 		const opt = opts.opts;
 		const arg: Record<string, any> = {};
 		Object.entries(opts)
-			.filter(([key]) => key !== 'opts' && key in this.fields)
+			.filter(([key]) => key !== 'opts' && key !== 'classArg' && key in this.fields)
 			.forEach(([key, val]) => {
 				const sKey = this.keyToSnake(key);
 				let field: BulmaClassType = this.fields[key as keyof T];

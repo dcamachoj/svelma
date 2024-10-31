@@ -1,39 +1,44 @@
 <script lang="ts">
 	import type { FieldValidator, UseInput } from '$lib/utils/validation.js';
+	import type { Writable } from 'svelte/store';
 	import Field from './Field.svelte';
 	import { toggle, toggleContent, toggleSlider } from './input.js';
+	import type { I18n } from '$lib/utils/i18n.js';
 
-	export let id: string;
 	export let validator: FieldValidator;
+	export let error: Writable<string> | undefined = undefined;
+	export let i18n: I18n;
 	export let use: UseInput | undefined = undefined;
-	export let label: string = '';
-	export let error: string = '';
+
 	export let rounded: boolean = false;
 
+	$: id = validator.field;
+	$: label = validator.label(i18n);
+	$: err = error && $error ? i18n.str($error) : '';
 	$: cls = toggle.cls({});
 	$: clsSlider = toggleSlider.cls({ rounded });
 	$: clsContent = toggleContent.cls({});
 </script>
 
-<Field let:Control let:Help>
+<Field let:Help>
 	<label class={cls} for={id}>
 		{#if !use}
-			<input {id} name={id} class="input" type="checkbox" placeholder={validator.title} disabled />
+			<input {id} name={id} class="input" type="checkbox" placeholder={label} disabled />
 		{:else}
 			<input
 				{id}
 				name={id}
 				type="checkbox"
-				placeholder={validator.title}
+				placeholder={label}
 				{...validator.constraints}
 				use:use
 			/>
 		{/if}
 		<span class={clsSlider}></span>
-		<span class={clsContent}>{label || validator.title}</span>
+		<span class={clsContent}>{label}</span>
 	</label>
-	{#if error}
-		<Help color="danger">{error}</Help>
+	{#if use && err}
+		<Help color="danger">{err}</Help>
 	{/if}
 </Field>
 

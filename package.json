@@ -1,6 +1,7 @@
 {
-	"name": "svelma",
+	"name": "@dcjpriv/svelma",
 	"version": "0.0.1",
+	"description": "Svelte Components for bulma and more",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -27,6 +28,7 @@
 		"svelte": "^4.0.0"
 	},
 	"devDependencies": {
+		"@mdi/js": "^7.4.47",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/package": "^2.0.0",
@@ -37,7 +39,6 @@
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
 		"less": "^4.2.0",
-		"mysql2": "^3.11.3",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"publint": "^0.2.0",
@@ -50,8 +51,19 @@
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
-	"dependencies": {
-		"@mdi/js": "^7.4.47",
-		"redis": "^4.7.0"
-	}
+	"main": "dist/index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dcamachoj/svelma.git"
+	},
+	"keywords": [
+		"svelte",
+		"bulma"
+	],
+	"author": "David C.",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/dcamachoj/svelma/issues"
+	},
+	"homepage": "https://github.com/dcamachoj/svelma#readme"
 }

@@ -41,6 +41,7 @@ export type NavbarItemOptions = BulmaClassOptions & {
 	active?: boolean;
 	dropdown?: boolean;
 	hoverable?: boolean;
+	selected?: boolean;
 };
 
 export class NavbarItemClass extends BulmaClassComponent<NavbarItemOptions> {
@@ -49,8 +50,9 @@ export class NavbarItemClass extends BulmaClassComponent<NavbarItemOptions> {
 			expanded: isKey,
 			tab: isKey,
 			active: isKey,
-			dropdown: isKey,
+			dropdown: hasKey,
 			hoverable: isKey,
+			selected: isKey,
 		});
 	}
 }

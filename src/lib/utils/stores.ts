@@ -3,11 +3,13 @@ import { writable } from 'svelte/store';
 import type { ButtonColor, ButtonSize } from './bulma.types.js';
 import { injectable } from './injectable.js';
 import { EnvPublic } from './env.js';
+import type { I18nParams } from './i18n.js';
 
-export type MessageType = 'error' | 'warn' | 'info' | 'debug';
-export type Message = {
-	type: MessageType;
+export type AppMessageType = 'error' | 'warn' | 'info' | 'debug';
+export type AppMessage = {
+	type: AppMessageType;
 	message: string;
+	params?: I18nParams;
 };
 export type MenuAction = {
 	icon?: string;
@@ -22,13 +24,18 @@ export type MenuAction = {
 	click?: () => void;
 };
 
-export const appMessage = writable<Message | null>(null);
+export const appMessage = writable<AppMessage | null>(null);
 export const appTitle = writable<string>('');
 export const appMenuStart = writable<MenuAction[]>([]);
 export const appMenuEnd = writable<MenuAction[]>([]);
+export const appDescription = writable<string>('');
 
-export function setAppMessage(message: string, type: MessageType = 'info'): Message {
-	const msg: Message = { type, message };
+export function setAppMessage(
+	message: string,
+	type: AppMessageType = 'info',
+	params?: I18nParams,
+): AppMessage {
+	const msg: AppMessage = { type, message, params };
 	appMessage.set(msg);
 	if (type != 'error') {
 		const env = injectable.get<EnvPublic>(EnvPublic.DI);

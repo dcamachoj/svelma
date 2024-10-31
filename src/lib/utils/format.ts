@@ -1,5 +1,12 @@
+import { injectable } from './injectable.js';
+
 export class Formatter {
+	static readonly DI = Symbol.for('Formatter');
+	static getInstance(): Formatter {
+		return injectable.get(Formatter.DI);
+	}
 	constructor(readonly locale: string = 'es') {
+		injectable.add(Formatter.DI, this);
 		this.dateFormat = new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
 		this.timeFormat = new Intl.DateTimeFormat(locale, {
 			hour: '2-digit',
@@ -89,16 +96,4 @@ export class Formatter {
 			return defValue;
 		}
 	}
-}
-
-let formatter: Formatter;
-
-export function getFormatter(): Formatter {
-	if (!formatter) formatter = new Formatter();
-	return formatter;
-}
-
-export function initFormatter(locale: string): Formatter {
-	formatter = new Formatter(locale);
-	return formatter;
 }

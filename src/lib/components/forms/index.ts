@@ -1,61 +1,8 @@
-export {
-	input,
-	select,
-	selectWrapper,
-	textarea,
-	checkbox,
-	checkboxes,
-	file,
-	fileLabel,
-	fileInput,
-	fileCta,
-	fileName,
-	radio,
-	toggle,
-	toggleSlider,
-	toggleContent,
-	InputClass,
-	SelectClass,
-	SelectWrapperClass,
-	TextareaClass,
-	CheckboxClass,
-	CheckboxesClass,
-	FileClass,
-	FileLabelClass,
-	FileInputClass,
-	FileCtaClass,
-	FileNameClass,
-	RadioClass,
-	ToggleClass,
-	ToggleContentClass,
-	ToggleSliderClass,
-	type InputOptions,
-	type SelectOptions,
-	type SelectWrapperOptions,
-	type TextareaOptions,
-	type FileOptions,
-	type ToggleSliderOptions,
-} from './input.js';
-export {
-	field,
-	fieldBody,
-	fieldLabel,
-	control,
-	help,
-	label,
-	FieldClass,
-	FieldBodyClass,
-	FieldLabelClass,
-	ControlClass,
-	HelpClass,
-	LabelClass,
-	type FieldOptions,
-	type FieldLabelOptions,
-	type ControlOptions,
-	type HelpOptions,
-} from './misc.js';
+export * from './input.js';
+export * from './misc.js';
 
 export { default as Field } from './Field.svelte';
 export { default as TextInput } from './TextInput.svelte';
 export { default as SelectInput } from './SelectInput.svelte';
 export { default as ToggleInput } from './ToggleInput.svelte';
+export { default as TelephoneInput } from './TelephoneInput.svelte';
