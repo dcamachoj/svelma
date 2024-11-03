@@ -87,6 +87,7 @@ export abstract class FieldValidator {
 			function onInput(e?: Event) {
 				dirty?.set(true);
 				const validationMessage = node.validationMessage;
+				// console.log('onInput', { id: node.id, e, validationMessage });
 				if (validationMessage) {
 					error.set(validationMessage || self.message);
 				} else {

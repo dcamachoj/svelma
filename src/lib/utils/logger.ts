@@ -24,6 +24,7 @@ export class Logger implements ILogger {
 		if (level == -1) level = LogLevelInfo;
 		this._level = level;
 		injectable.set(Logger.DI, this);
+		console.log(`LoggerLevel: ${LogLevels[level]} (${level})`);
 	}
 
 	protected _canLog(level: number) {

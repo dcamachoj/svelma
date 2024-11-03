@@ -26,7 +26,7 @@
 </script>
 
 <div class={field.cls({ addons: actions.length > 0 || options.length > 0 })}>
-	<div class={control.cls({ iconLeft: !!iconLeft, expanded: true })}>
+	<div class={control.cls({ iconsLeft: !!iconLeft, expanded: true })}>
 		<input
 			id="search"
 			type="search"

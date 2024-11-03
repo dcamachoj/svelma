@@ -11,9 +11,12 @@ export type AppFetchInput = {
 	search?: URLSearchValues;
 };
 
+export type FormDataObject<T> = Record<keyof T, string>;
+
 export async function appFetch(
 	input: AppFetchInput,
 	init?: RequestInit | undefined,
+	handleError?: ((response: Response) => Promise<void>) | undefined,
 ): Promise<Response> {
 	let url = input.url || '';
 	if (input.search) {
@@ -31,7 +34,11 @@ export async function appFetch(
 			status: response.status,
 			message: response.statusText,
 		});
-		setAppMessage('Error de conexión', 'error');
+		if (handleError) {
+			await handleError(response);
+		} else {
+			setAppMessage('Error de conexión', 'error');
+		}
 	}
 	return response;
 }
@@ -53,7 +60,15 @@ export async function appFetchJson<Req extends {}, Res extends {}>(
 		headers['Content-Type'] = 'application/json';
 		init.body = JSON.stringify(body);
 	}
-	const response = await appFetch(input, init);
+	const response = await appFetch(input, init, async (r) => {
+		if (r.headers?.get('content-type') == 'application/json') {
+			const result = await r.json();
+			Logger.getInstance().debug({ input, init, body, result });
+			if (result.hasOwnProperty('message')) {
+				setAppMessage(result.message, 'error', result);
+			}
+		}
+	});
 	if (!response.ok) return null;
 	return response.json();
 }
@@ -75,25 +90,27 @@ export async function appFetchJsonErrors<Req extends {}, Res extends {}>(
 		headers['Content-Type'] = 'application/json';
 		init.body = JSON.stringify(body);
 	}
-	const response = await appFetch(input, init);
-	if (!response.ok) {
-		if (response.headers?.get('content-type') == 'application/json') {
-			const result = await response.json();
+	let validatorErrors: ValidatorErrors | null = null;
+	const response = await appFetch(input, init, async (r) => {
+		if (r.headers?.get('content-type') == 'application/json') {
+			const result = await r.json();
 			Logger.getInstance().debug({ input, init, body, result });
 			if (result.hasOwnProperty('message')) {
-				setAppMessage(result.message, 'error');
+				setAppMessage(result.message, 'error', result);
 			}
 			if (result.hasOwnProperty('errors')) {
-				return [null, result.errors];
+				validatorErrors = result.errors;
 			}
 		}
-		return [null, null];
+	});
+	if (!response.ok) {
+		return [null, validatorErrors];
 	}
 	const result = await response.json();
 	return [result, null];
 }
 
-export function formDataToObject<T extends {}>(formData: FormData): Record<keyof T, string> {
+export function formDataToObject<T extends {}>(formData: FormData): FormDataObject<T> {
 	const res: any = {};
 	for (const [key, val] of formData) {
 		res[key] = val.toString();
@@ -101,7 +118,7 @@ export function formDataToObject<T extends {}>(formData: FormData): Record<keyof
 	return res;
 }
 
-export function formToObject<T extends {}>(form: HTMLFormElement): Record<keyof T, string> {
+export function formToObject<T extends {}>(form: HTMLFormElement): FormDataObject<T> {
 	const formData = new FormData(form);
 	return formDataToObject(formData);
 }
