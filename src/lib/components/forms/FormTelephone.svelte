@@ -1,34 +1,34 @@
 <script lang="ts">
-	import Icon from '$lib/components/common/Icon.svelte';
-	import type { I18n } from '$lib/utils/i18n.js';
-	import type { FieldValidator, UseInput, UseSelect } from '$lib/utils/validation.js';
-	import { mdiCancel, mdiPencil } from '@mdi/js';
-	import type { Writable } from 'svelte/store';
 	import { countryCodeOptions } from './country-codes.js';
+	import Icon from '$lib/components/common/Icon.svelte';
+	import type { FormError, FormField } from '$lib/utils/form-field.js';
+	import type { I18n } from '$lib/utils/i18n.js';
+	import { mdiCancel, mdiPencil } from '@mdi/js';
 	import Field from './Field.svelte';
 	import { input, select, selectWrapper } from './input.js';
 
-	export let validatorPrefix: FieldValidator;
-	export let validatorNumber: FieldValidator;
-	export let errorPrefix: Writable<string> | undefined = undefined;
-	export let errorNumber: Writable<string> | undefined = undefined;
 	export let i18n: I18n;
-	export let usePrefix: UseSelect | undefined = undefined;
-	export let useNumber: UseInput | undefined = undefined;
+	export let fieldPrefix: FormField;
+	export let fieldNumber: FormField;
+	export let valuePrefix: string;
+	export let valueNumber: string;
+	export let readonly: boolean = false;
+	export let errorPrefix: FormError | undefined = undefined;
+	export let errorNumber: FormError | undefined = undefined;
 
-	$: idPrefix = validatorPrefix.field;
-	$: idNumber = validatorNumber.field;
-	$: label = validatorNumber.label(i18n);
-	$: err =
-		errorPrefix && $errorPrefix
-			? i18n.str($errorPrefix)
-			: errorNumber && $errorNumber
-				? i18n.str($errorNumber)
-				: '';
+	let err: string = '';
+
+	$: idPrefix = fieldPrefix.id;
+	$: idNumber = fieldNumber.id;
+	$: label = fieldNumber.labelText(i18n);
+	$: err = errorPrefix
+		? i18n.str(errorPrefix.message, errorPrefix.params)
+		: errorNumber
+			? i18n.str(errorNumber.message, errorNumber.params)
+			: '';
 	$: clsWrapper = selectWrapper.cls({ fullwidth: true });
 	$: clsSelect = select.cls({});
 	$: clsInput = input.cls({});
-	$: readonly = !usePrefix && !useNumber;
 </script>
 
 <label class="label" for={idNumber}>{label}</label>
@@ -40,24 +40,27 @@
 				name={idPrefix}
 				class="input"
 				type="text"
-				placeholder={validatorPrefix.label(i18n)}
+				placeholder={fieldPrefix.labelText(i18n)}
 				readonly
+				value={valuePrefix}
 			/>
 			<Icon icon={mdiCancel} size="small" iconClass="is-left" />
 		</Control>
 		<Control expanded>
-			<input id={idNumber} name={idNumber} class="input" type="text" placeholder={label} readonly />
+			<input
+				id={idNumber}
+				name={idNumber}
+				class="input"
+				type="text"
+				placeholder={label}
+				value={valueNumber}
+				readonly
+			/>
 		</Control>
-	{:else if usePrefix && useNumber}
+	{:else}
 		<Control iconsLeft>
 			<div class={clsWrapper}>
-				<select
-					id={idPrefix}
-					name={idPrefix}
-					class={clsSelect}
-					{...validatorPrefix.constraints}
-					use:usePrefix
-				>
+				<select class={clsSelect} value={valuePrefix} {...fieldPrefix.inputProps}>
 					{#each countryCodeOptions as option (option.value)}
 						<option value={option.value}>
 							{option.text}
@@ -69,12 +72,10 @@
 		</Control>
 		<div class="control is-expanded">
 			<input
-				id={idNumber}
-				name={idNumber}
 				class={clsInput}
 				class:is-warning={!readonly && !!err}
-				{...validatorNumber.constraints}
-				use:useNumber
+				value={valueNumber}
+				{...fieldNumber.inputProps}
 			/>
 			{#if !readonly && err}
 				<p class="help" color="danger">{err}</p>

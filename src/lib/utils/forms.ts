@@ -1,6 +1,6 @@
 import { Logger } from './logger.js';
 
-export type FormField = {
+type FormField = {
 	key: string;
 	val: any;
 	input: HTMLInputElement | HTMLSelectElement;
