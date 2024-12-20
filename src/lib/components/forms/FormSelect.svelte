@@ -2,7 +2,7 @@
 	import type { Option } from '$lib/utils/bulma.types.js';
 	import type { FormError, FormField } from '$lib/utils/form-field.js';
 	import type { I18n } from '$lib/utils/i18n.js';
-	import { mdiCancel, mdiPencil } from '@mdi/js';
+	import { mdiAlert, mdiCancel, mdiPencil } from '@mdi/js';
 	import Icon from '../common/Icon.svelte';
 	import Field from './Field.svelte';
 	import { select, selectWrapper } from './input.js';
@@ -18,7 +18,7 @@
 	$: id = field.id;
 	$: label = field.labelText(i18n);
 	$: err = error ? i18n.str(error.message, error.params) : '';
-	$: clsWrapper = selectWrapper.cls({ fullwidth: true });
+	$: clsWrapper = selectWrapper.cls({ fullwidth: true, color: err ? 'warning' : undefined });
 	$: clsSelect = select.cls({});
 </script>
 
@@ -40,7 +40,7 @@
 					{/each}
 				</select>
 			</div>
-			<Icon icon={mdiPencil} size="small" iconClass="is-left" />
+			<Icon icon={err ? mdiAlert : mdiPencil} size="small" iconClass="is-left" />
 		</Control>
 	{/if}
 

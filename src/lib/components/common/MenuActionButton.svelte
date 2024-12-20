@@ -2,19 +2,35 @@
 	import Button from '$lib/components/common/Button.svelte';
 	import IconText from '$lib/components/common/IconText.svelte';
 	import type { MenuAction } from '$lib/utils/stores.js';
+	import { writable, type Readable } from 'svelte/store';
 
 	export let action: MenuAction;
 
+	let disabled: Readable<boolean>;
+
 	$: size = action.size;
 	$: title = action.title;
+	$: disabled = action.disabled || writable(false);
 </script>
 
 {#if action.href}
-	<Button href={action.href} color={action.color} {size} {title}>
-		<IconText icon={action.icon} text={action.text} />
-	</Button>
+	<Button
+		href={action.href}
+		color={action.color}
+		{size}
+		{title}
+		disabled={$disabled || undefined}
+		icon={action.icon}
+		text={action.text}
+	/>
 {:else if action.click}
-	<Button color={action.color} on:click={action.click} {size} {title}>
-		<IconText icon={action.icon} text={action.text} />
-	</Button>
+	<Button
+		color={action.color}
+		on:click={action.click}
+		{size}
+		{title}
+		disabled={$disabled || undefined}
+		icon={action.icon}
+		text={action.text}
+	/>
 {/if}

@@ -28,6 +28,7 @@
 			{#if icon}
 				<Icon {icon} />
 			{/if}
+			<span>&nbsp;</span>
 			{#if text}
 				<span>{i18n ? i18n.str(text) : text}</span>
 			{/if}
@@ -39,6 +40,7 @@
 			{#if icon}
 				<Icon {icon} />
 			{/if}
+			<span>&nbsp;</span>
 			{#if text}
 				<span>{i18n ? i18n.str(text) : text}</span>
 			{/if}

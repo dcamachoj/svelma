@@ -35,15 +35,15 @@
 <Field let:Control let:Label let:Help addons>
 	{#if readonly}
 		<Control iconsLeft>
-			<input
-				id={idPrefix}
-				name={idPrefix}
-				class="input"
-				type="text"
-				placeholder={fieldPrefix.labelText(i18n)}
-				readonly
-				value={valuePrefix}
-			/>
+			<div class={clsWrapper}>
+				<select class={clsSelect} value={valuePrefix} {...fieldPrefix.inputProps}>
+					{#each countryCodeOptions.filter((o) => o.value == valuePrefix) as option (option.value)}
+						<option value={option.value}>
+							{option.text}
+						</option>
+					{/each}
+				</select>
+			</div>
 			<Icon icon={mdiCancel} size="small" iconClass="is-left" />
 		</Control>
 		<Control expanded>

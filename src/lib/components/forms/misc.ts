@@ -1,4 +1,4 @@
-import { BulmaClassComponent, isKey, type BulmaClassOptions } from '$lib/utils/bulma.js';
+import { BulmaClassComponent, isKey, isVal, type BulmaClassOptions } from '$lib/utils/bulma.js';
 import type { Colors, ContentSize, FieldAlign, LabelSize } from '$lib/utils/bulma.types.js';
 
 export type FieldOptions = BulmaClassOptions & {
@@ -80,7 +80,7 @@ export type HelpOptions = BulmaClassOptions & {
 
 export class HelpClass extends BulmaClassComponent<HelpOptions> {
 	constructor() {
-		super('help', { color: isKey });
+		super('help', { color: isVal });
 	}
 }
 

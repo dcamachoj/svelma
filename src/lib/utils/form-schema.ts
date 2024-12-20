@@ -50,6 +50,25 @@ export class FormSchema<T> {
 		result.hasErrors = Object.values(result.errors).filter(Boolean).length > 0;
 		return result;
 	}
+	parseSearchParams(search: URLSearchParams): FormSchemaResult<T> {
+		const result: FormSchemaResult<T> = {
+			value: {} as T,
+			errors: {},
+			hasErrors: false,
+		};
+		Object.values(this.def).forEach((formField) => {
+			const field = formField as FormField;
+			const id = field.id as keyof T;
+			const fieldResult: FormFieldValidation = {
+				value: search.get(field.id)?.toString(),
+			};
+			field.validate(fieldResult);
+			result.value[id] = fieldResult.value;
+			result.errors[id] = fieldResult.error;
+		});
+		result.hasErrors = Object.values(result.errors).filter(Boolean).length > 0;
+		return result;
+	}
 }
 
 class FormDef {

@@ -1,8 +1,6 @@
 <script lang="ts">
-	import Icon from '$lib/components/common/Icon.svelte';
 	import type { FormError, FormField } from '$lib/utils/form-field.js';
 	import type { I18n } from '$lib/utils/i18n.js';
-	import { mdiAlert, mdiCancel, mdiPencil } from '@mdi/js';
 	import Field from './Field.svelte';
 
 	export let i18n: I18n;
@@ -11,7 +9,7 @@
 	export let readonly: boolean | undefined = undefined;
 	export let error: FormError | undefined = undefined;
 
-	type $$Props = Partial<HTMLInputElement> & {
+	type $$Props = Partial<HTMLTextAreaElement> & {
 		i18n: I18n;
 		field: FormField;
 		value: string | number;
@@ -29,18 +27,13 @@
 <Field let:Control let:Label let:Help>
 	<Label {id}>{label}</Label>
 	<Control iconsLeft>
-		<input
-			class="input"
+		<textarea
+			class="textarea"
 			class:is-warning={!!err}
 			readonly={readonly || undefined}
 			{value}
 			{...field.inputProps}
 			{...$$restProps}
-		/>
-		<Icon
-			icon={err ? mdiAlert : readonly ? mdiCancel : mdiPencil}
-			size="small"
-			iconClass="is-left"
 		/>
 	</Control>
 	{#if err}
@@ -49,7 +42,7 @@
 </Field>
 
 <style>
-	input[readonly] {
+	textarea[readonly] {
 		cursor: not-allowed;
 	}
 </style>
