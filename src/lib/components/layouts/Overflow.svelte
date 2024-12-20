@@ -6,8 +6,8 @@
 
 	export let offset: string = '';
 
-	let staticHeight = 0;
-	let staticEl: HTMLDivElement;
+	let headerHeight = 0;
+	let headerEl: HTMLDivElement;
 
 	$: styleCalc = [
 		'100vh',
@@ -15,17 +15,17 @@
 		`${env.mainFooterHeight}px`,
 		'1rem',
 		offset,
-		staticHeight ? `${staticHeight}px` : '',
+		headerHeight ? `${headerHeight}px` : '',
 	].filter(Boolean);
 	$: style = `max-height: calc(${styleCalc.join(' - ')});`;
 
 	onMount(() => {
-		staticHeight = staticEl?.clientHeight;
+		headerHeight = headerEl?.clientHeight;
 	});
 </script>
 
 <div class="overflow-container">
-	<div class="static" bind:this={staticEl}><slot name="static" /></div>
+	<div class="header" bind:this={headerEl}><slot name="header" /></div>
 	<div class="overflow" {style}><slot /></div>
 </div>
 
@@ -35,12 +35,12 @@
 		flex-direction: column;
 		height: 100%;
 
-		.static {
+		.header {
 			display: flex;
 			flex-direction: column;
 			align-items: stretch;
 
-			& > * {
+			& :global(> *) {
 				width: 100%;
 			}
 		}
