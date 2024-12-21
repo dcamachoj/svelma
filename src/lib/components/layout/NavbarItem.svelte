@@ -2,7 +2,7 @@
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import type { I18n } from '$lib/utils/i18n.js';
 	import Icon from '../common/Icon.svelte';
-	import { navbarItem } from './navbar.js';
+	import { navbarItemClass } from './navbar.js';
 
 	export let opts: BulmaOptions = {};
 	export let expanded: boolean = false;
@@ -19,7 +19,7 @@
 	export let text: string = '';
 	export let i18n: I18n | undefined = undefined;
 
-	$: cls = navbarItem.cls({ opts, expanded, tab, active, dropdown, hoverable, selected });
+	$: cls = navbarItemClass.cls({ opts, expanded, tab, active, dropdown, hoverable, selected });
 </script>
 
 {#if preventDefault}

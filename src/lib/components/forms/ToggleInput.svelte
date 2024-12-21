@@ -2,7 +2,7 @@
 	import type { FieldValidator, UseInput } from '$lib/utils/validation.js';
 	import type { Writable } from 'svelte/store';
 	import Field from './Field.svelte';
-	import { toggle, toggleContent, toggleSlider } from './input.js';
+	import { toggleClass, toggleContentClass, toggleSliderClass } from './input.js';
 	import type { I18n } from '$lib/utils/i18n.js';
 
 	export let validator: FieldValidator;
@@ -15,9 +15,9 @@
 	$: id = validator.field;
 	$: label = validator.label(i18n);
 	$: err = error && $error ? i18n.str($error) : '';
-	$: cls = toggle.cls({});
-	$: clsSlider = toggleSlider.cls({ rounded });
-	$: clsContent = toggleContent.cls({});
+	$: cls = toggleClass.cls({});
+	$: clsSlider = toggleSliderClass.cls({ rounded });
+	$: clsContent = toggleContentClass.cls({});
 </script>
 
 <Field let:Help>

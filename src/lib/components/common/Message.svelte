@@ -2,7 +2,7 @@
 	import type { BulmaOptions, Colors, ContentSize } from '$lib/utils/bulma.types.js';
 	import MessageBody from './MessageBody.svelte';
 	import MessageHeader from './MessageHeader.svelte';
-	import { message } from './misc.js';
+	import { messageClass } from './misc.js';
 
 	export let opts: BulmaOptions = {};
 	export let icon: string | undefined = undefined;
@@ -10,7 +10,7 @@
 	export let color: Colors | 'dark' | undefined = undefined;
 	export let size: ContentSize | undefined = undefined;
 
-	$: cls = message.cls({ opts, color, size });
+	$: cls = messageClass.cls({ opts, color, size });
 </script>
 
 <article class={cls}>

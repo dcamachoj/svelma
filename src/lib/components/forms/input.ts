@@ -177,18 +177,18 @@ export class ToggleContentClass extends BulmaClassComponent<BulmaClassOptions> {
 	}
 }
 
-export const input = new InputClass();
-export const select = new SelectClass();
-export const selectWrapper = new SelectWrapperClass();
-export const textarea = new TextareaClass();
-export const checkbox = new CheckboxClass();
-export const checkboxes = new CheckboxesClass();
-export const file = new FileClass();
-export const fileLabel = new FileLabelClass();
-export const fileInput = new FileInputClass();
-export const fileCta = new FileCtaClass();
-export const fileName = new FileNameClass();
-export const radio = new RadioClass();
-export const toggle = new ToggleClass();
-export const toggleSlider = new ToggleSliderClass();
-export const toggleContent = new ToggleContentClass();
+export const inputClass = new InputClass();
+export const selectClass = new SelectClass();
+export const selectWrapperClass = new SelectWrapperClass();
+export const textareaClass = new TextareaClass();
+export const checkboxClass = new CheckboxClass();
+export const checkboxesClass = new CheckboxesClass();
+export const fileClass = new FileClass();
+export const fileLabelClass = new FileLabelClass();
+export const fileInputClass = new FileInputClass();
+export const fileCtaClass = new FileCtaClass();
+export const fileNameClass = new FileNameClass();
+export const radioClass = new RadioClass();
+export const toggleClass = new ToggleClass();
+export const toggleSliderClass = new ToggleSliderClass();
+export const toggleContentClass = new ToggleContentClass();

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { bulmaClassnames } from '$lib/utils/bulma.js';
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
+	import { cardImageClass } from './card.js';
 
 	export let opts: BulmaOptions = {};
 
-	$: cls = bulmaClassnames(opts, ['card-image']);
+	$: cls = cardImageClass.cls({ opts });
 </script>
 
 <div class={cls}>

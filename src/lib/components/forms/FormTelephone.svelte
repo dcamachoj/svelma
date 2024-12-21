@@ -5,7 +5,7 @@
 	import type { I18n } from '$lib/utils/i18n.js';
 	import { mdiCancel, mdiPencil } from '@mdi/js';
 	import Field from './Field.svelte';
-	import { input, select, selectWrapper } from './input.js';
+	import { inputClass, selectClass, selectWrapperClass } from './input.js';
 
 	export let i18n: I18n;
 	export let fieldPrefix: FormField;
@@ -26,9 +26,9 @@
 		: errorNumber
 			? i18n.str(errorNumber.message, errorNumber.params)
 			: '';
-	$: clsWrapper = selectWrapper.cls({ fullwidth: true });
-	$: clsSelect = select.cls({});
-	$: clsInput = input.cls({});
+	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true });
+	$: clsSelect = selectClass.cls({});
+	$: clsInput = inputClass.cls({});
 </script>
 
 <label class="label" for={idNumber}>{label}</label>
@@ -44,7 +44,7 @@
 					{/each}
 				</select>
 			</div>
-			<Icon icon={mdiCancel} size="small" iconClass="is-left" />
+			<Icon icon={mdiCancel} size="small" iconClassname="is-left" />
 		</Control>
 		<Control expanded>
 			<input
@@ -68,7 +68,7 @@
 					{/each}
 				</select>
 			</div>
-			<Icon icon={mdiPencil} size="small" iconClass="is-left" />
+			<Icon icon={mdiPencil} size="small" iconClassname="is-left" />
 		</Control>
 		<div class="control is-expanded">
 			<input

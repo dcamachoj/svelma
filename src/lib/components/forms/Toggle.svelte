@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import { createEventDispatcher } from 'svelte';
-	import { toggle, toggleContent, toggleSlider } from './input.js';
+	import { toggleClass, toggleContentClass, toggleSliderClass } from './input.js';
 
 	const dispatch = createEventDispatcher();
 
@@ -11,9 +11,9 @@
 	export let checked: boolean | undefined = undefined;
 	export let disabled: boolean | undefined = undefined;
 
-	$: cls = toggle.cls({ opts });
-	$: clsSlider = toggleSlider.cls({ rounded });
-	$: clsContent = toggleContent.cls({});
+	$: cls = toggleClass.cls({ opts });
+	$: clsSlider = toggleSliderClass.cls({ rounded });
+	$: clsContent = toggleContentClass.cls({});
 
 	function onChecked(e: Event) {
 		const input = e.target as HTMLInputElement;

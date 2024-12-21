@@ -54,11 +54,11 @@ export class CardImageClass extends BulmaClassComponent<BulmaClassOptions> {
 	}
 }
 
-export const card = new CardClass();
-export const cardHeader = new CardHeaderClass();
-export const cardHeaderTitle = new CardHeaderTitleClass();
-export const cardHeaderIcon = new CardHeaderIconClass();
-export const cardContent = new CardContentClass();
-export const cardFooter = new CardFooterClass();
-export const cardFooterItem = new CardFooterClass();
-export const cardImage = new CardImageClass();
+export const cardClass = new CardClass();
+export const cardHeaderClass = new CardHeaderClass();
+export const cardHeaderTitleClass = new CardHeaderTitleClass();
+export const cardHeaderIconClass = new CardHeaderIconClass();
+export const cardContentClass = new CardContentClass();
+export const cardFooterClass = new CardFooterClass();
+export const cardFooterItemClass = new CardFooterClass();
+export const cardImageClass = new CardImageClass();

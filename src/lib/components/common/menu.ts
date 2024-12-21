@@ -12,5 +12,5 @@ export class MenuLabelClass extends BulmaClassComponent<BulmaClassOptions> {
 	}
 }
 
-export const menu = new MenuClass();
-export const menuLabel = new MenuLabelClass();
+export const menuClass = new MenuClass();
+export const menuLabelClass = new MenuLabelClass();

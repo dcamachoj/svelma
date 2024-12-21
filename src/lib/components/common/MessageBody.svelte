@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	export let opts: BulmaOptions = {};
-	import { messageBody } from './misc.js';
+	import { messageBodyClass } from './misc.js';
 
-	$: cls = messageBody.cls({ opts });
+	$: cls = messageBodyClass.cls({ opts });
 </script>
 
 <div class={cls}>

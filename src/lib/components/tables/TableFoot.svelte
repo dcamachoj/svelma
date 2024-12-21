@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
-	import { tableFoot } from './table.js';
+	import { tableFootClass } from './table.js';
 
 	export let opts: BulmaOptions = {};
 
-	$: cls = tableFoot.cls({ opts });
+	$: cls = tableFootClass.cls({ opts });
 </script>
 
 <tfoot class={cls}>

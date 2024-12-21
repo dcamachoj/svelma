@@ -2,7 +2,7 @@
 	import { bulmaClassnames } from '$lib//utils/bulma.js';
 	import type { BulmaOptions, ButtonColor, ButtonSize } from '$lib//utils/bulma.types.js';
 	import type { ClsArgument } from '$lib//utils/classnames.js';
-	import { button } from './button.js';
+	import { buttonClass } from './button.js';
 	import IconText from './IconText.svelte';
 
 	type HTMLAttributeAnchorTarget = '_self' | '_blank' | '_parent' | '_top' | (string & {});
@@ -27,7 +27,7 @@
 	export let target: HTMLAttributeAnchorTarget | undefined | null = undefined;
 	export let title: string | undefined = undefined;
 
-	$: cls = button.cls({
+	$: cls = buttonClass.cls({
 		opts,
 		color,
 		light,

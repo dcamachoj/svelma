@@ -67,10 +67,10 @@ export class TableFootClass extends BulmaClassComponent<BulmaClassOptions> {
 	}
 }
 
-export const table = new TableClass();
-export const tableContainer = new TableContainerClass();
-export const tableRow = new TableRowClass();
-export const tableCell = new TableCellClass();
-export const tableHead = new TableHeadClass();
-export const tableBody = new TableBodyClass();
-export const tableFoot = new TableFootClass();
+export const tableClass = new TableClass();
+export const tableContainerClass = new TableContainerClass();
+export const tableRowClass = new TableRowClass();
+export const tableCellClass = new TableCellClass();
+export const tableHeadClass = new TableHeadClass();
+export const tableBodyClass = new TableBodyClass();
+export const tableFootClass = new TableFootClass();

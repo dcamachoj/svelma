@@ -85,5 +85,5 @@ export class ColumnClass extends BulmaClassComponent<ColumnOptions> {
 	}
 }
 
-export const columns = new ColumnsClass();
-export const column = new ColumnClass();
+export const columnsClass = new ColumnsClass();
+export const columnClass = new ColumnClass();

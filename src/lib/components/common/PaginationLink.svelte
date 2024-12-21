@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BulmaOptions, PaginationPage } from '$lib/utils/bulma.types.js';
 	import { createEventDispatcher } from 'svelte';
-	import { paginationLink } from './pagination.js';
+	import { paginationLinkClass } from './pagination.js';
 
 	const dispatch = createEventDispatcher();
 
@@ -11,7 +11,7 @@
 	export let href: string = '/';
 	export let label: string = 'Página #';
 
-	$: cls = paginationLink.cls({ opts, current });
+	$: cls = paginationLinkClass.cls({ opts, current });
 	$: ariaLabel = label.replace('#', page.toString());
 
 	function onPage() {

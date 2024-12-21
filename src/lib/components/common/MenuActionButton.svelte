@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '$lib/components/common/Button.svelte';
-	import IconText from '$lib/components/common/IconText.svelte';
 	import type { MenuAction } from '$lib/utils/stores.js';
 	import { writable, type Readable } from 'svelte/store';
 

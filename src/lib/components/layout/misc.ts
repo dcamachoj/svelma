@@ -109,15 +109,15 @@ export class SectionClass extends BulmaClassComponent<SectionOptions> {
 	}
 }
 
-export const container = new ContainerClass();
-export const footer = new FooterClass();
-export const hero = new HeroClass();
-export const heroHead = new HeroHeadClass();
-export const heroBody = new HeroBodyClass();
-export const heroFoot = new HeroFootClass();
-export const level = new LevelClass();
-export const levelLeft = new LevelLeftClass();
-export const levelRight = new LevelRightClass();
-export const levelItem = new LevelItemClass();
-export const media = new MediaClass();
-export const section = new SectionClass();
+export const containerClass = new ContainerClass();
+export const footerClass = new FooterClass();
+export const heroClass = new HeroClass();
+export const heroHeadClass = new HeroHeadClass();
+export const heroBodyClass = new HeroBodyClass();
+export const heroFootClass = new HeroFootClass();
+export const levelClass = new LevelClass();
+export const levelLeftClass = new LevelLeftClass();
+export const levelRightClass = new LevelRightClass();
+export const levelItemClass = new LevelItemClass();
+export const mediaClass = new MediaClass();
+export const sectionClass = new SectionClass();

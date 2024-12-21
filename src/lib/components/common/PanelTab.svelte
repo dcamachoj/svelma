@@ -2,7 +2,6 @@
 	import { bulmaClassnames } from '$lib/utils/bulma.js';
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import IconText from './IconText.svelte';
-	import { panelHeading } from './panel.js';
 
 	export let opts: BulmaOptions = {};
 	export let active: boolean;

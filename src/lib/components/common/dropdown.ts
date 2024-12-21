@@ -24,5 +24,5 @@ export class DropdownTriggerClass extends BulmaClassComponent<BulmaClassOptions>
 	}
 }
 
-export const dropdown = new DropdownClass();
-export const dropdownTrigger = new DropdownTriggerClass();
+export const dropdownClass = new DropdownClass();
+export const dropdownTriggerClass = new DropdownTriggerClass();

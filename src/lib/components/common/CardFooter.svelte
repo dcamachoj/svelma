@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { bulmaClassnames } from '$lib/utils/bulma.js';
 	import type { Action, BulmaOptions } from '$lib/utils/bulma.types.js';
+	import { cardFooterClass } from './card.js';
 	import IconText from './IconText.svelte';
 
 	export let opts: BulmaOptions = {};
 	export let actions: Action[];
 
-	$: cls = bulmaClassnames(opts, ['card-footer']);
+	$: cls = cardFooterClass.cls({ opts });
 </script>
 
 <footer class={cls}>

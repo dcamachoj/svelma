@@ -60,12 +60,12 @@ export class ModalCardFootClass extends BulmaClassComponent<BulmaClassOptions> {
 	}
 }
 
-export const modal = new ModalClass();
-export const modalBackground = new ModalBackgroundClass();
-export const modalClose = new ModalCloseClass();
-export const modalContent = new ModalContentClass();
-export const modalCard = new ModalCardClass();
-export const modalCardHead = new ModalCardHeadClass();
-export const modalCardTitle = new ModalCardTitleClass();
-export const modalCardBody = new ModalCardBodyClass();
-export const modalCardFoot = new ModalCardFootClass();
+export const modalClass = new ModalClass();
+export const modalBackgroundClass = new ModalBackgroundClass();
+export const modalCloseClass = new ModalCloseClass();
+export const modalContentClass = new ModalContentClass();
+export const modalCardClass = new ModalCardClass();
+export const modalCardHeadClass = new ModalCardHeadClass();
+export const modalCardTitleClass = new ModalCardTitleClass();
+export const modalCardBodyClass = new ModalCardBodyClass();
+export const modalCardFootClass = new ModalCardFootClass();

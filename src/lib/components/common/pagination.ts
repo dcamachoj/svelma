@@ -59,9 +59,9 @@ export class PaginationLinkClass extends BulmaClassComponent<PaginationLinkOptio
 	}
 }
 
-export const pagination = new PaginationClass();
-export const paginationPrev = new PaginationPrevClass();
-export const paginationNext = new PaginationNextClass();
-export const paginationList = new PaginationListClass();
-export const paginationEllipsis = new PaginationEllipsisClass();
-export const paginationLink = new PaginationLinkClass();
+export const paginationClass = new PaginationClass();
+export const paginationPrevClass = new PaginationPrevClass();
+export const paginationNextClass = new PaginationNextClass();
+export const paginationListClass = new PaginationListClass();
+export const paginationEllipsisClass = new PaginationEllipsisClass();
+export const paginationLinkClass = new PaginationLinkClass();

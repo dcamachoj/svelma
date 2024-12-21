@@ -84,9 +84,9 @@ export class HelpClass extends BulmaClassComponent<HelpOptions> {
 	}
 }
 
-export const field = new FieldClass();
-export const fieldLabel = new FieldLabelClass();
-export const fieldBody = new FieldBodyClass();
-export const control = new ControlClass();
-export const label = new LabelClass();
-export const help = new HelpClass();
+export const fieldClass = new FieldClass();
+export const fieldLabelClass = new FieldLabelClass();
+export const fieldBodyClass = new FieldBodyClass();
+export const controlClass = new ControlClass();
+export const labelClass = new LabelClass();
+export const helpClass = new HelpClass();

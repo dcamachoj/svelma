@@ -5,7 +5,7 @@
 	import FieldLabel from './FieldLabel.svelte';
 	import Help from './Help.svelte';
 	import Label from './Label.svelte';
-	import { field } from './misc.js';
+	import { fieldClass } from './misc.js';
 
 	export let opts: BulmaOptions = {};
 	export let addons: boolean = false;
@@ -15,7 +15,7 @@
 	export let groupedMultiline: boolean = false;
 	export let horizontal: boolean = false;
 
-	$: cls = field.cls({
+	$: cls = fieldClass.cls({
 		opts,
 		addons,
 		addonsCentered,

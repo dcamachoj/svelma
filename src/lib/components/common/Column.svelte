@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { ColumnSize } from '$lib/utils/bulma.types.js';
-	import { classnames } from '$lib/utils/classnames.js';
+	import type { BulmaOptions, ColumnSize } from '$lib/utils/bulma.types.js';
+	import { columnClass } from './columns.js';
 
+	export let opts: BulmaOptions = {};
 	export let size: ColumnSize | undefined = undefined;
 	export let sizeMobile: ColumnSize | undefined = undefined;
 	export let sizeTablet: ColumnSize | undefined = undefined;
@@ -16,36 +17,37 @@
 	export let offsetDesktop: ColumnSize | undefined = undefined;
 	export let offsetWidescreen: ColumnSize | undefined = undefined;
 	export let offsetFullHD: ColumnSize | undefined = undefined;
-	export let isNarrow: boolean = false;
-	export let isNarrowMobile: boolean = false;
-	export let isNarrowTablet: boolean = false;
-	export let isNarrowTouch: boolean = false;
-	export let isNarrowDesktop: boolean = false;
-	export let isNarrowWidescreen: boolean = false;
-	export let isNarrowFullHD: boolean = false;
+	export let narrow: boolean = false;
+	export let narrowMobile: boolean = false;
+	export let narrowTablet: boolean = false;
+	export let narrowTouch: boolean = false;
+	export let narrowDesktop: boolean = false;
+	export let narrowWidescreen: boolean = false;
+	export let narrowFullHD: boolean = false;
 
-	$: cls = classnames('column', {
-		[`is-${size}`]: size != undefined,
-		[`is-${sizeMobile}-mobile`]: sizeMobile != undefined,
-		[`is-${sizeTablet}-tablet`]: sizeTablet != undefined,
-		[`is-${sizeTouch}-touch`]: sizeTouch != undefined,
-		[`is-${sizeDesktop}-desktop`]: sizeDesktop != undefined,
-		[`is-${sizeWidescreen}-widescreen`]: sizeWidescreen != undefined,
-		[`is-${sizeFulHD}-fullhd`]: sizeFulHD != undefined,
-		[`is-offset-${offset}`]: offset != undefined,
-		[`is-offset-${offsetMobile}-mobile`]: offsetMobile != undefined,
-		[`is-offset-${offsetTablet}-tablet`]: offsetTablet != undefined,
-		[`is-offset-${offsetTouch}-touch`]: offsetTouch != undefined,
-		[`is-offset-${offsetDesktop}-desktop`]: offsetDesktop != undefined,
-		[`is-offset-${offsetWidescreen}-widescreen`]: offsetWidescreen != undefined,
-		[`is-offset-${offsetFullHD}-fullhd`]: offsetFullHD != undefined,
-		'is-narrow': isNarrow,
-		'is-narrow-mobile': isNarrowMobile,
-		'is-narrow-tablet': isNarrowTablet,
-		'is-narrow-touch': isNarrowTouch,
-		'is-narrow-desktop': isNarrowDesktop,
-		'is-narrow-widescreen': isNarrowWidescreen,
-		'is-narrow-fullhd': isNarrowFullHD
+	$: cls = columnClass.cls({
+		opts,
+		size,
+		sizeMobile,
+		sizeTablet,
+		sizeTouch,
+		sizeDesktop,
+		sizeWidescreen,
+		sizeFulHD,
+		offset,
+		offsetMobile,
+		offsetTablet,
+		offsetTouch,
+		offsetDesktop,
+		offsetWidescreen,
+		offsetFullHD,
+		narrow,
+		narrowMobile,
+		narrowTablet,
+		narrowTouch,
+		narrowDesktop,
+		narrowWidescreen,
+		narrowFullHD,
 	});
 </script>
 

@@ -28,4 +28,4 @@ export class IconClass extends BulmaClassComponent<IconOptions> {
 	}
 }
 
-export const icon = new IconClass();
+export const iconClass = new IconClass();

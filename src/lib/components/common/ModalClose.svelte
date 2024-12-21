@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import { createEventDispatcher } from 'svelte';
-	import { modalClose } from './modal.js';
+	import { modalCloseClass } from './modal.js';
 
 	const dispatch = createEventDispatcher();
 
 	export let opts: BulmaOptions = {};
 
-	$: cls = modalClose.cls({ opts });
+	$: cls = modalCloseClass.cls({ opts });
 
 	function onClose() {
 		dispatch('close');

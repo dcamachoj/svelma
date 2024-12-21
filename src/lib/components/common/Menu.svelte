@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { bulmaClassnames } from '$lib/utils/bulma.js';
 	import type { BulmaOptions, MenuLabelItem } from '$lib/utils/bulma.types.js';
+	import { menuClass } from './menu.js';
 	import MenuLabel from './MenuLabel.svelte';
 	import MenuListItem from './MenuListItem.svelte';
 
-	export let bulma: BulmaOptions = {};
+	export let opts: BulmaOptions = {};
 	export let items: MenuLabelItem[];
 
-	$: cls = bulmaClassnames(bulma, ['menu']);
+	$: cls = menuClass.cls({ opts });
 </script>
 
 <aside class={cls}>

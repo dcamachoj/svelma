@@ -40,7 +40,7 @@
 		<Icon
 			icon={err ? mdiAlert : readonly ? mdiCancel : mdiPencil}
 			size="small"
-			iconClass="is-left"
+			iconClassname="is-left"
 		/>
 	</Control>
 	{#if err}

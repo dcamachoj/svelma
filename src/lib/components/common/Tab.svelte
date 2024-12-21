@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import IconText from './IconText.svelte';
-	import { tab } from './tabs.js';
+	import { tabClass } from './tabs.js';
 
 	export let opts: BulmaOptions = {};
 	export let active: boolean;
@@ -9,7 +9,7 @@
 	export let text: string | undefined = undefined;
 	export let href: string = '/';
 
-	$: cls = tab.cls({ opts, active });
+	$: cls = tabClass.cls({ opts, active });
 </script>
 
 <li class={cls}>

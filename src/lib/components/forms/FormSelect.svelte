@@ -5,7 +5,7 @@
 	import { mdiAlert, mdiCancel, mdiPencil } from '@mdi/js';
 	import Icon from '../common/Icon.svelte';
 	import Field from './Field.svelte';
-	import { select, selectWrapper } from './input.js';
+	import { selectClass, selectWrapperClass } from './input.js';
 	import IconText from '../common/IconText.svelte';
 
 	export let i18n: I18n;
@@ -18,8 +18,8 @@
 	$: id = field.id;
 	$: label = field.labelText(i18n);
 	$: err = error ? i18n.str(error.message, error.params) : '';
-	$: clsWrapper = selectWrapper.cls({ fullwidth: true, color: err ? 'warning' : undefined });
-	$: clsSelect = select.cls({});
+	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true, color: err ? 'warning' : undefined });
+	$: clsSelect = selectClass.cls({});
 </script>
 
 <Field let:Control let:Label let:Help>
@@ -27,7 +27,7 @@
 	{#if readonly}
 		<Control iconsLeft>
 			<input {id} name={id} class="input" type="text" placeholder={label} readonly />
-			<Icon icon={mdiCancel} size="small" iconClass="is-left" />
+			<Icon icon={mdiCancel} size="small" iconClassname="is-left" />
 		</Control>
 	{:else}
 		<Control iconsLeft expanded>
@@ -40,7 +40,7 @@
 					{/each}
 				</select>
 			</div>
-			<Icon icon={err ? mdiAlert : mdiPencil} size="small" iconClass="is-left" />
+			<Icon icon={err ? mdiAlert : mdiPencil} size="small" iconClassname="is-left" />
 		</Control>
 	{/if}
 

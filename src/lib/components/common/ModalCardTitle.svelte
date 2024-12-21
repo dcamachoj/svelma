@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
-	import { modalCardTitle } from './modal.js';
+	import { modalCardTitleClass } from './modal.js';
 
 	export let opts: BulmaOptions = {};
 	export let header: string = '';
 
-	$: cls = modalCardTitle.cls({ opts });
+	$: cls = modalCardTitleClass.cls({ opts });
 </script>
 
 <p class={cls}><slot>{header}</slot></p>

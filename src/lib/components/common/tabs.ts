@@ -33,5 +33,5 @@ export class TabClass extends BulmaClassComponent<TabOptions> {
 	}
 }
 
-export const tabs = new TabsClass();
-export const tab = new TabClass();
+export const tabsClass = new TabsClass();
+export const tabClass = new TabClass();

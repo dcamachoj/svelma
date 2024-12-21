@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import { createEventDispatcher } from 'svelte';
-	import { modalCardHead } from './modal.js';
+	import { modalCardHeadClass } from './modal.js';
 	import ModalCardTitle from './ModalCardTitle.svelte';
 
 	const dispatch = createEventDispatcher();
@@ -9,7 +9,7 @@
 	export let opts: BulmaOptions = {};
 	export let header: string = '';
 
-	$: cls = modalCardHead.cls({ opts });
+	$: cls = modalCardHeadClass.cls({ opts });
 
 	function onClose() {
 		dispatch('close');

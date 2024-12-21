@@ -4,10 +4,10 @@
 		Action,
 		BreadcrumbSeparator,
 		BulmaOptions,
-		ContentSize
+		ContentSize,
 	} from '$lib/utils/bulma.types.js';
 	import IconText from './IconText.svelte';
-	import { breadcrumb } from './misc.js';
+	import { breadcrumbClass } from './misc.js';
 
 	export let opts: BulmaOptions = {};
 	export let items: Action[];
@@ -17,7 +17,7 @@
 	export let separator: BreadcrumbSeparator | undefined = undefined;
 	export let size: ContentSize | undefined = undefined;
 
-	$: cls = breadcrumb.cls({ opts, centered, right, separator, size });
+	$: cls = breadcrumbClass.cls({ opts, centered, right, separator, size });
 </script>
 
 <nav class={cls} aria-label="breadcrumbs">

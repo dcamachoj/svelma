@@ -9,19 +9,19 @@
 		LightColors,
 	} from '$lib/utils/bulma.types.js';
 	import { mdiImageBroken } from '@mdi/js';
-	import { icon as iconCls, type IconType } from './icon.js';
+	import { iconClass, type IconType } from './icon.js';
 	import { classnames, type ClsArgument } from '$lib/utils/classnames.js';
 
 	export let icon: string;
 	export let type: IconType = 'icon';
 	export let opts: BulmaOptions = {};
-	export let iconClass: ClsArgument = '';
+	export let iconClassname: ClsArgument = '';
 	export let color: Colors | BwColors | GreyColors | LightColors | DarkColors | undefined =
 		undefined;
 	export let size: ContentSize | undefined = undefined;
 	export let align: 'left' | 'right' | undefined = undefined;
 
-	$: cls = [iconCls.cls({ opts, type, color, size, align }), classnames(iconClass)]
+	$: cls = [iconClass.cls({ opts, type, color, size, align }), classnames(iconClassname)]
 		.filter(Boolean)
 		.join(' ');
 	$: iconData = icon || mdiImageBroken;

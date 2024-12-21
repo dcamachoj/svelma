@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BulmaOptions, ContentSize, PaginationAlign } from '$lib/utils/bulma.types.js';
-	import { pagination } from './pagination.js';
+	import { paginationClass } from './pagination.js';
 	import PaginationEllipsis from './PaginationEllipsis.svelte';
 	import PaginationLink from './PaginationLink.svelte';
 	import PaginationList from './PaginationList.svelte';
@@ -12,7 +12,7 @@
 	export let rounded: boolean = false;
 	export let size: ContentSize | undefined = undefined;
 
-	$: cls = pagination.cls({ opts, align, rounded, size });
+	$: cls = paginationClass.cls({ opts, align, rounded, size });
 </script>
 
 <nav class={cls} aria-label="pagination">

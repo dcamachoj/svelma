@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import { createEventDispatcher } from 'svelte';
-	import { navbarBrand } from './navbar.js';
+	import { navbarBrandClass } from './navbar.js';
 	import NavbarItem from './NavbarItem.svelte';
 
 	const dispatch = createEventDispatcher();
@@ -14,7 +14,7 @@
 	export let dataTarget: string | undefined = undefined;
 	export let active: boolean = false;
 
-	$: cls = navbarBrand.cls({ opts });
+	$: cls = navbarBrandClass.cls({ opts });
 
 	function onMenuToggle() {
 		active = !active;

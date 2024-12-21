@@ -3,7 +3,7 @@
 	import type { Action, BulmaOptions } from '$lib/utils/bulma.types.js';
 	import { mdiChevronDown } from '@mdi/js';
 	import IconText from './IconText.svelte';
-	import { dropdown } from './dropdown.js';
+	import { dropdownClass } from './dropdown.js';
 	import DropdownTrigger from './DropdownTrigger.svelte';
 
 	export let opts: BulmaOptions = {};
@@ -16,7 +16,7 @@
 	export let right: boolean = false;
 	export let up: boolean = false;
 
-	$: cls = dropdown.cls({ opts, active, hoverable, right, up });
+	$: cls = dropdownClass.cls({ opts, active, hoverable, right, up });
 </script>
 
 <div class={cls}>
@@ -30,20 +30,20 @@
 					{#if item.text === '-'}
 						<hr class="dropdown-divider" />
 					{:else if item.href}
-						<a href={item.href} class="dropdown-item" class:is-active={item.isActive}>
+						<a href={item.href} class="dropdown-item" class:is-active={item.active}>
 							<IconText icon={item.icon} text={item.text} />
 						</a>
 					{:else if item.click}
 						<a
 							href="/"
 							class="dropdown-item"
-							class:is-active={item.isActive}
+							class:is-active={item.active}
 							on:click|preventDefault={item.click}
 						>
 							<IconText icon={item.icon} text={item.text} />
 						</a>
 					{:else}
-						<div class="dropdown-item" class:is-active={item.isActive}>
+						<div class="dropdown-item" class:is-active={item.active}>
 							<IconText icon={item.icon} text={item.text} />
 						</div>
 					{/if}

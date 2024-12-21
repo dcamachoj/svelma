@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
-	import { panelBlock } from './panel.js';
+	import { panelBlockClass } from './panel.js';
 
 	export let opts: BulmaOptions = {};
 
-	$: cls = panelBlock.cls({ opts });
+	$: cls = panelBlockClass.cls({ opts });
 </script>
 
 <div class={cls}>

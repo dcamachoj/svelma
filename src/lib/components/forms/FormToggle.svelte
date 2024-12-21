@@ -1,14 +1,14 @@
 <script lang="ts">
-	import Icon from '$lib/components/common/Icon.svelte';
 	import type { FormError, FormField } from '$lib/utils/form-field.js';
 	import type { I18n } from '$lib/utils/i18n.js';
-	import { mdiCancel, mdiPencil } from '@mdi/js';
 	import Field from './Field.svelte';
+	import { toggleClass, toggleContentClass, toggleSliderClass } from './input.js';
 
 	export let i18n: I18n;
 	export let field: FormField;
 	export let checked: boolean;
 	export let readonly: boolean = false;
+	export let rounded: boolean = false;
 	export let error: FormError | undefined = undefined;
 
 	let err: string = '';
@@ -16,9 +16,9 @@
 	$: id = field.id;
 	$: label = field.labelText(i18n);
 	$: err = error ? i18n.str(error.message, error.params) : '';
-	$: cls = toggle.cls({});
-	$: clsSlider = toggleSlider.cls({ rounded });
-	$: clsContent = toggleContent.cls({});
+	$: cls = toggleClass.cls({});
+	$: clsSlider = toggleSliderClass.cls({ rounded });
+	$: clsContent = toggleContentClass.cls({});
 </script>
 
 <Field let:Help>

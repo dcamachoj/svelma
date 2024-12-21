@@ -167,18 +167,18 @@ export class SubtitleClass extends BulmaClassComponent<TitleOptions> {
 	}
 }
 
-export const block = new BlockClass();
-export const box = new BoxClass();
-export const breadcrumb = new BreadcrumbClass();
-export const content = new ContentClass();
-export const del = new DeleteClass();
-export const message = new MessageClass();
-export const messageHeader = new MessageHeaderClass();
-export const messageBody = new MessageBodyClass();
-export const notification = new NotificationClass();
-export const orderedList = new OrderedListClass();
-export const progress = new ProgressClass();
-export const tag = new TagClass();
-export const tags = new TagsClass();
-export const title = new TitleClass();
-export const subtitle = new SubtitleClass();
+export const blockClass = new BlockClass();
+export const boxClass = new BoxClass();
+export const breadcrumbClass = new BreadcrumbClass();
+export const contentClass = new ContentClass();
+export const delClass = new DeleteClass();
+export const messageClass = new MessageClass();
+export const messageHeaderClass = new MessageHeaderClass();
+export const messageBodyClass = new MessageBodyClass();
+export const notificationClass = new NotificationClass();
+export const orderedListClass = new OrderedListClass();
+export const progressClass = new ProgressClass();
+export const tagClass = new TagClass();
+export const tagsClass = new TagsClass();
+export const titleClass = new TitleClass();
+export const subtitleClass = new SubtitleClass();

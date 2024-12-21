@@ -37,8 +37,8 @@ export class PanelTabsClass extends BulmaClassComponent<BulmaClassOptions> {
 	}
 }
 
-export const panel = new PanelClass();
-export const panelHeading = new PanelHeadingClass();
-export const panelBlock = new PanelBlockClass();
-export const panelIcon = new PanelIconClass();
-export const panelTabs = new PanelTabsClass();
+export const panelClass = new PanelClass();
+export const panelHeadingClass = new PanelHeadingClass();
+export const panelBlockClass = new PanelBlockClass();
+export const panelIconClass = new PanelIconClass();
+export const panelTabsClass = new PanelTabsClass();

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
-	import { modalBackground } from './modal.js';
+	import { modalBackgroundClass } from './modal.js';
 
 	export let opts: BulmaOptions = {};
 
-	$: cls = modalBackground.cls({ opts });
+	$: cls = modalBackgroundClass.cls({ opts });
 </script>
 
 <div class={cls}><slot /></div>

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
-	import { navbarEnd } from './navbar.js';
+	import { navbarEndClass } from './navbar.js';
 
 	export let opts: BulmaOptions = {};
 
-	$: cls = navbarEnd.cls({ opts });
+	$: cls = navbarEndClass.cls({ opts });
 </script>
 
 <div class={cls}>

@@ -3,7 +3,7 @@
 	import type { FieldValidator, UseInput, UseSelect } from '$lib/utils/validation.js';
 	import { mdiCancel, mdiPencil } from '@mdi/js';
 	import Field from './Field.svelte';
-	import { select, selectWrapper } from './input.js';
+	import { selectClass, selectWrapperClass } from './input.js';
 	import type { Option } from '$lib/utils/bulma.types.js';
 	import IconText from '../common/IconText.svelte';
 	import type { Writable } from 'svelte/store';
@@ -18,8 +18,8 @@
 	$: id = validator.field;
 	$: label = validator.label(i18n);
 	$: err = error && $error ? i18n.str($error) : '';
-	$: clsWrapper = selectWrapper.cls({ fullwidth: true });
-	$: clsSelect = select.cls({});
+	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true });
+	$: clsSelect = selectClass.cls({});
 </script>
 
 <Field let:Control let:Label let:Help>
@@ -27,7 +27,7 @@
 	{#if !use}
 		<Control iconsLeft>
 			<input {id} name={id} class="input" type="text" placeholder={label} readonly />
-			<Icon icon={mdiCancel} size="small" iconClass="is-left" />
+			<Icon icon={mdiCancel} size="small" iconClassname="is-left" />
 		</Control>
 	{:else}
 		<Control iconsLeft expanded>
@@ -40,7 +40,7 @@
 					{/each}
 				</select>
 			</div>
-			<Icon icon={mdiPencil} size="small" iconClass="is-left" />
+			<Icon icon={mdiPencil} size="small" iconClassname="is-left" />
 		</Control>
 	{/if}
 

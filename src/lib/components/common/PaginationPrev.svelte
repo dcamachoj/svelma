@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BulmaOptions, PaginationPage } from '$lib/utils/bulma.types.js';
 	import { createEventDispatcher } from 'svelte';
-	import { paginationPrev } from './pagination.js';
+	import { paginationPrevClass } from './pagination.js';
 	import IconText from './IconText.svelte';
 
 	const dispatch = createEventDispatcher();
@@ -12,7 +12,7 @@
 	export let icon: string | undefined = undefined;
 	export let text: string | undefined = undefined;
 
-	$: cls = paginationPrev.cls({ opts });
+	$: cls = paginationPrevClass.cls({ opts });
 
 	function onPage() {
 		dispatch('page', page);

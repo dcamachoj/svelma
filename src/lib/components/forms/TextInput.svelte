@@ -34,7 +34,7 @@
 		{:else}
 			<input {id} name={id} class="input" type="text" readonly />
 		{/if}
-		<Icon icon={use ? mdiPencil : mdiCancel} size="small" iconClass="is-left" />
+		<Icon icon={use ? mdiPencil : mdiCancel} size="small" iconClassname="is-left" />
 	</Control>
 	{#if use && err}
 		<Help color="danger">{err}</Help>

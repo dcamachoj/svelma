@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BulmaOptions, Colors, HeroSize } from '$lib/utils/bulma.types.js';
-	import { hero, heroBody } from './misc.js';
+	import { heroClass, heroBodyClass } from './misc.js';
 
 	export let opts: BulmaOptions = {};
 	export let color: Colors | undefined = undefined;
@@ -9,8 +9,8 @@
 	export let title: string = '';
 	export let subtitle: string = '';
 
-	$: cls = hero.cls({ opts, color, size, fullheightWithNavbar });
-	$: clsBody = heroBody.cls({});
+	$: cls = heroClass.cls({ opts, color, size, fullheightWithNavbar });
+	$: clsBody = heroBodyClass.cls({});
 </script>
 
 <section class={cls}>

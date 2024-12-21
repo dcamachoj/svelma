@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BulmaOptions, BwColors, Colors } from '$lib/utils/bulma.types.js';
-	import { navbar } from './navbar.js';
+	import { navbarClass } from './navbar.js';
 	import NavbarBrand from './NavbarBrand.svelte';
 	import NavbarDivider from './NavbarDivider.svelte';
 	import NavbarDropdown from './NavbarDropdown.svelte';
@@ -18,7 +18,7 @@
 	export let shadow: boolean = false;
 	export let test: boolean = false;
 
-	$: cls = navbar.cls({ opts, color, fixed, transparent, spaced, shadow, test });
+	$: cls = navbarClass.cls({ opts, color, fixed, transparent, spaced, shadow, test });
 </script>
 
 <nav class={cls} aria-label="main navigation">

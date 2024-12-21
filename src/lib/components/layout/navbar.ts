@@ -111,12 +111,12 @@ export class NavbarMenuClass extends BulmaClassComponent<NavbarMenuOptions> {
 	}
 }
 
-export const navbar = new NavbarClass();
-export const navbarBrand = new NavbarBrandClass();
-export const navbarItem = new NavbarItemClass();
-export const navbarDivider = new NavbarDividerClass();
-export const navbarLink = new NavbarLinkClass();
-export const navbarDropdown = new NavbarDropdownClass();
-export const navbarStart = new NavbarStartClass();
-export const navbarEnd = new NavbarEndClass();
-export const navbarMenu = new NavbarMenuClass();
+export const navbarClass = new NavbarClass();
+export const navbarBrandClass = new NavbarBrandClass();
+export const navbarItemClass = new NavbarItemClass();
+export const navbarDividerClass = new NavbarDividerClass();
+export const navbarLinkClass = new NavbarLinkClass();
+export const navbarDropdownClass = new NavbarDropdownClass();
+export const navbarStartClass = new NavbarStartClass();
+export const navbarEndClass = new NavbarEndClass();
+export const navbarMenuClass = new NavbarMenuClass();

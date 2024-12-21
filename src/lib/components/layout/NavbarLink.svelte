@@ -2,7 +2,7 @@
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import type { I18n } from '$lib/utils/i18n.js';
 	import Icon from '../common/Icon.svelte';
-	import { navbarLink } from './navbar.js';
+	import { navbarLinkClass } from './navbar.js';
 
 	export let opts: BulmaOptions = {};
 	export let arrowless: boolean = false;
@@ -11,7 +11,7 @@
 	export let text: string = '';
 	export let i18n: I18n | undefined = undefined;
 
-	$: cls = navbarLink.cls({ opts, arrowless });
+	$: cls = navbarLinkClass.cls({ opts, arrowless });
 </script>
 
 {#if href}

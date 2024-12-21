@@ -3,11 +3,11 @@
 	import ModalCardBody from './ModalCardBody.svelte';
 	import ModalCardFoot from './ModalCardFoot.svelte';
 	import ModalCardHead from './ModalCardHead.svelte';
-	import { modalCard } from './modal.js';
+	import { modalCardClass } from './modal.js';
 
 	export let opts: BulmaOptions = {};
 
-	$: cls = modalCard.cls({ opts });
+	$: cls = modalCardClass.cls({ opts });
 </script>
 
 <div class={cls}>

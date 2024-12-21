@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
-	import { table } from './table.js';
+	import { tableClass } from './table.js';
 	import TableBody from './TableBody.svelte';
 	import TableCell from './TableCell.svelte';
 	import TableFoot from './TableFoot.svelte';
@@ -15,7 +15,7 @@
 	export let hoverable: boolean = false;
 	export let fullwidth: boolean = false;
 
-	$: cls = table.cls({ opts, bordered, striped, narrow, hoverable, fullwidth });
+	$: cls = tableClass.cls({ opts, bordered, striped, narrow, hoverable, fullwidth });
 </script>
 
 <table class={cls}>

@@ -6,7 +6,7 @@
 	import type { Writable } from 'svelte/store';
 	import { countryCodeOptions } from './country-codes.js';
 	import Field from './Field.svelte';
-	import { input, select, selectWrapper } from './input.js';
+	import { inputClass, selectClass, selectWrapperClass } from './input.js';
 
 	export let validatorPrefix: FieldValidator;
 	export let validatorNumber: FieldValidator;
@@ -25,9 +25,9 @@
 			: errorNumber && $errorNumber
 				? i18n.str($errorNumber)
 				: '';
-	$: clsWrapper = selectWrapper.cls({ fullwidth: true });
-	$: clsSelect = select.cls({});
-	$: clsInput = input.cls({});
+	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true });
+	$: clsSelect = selectClass.cls({});
+	$: clsInput = inputClass.cls({});
 	$: readonly = !usePrefix && !useNumber;
 </script>
 
@@ -43,7 +43,7 @@
 				placeholder={validatorPrefix.label(i18n)}
 				readonly
 			/>
-			<Icon icon={mdiCancel} size="small" iconClass="is-left" />
+			<Icon icon={mdiCancel} size="small" iconClassname="is-left" />
 		</Control>
 		<Control expanded>
 			<input id={idNumber} name={idNumber} class="input" type="text" placeholder={label} readonly />
@@ -65,7 +65,7 @@
 					{/each}
 				</select>
 			</div>
-			<Icon icon={mdiPencil} size="small" iconClass="is-left" />
+			<Icon icon={mdiPencil} size="small" iconClassname="is-left" />
 		</Control>
 		<div class="control is-expanded">
 			<input

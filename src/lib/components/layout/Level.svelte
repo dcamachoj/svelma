@@ -3,12 +3,12 @@
 	import LevelItem from './LevelItem.svelte';
 	import LevelLeft from './LevelLeft.svelte';
 	import LevelRight from './LevelRight.svelte';
-	import { level } from './misc.js';
+	import { levelClass } from './misc.js';
 
 	export let opts: BulmaOptions = {};
 	export let mobile: boolean = false;
 
-	$: cls = level.cls({ opts, mobile });
+	$: cls = levelClass.cls({ opts, mobile });
 </script>
 
 <nav class={cls}>

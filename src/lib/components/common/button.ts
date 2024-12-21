@@ -31,4 +31,4 @@ export class ButtonClass extends BulmaClassComponent<ButtonOptions> {
 	}
 }
 
-export const button = new ButtonClass();
+export const buttonClass = new ButtonClass();

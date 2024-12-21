@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { table } from './table.js';
+	import { tableClass } from './table.js';
 	import {
 		GridManager,
 		type GridColumn,
@@ -47,7 +47,7 @@
 
 	const gridManager = GridManager.getInstance();
 
-	$: clsTable = table.cls({ opts, bordered, striped, narrow, hoverable, fullwidth });
+	$: clsTable = tableClass.cls({ opts, bordered, striped, narrow, hoverable, fullwidth });
 	$: canFirst = stats.pageIndex > 0;
 	$: canLast = stats.pageIndex < stats.pageCount - 1;
 	$: tbodyStyle = `max-height: calc(100vh - 100px - ${vMargin || 0}px - ${elHead?.clientHeight || 0}px - ${elFoot?.clientHeight || 0}px);`;
