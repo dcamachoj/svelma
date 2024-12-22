@@ -19,6 +19,7 @@
 </script>
 
 <Button
+	element="button"
 	color={options.color ? options.color(col, row) : undefined}
 	size={options.size ? options.size(col, row) : undefined}
 	on:click={() => options.click(col, row)}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BulmaOptions } from '$lib/utils/bulma.types.js';
-	import { modal } from './modal.js';
+	import { modalClass } from './modal.js';
 	import ModalBackground from './ModalBackground.svelte';
 	import ModalClose from './ModalClose.svelte';
 	import ModalContent from './ModalContent.svelte';
@@ -9,7 +9,7 @@
 	export let opts: BulmaOptions = {};
 	export let active: boolean;
 
-	$: cls = modal.cls({ opts, active });
+	$: cls = modalClass.cls({ opts, active });
 </script>
 
 <div class={cls}>

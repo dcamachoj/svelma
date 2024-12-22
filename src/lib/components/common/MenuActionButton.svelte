@@ -14,16 +14,17 @@
 
 {#if action.href}
 	<Button
+		element="a"
 		href={action.href}
 		color={action.color}
 		{size}
 		{title}
-		disabled={$disabled || undefined}
 		icon={action.icon}
 		text={action.text}
 	/>
 {:else if action.click}
 	<Button
+		element="button"
 		color={action.color}
 		on:click={action.click}
 		{size}

@@ -19,6 +19,7 @@
 </script>
 
 <Button
+	element="a"
 	color={options.color ? options.color(col, row) : undefined}
 	size={options.size ? options.size(col, row) : undefined}
 	href={options.href(col, row)}

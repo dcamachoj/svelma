@@ -5,7 +5,7 @@
 	import Overflow from './Overflow.svelte';
 	import type { MenuAction } from '$lib/utils/stores.js';
 	import type { Option } from '$lib/utils/bulma.types.js';
-	import { panelBlock } from '../common/panel.js';
+	import { panelBlockClass } from '../common/panel.js';
 
 	const dispatch = createEventDispatcher();
 	type ItemHref = (item: any) => string;
@@ -17,7 +17,7 @@
 	export let value: string | number = '';
 	export let options: Option[] = [];
 
-	$: clsPanelBlock = panelBlock.cls({});
+	$: clsPanelBlock = panelBlockClass.cls({});
 
 	function onItemClick(item: any) {
 		return () => {
@@ -27,7 +27,7 @@
 </script>
 
 <Overflow>
-	<svelte:fragment slot="static">
+	<svelte:fragment slot="header">
 		<slot name="before" />
 		<Search bind:selected={value} {options} {actions} on:search />
 		<slot name="after" />

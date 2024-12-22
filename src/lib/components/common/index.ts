@@ -15,7 +15,6 @@ export { default as Block } from './Block.svelte';
 export { default as Box } from './Box.svelte';
 export { default as Breadcrumb } from './Breadcrumb.svelte';
 export { default as Button } from './Button.svelte';
-export { default as ButtonExt } from './ButtonExt.svelte';
 export { default as Icon } from './Icon.svelte';
 export { default as IconText } from './IconText.svelte';
 export { default as IconTexts } from './IconTexts.svelte';
