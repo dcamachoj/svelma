@@ -26,6 +26,7 @@ export { default as Dropdown } from './Dropdown.svelte';
 export { default as Menu } from './Menu.svelte';
 export { default as Message } from './Message.svelte';
 export { default as Modal } from './Modal.svelte';
+export { default as ModalMessage } from './ModalMessage.svelte';
 export { default as Notification } from './Notification.svelte';
 export { default as OrderedList } from './OrderedList.svelte';
 export { default as Pagination } from './Pagination.svelte';

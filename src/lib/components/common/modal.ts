@@ -1,4 +1,5 @@
 import { BulmaClassComponent, isKey, type BulmaClassOptions } from '$lib/utils/bulma.js';
+import type { ButtonColor } from '$lib/utils/bulma.types.js';
 
 export type ModalOptions = BulmaClassOptions & {
 	active?: boolean;
@@ -59,6 +60,18 @@ export class ModalCardFootClass extends BulmaClassComponent<BulmaClassOptions> {
 		super('modal-card-foot', {});
 	}
 }
+
+export type ModalMessageData = {
+	header: string;
+	message: string;
+	okIcon: string;
+	okText: string;
+	okColor?: ButtonColor;
+	cancelIcon: string;
+	cancelText: string;
+	hide: () => void;
+	save: () => void;
+};
 
 export const modalClass = new ModalClass();
 export const modalBackgroundClass = new ModalBackgroundClass();
