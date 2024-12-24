@@ -16,6 +16,7 @@ export type ILogger = {
 export class Logger implements ILogger {
 	static readonly DI = Symbol.for('Logger');
 	static getInstance(): Logger {
+		if (!injectable.has(Logger.DI)) console.log(injectable.keys);
 		return injectable.get(Logger.DI);
 	}
 	protected readonly _level: number;

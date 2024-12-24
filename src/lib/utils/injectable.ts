@@ -8,15 +8,18 @@ export class Injectable {
 	}
 	add(key: symbol, value: any) {
 		if (this.dependencies[key]) throw new Error(`Dependency for ${key.toString()} already defined`);
-		console.log(`Dependency Injecttion: ${key.toString()}`);
+		console.log(`Dependency Injection: ${key.toString()}`);
 		this.dependencies[key] = value;
 	}
 	set(key: symbol, value: any) {
-		console.log(`Dependency Injecttion: ${key.toString()}`);
+		console.log(`Dependency Injection: ${key.toString()}`);
 		this.dependencies[key] = value;
 	}
 	has(key: symbol): boolean {
 		return key in this.dependencies;
+	}
+	get keys() {
+		return Object.keys(this.dependencies);
 	}
 }
 
