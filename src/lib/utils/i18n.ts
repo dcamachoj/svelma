@@ -50,6 +50,9 @@ export class I18n {
 		});
 		return value;
 	}
+	s(key: string, params?: I18nParams): string {
+		return this.str(key, params);
+	}
 	clone(): I18n {
 		const copy = new I18n(this.lang);
 		Object.entries(this.data).forEach(([key, val]) => {
