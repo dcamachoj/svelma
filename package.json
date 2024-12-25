@@ -1,10 +1,11 @@
 {
 	"name": "@dcjpriv/svelma",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Svelte Components for bulma and more",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && npm run package",
+		"build-app": "vite build && npm run package",
+		"build": "npm run package",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",
