@@ -10,6 +10,7 @@
 	export let value: string | number;
 	export let readonly: boolean | undefined = undefined;
 	export let error: FormError | undefined = undefined;
+	export let prefix: string | undefined = undefined;
 
 	type $$Props = Partial<HTMLInputElement> & {
 		i18n: I18n;
@@ -17,12 +18,13 @@
 		value: string | number;
 		readonly?: boolean;
 		error?: FormError;
+		prefix?: string;
 	};
 
 	let err: string = '';
 
 	$: id = field.id;
-	$: label = field.labelText(i18n);
+	$: label = field.labelText(i18n, prefix || '');
 	$: err = error ? i18n.str(error.message, error.params) : '';
 </script>
 

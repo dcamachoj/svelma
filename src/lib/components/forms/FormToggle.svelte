@@ -10,11 +10,12 @@
 	export let readonly: boolean = false;
 	export let rounded: boolean = false;
 	export let error: FormError | undefined = undefined;
+	export let prefix: string = '';
 
 	let err: string = '';
 
 	$: id = field.id;
-	$: label = field.labelText(i18n);
+	$: label = field.labelText(i18n, prefix);
 	$: err = error ? i18n.str(error.message, error.params) : '';
 	$: cls = toggleClass.cls({});
 	$: clsSlider = toggleSliderClass.cls({ rounded });

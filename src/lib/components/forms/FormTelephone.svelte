@@ -15,12 +15,13 @@
 	export let readonly: boolean = false;
 	export let errorPrefix: FormError | undefined = undefined;
 	export let errorNumber: FormError | undefined = undefined;
+	export let prefix: string = '';
 
 	let err: string = '';
 
 	$: idPrefix = fieldPrefix.id;
 	$: idNumber = fieldNumber.id;
-	$: label = fieldNumber.labelText(i18n);
+	$: label = fieldNumber.labelText(i18n, prefix);
 	$: err = errorPrefix
 		? i18n.str(errorPrefix.message, errorPrefix.params)
 		: errorNumber

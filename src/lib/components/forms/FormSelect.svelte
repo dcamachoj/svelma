@@ -14,9 +14,10 @@
 	export let options: Option[];
 	export let readonly: boolean = false;
 	export let error: FormError | undefined = undefined;
+	export let prefix: string = '';
 
 	$: id = field.id;
-	$: label = field.labelText(i18n);
+	$: label = field.labelText(i18n, prefix);
 	$: err = error ? i18n.str(error.message, error.params) : '';
 	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true, color: err ? 'warning' : undefined });
 	$: clsSelect = selectClass.cls({});

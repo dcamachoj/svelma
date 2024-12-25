@@ -99,8 +99,8 @@ export abstract class FormField {
 		};
 	}
 
-	labelText(i18n: I18n): string {
-		return i18n.str(`field_${this.id}`);
+	labelText(i18n: I18n, prefix: string = ''): string {
+		return i18n.str(`field_${prefix}${this.id}`);
 	}
 
 	protected validateChain(value: FormFieldValidation, ...chain: FormValidateFunction[]) {

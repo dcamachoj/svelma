@@ -13,7 +13,7 @@
 		"lint": "prettier --check . && eslint .",
 		"zip": "rm dist.zip; zip -r9 dist.zip dist",
 		"unzip": "rm -rf dist; mkdir dist; unzip dist.zip -d .",
-		"publish": "npm run package && npm run zip",
+		"pub": "npm run package && npm run zip",
 		"format": "prettier --write ."
 	},
 	"exports": {
