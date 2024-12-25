@@ -1,6 +1,6 @@
 {
 	"name": "@dcjpriv/svelma",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Svelte Components for bulma and more",
 	"scripts": {
 		"dev": "vite dev",
