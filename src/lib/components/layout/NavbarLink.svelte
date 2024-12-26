@@ -21,7 +21,7 @@
 				<Icon {icon} />
 			{/if}
 			{#if text}
-				<span>{i18n ? i18n.str(text) : text}</span>
+				<span>{i18n ? i18n.s(text) : text}</span>
 			{/if}
 		</slot>
 	</a>
@@ -32,7 +32,7 @@
 				<Icon {icon} />
 			{/if}
 			{#if text}
-				<span>{i18n ? i18n.str(text) : text}</span>
+				<span>{i18n ? i18n.s(text) : text}</span>
 			{/if}
 		</slot>
 	</a>

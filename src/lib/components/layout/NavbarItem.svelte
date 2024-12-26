@@ -30,7 +30,7 @@
 			{/if}
 			<span>&nbsp;</span>
 			{#if text}
-				<span>{i18n ? i18n.str(text) : text}</span>
+				<span>{i18n ? i18n.s(text) : text}</span>
 			{/if}
 		</slot>
 	</a>
@@ -42,7 +42,7 @@
 			{/if}
 			<span>&nbsp;</span>
 			{#if text}
-				<span>{i18n ? i18n.str(text) : text}</span>
+				<span>{i18n ? i18n.s(text) : text}</span>
 			{/if}
 		</slot>
 	</a>

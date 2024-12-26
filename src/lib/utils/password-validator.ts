@@ -53,7 +53,7 @@ export class PasswordValidator {
 		if (valid == undefined) return undefined;
 		return {
 			valid,
-			message: i18n.str(passwordValidatorTranslationsPrefix + key, this.config),
+			message: i18n.s(passwordValidatorTranslationsPrefix + key, this.config),
 		};
 	}
 	validate(value: string): PasswordValidity {

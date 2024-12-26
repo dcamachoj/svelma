@@ -97,69 +97,65 @@ export const Val = {
 	required: (message?: MessageType) =>
 		new ValidatorBase(
 			(v) => v !== undefined && v !== null,
-			message || ((v, i18n) => i18n.str('validator_required')),
+			message || ((v, i18n) => i18n.s('validator_required')),
 		),
 	notEmpty: (message?: MessageType) =>
 		new ValidatorBase(
 			(v) => v !== undefined && v !== null && v !== '',
-			message || ((v, i18n) => i18n.str('validator_empty')),
+			message || ((v, i18n) => i18n.s('validator_empty')),
 		),
 	email: (message?: MessageType) =>
 		new ValidatorBase(
 			(v) => v && reEmail.test(v.toString()),
-			message || ((v, i18n) => i18n.str('validator_email_not_valid')),
+			message || ((v, i18n) => i18n.s('validator_email_not_valid')),
 		),
 	typeOf: (vType: string, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => v === null || v === undefined || typeof v === vType,
-			message ||
-				((v, i18n) => i18n.str('validator_type_of', { expected: vType, actual: typeof v })),
+			message || ((v, i18n) => i18n.s('validator_type_of', { expected: vType, actual: typeof v })),
 		),
 	isArray: (message?: MessageType) =>
-		new ValidatorBase(
-			(v) => Array.isArray(v),
-			message || ((v, i18n) => i18n.str('validator_array')),
-		),
+		new ValidatorBase((v) => Array.isArray(v), message || ((v, i18n) => i18n.s('validator_array'))),
 	allowedChars: (validChars: string, message?: MessageType) =>
 		new ValidatorBase(
 			(v: any) =>
 				(v.toString() as string).split('').some((c) => validChars.indexOf(c) == -1) == false,
-			message || ((v, i18n) => i18n.str('validator_allowed_chars', { validChars })),
+			message || ((v, i18n) => i18n.s('validator_allowed_chars', { validChars })),
 		),
 	ne: (actual: () => any, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => v != actual(),
-			message || ((v, i18n) => i18n.str('validator_ne', { actual: actual() })),
+			message || ((v, i18n) => i18n.s('validator_ne', { actual: actual() })),
 		),
 	gt: (min: number, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => typeof v !== 'number' || v > min,
-			message || ((v, i18n) => i18n.str('validator_gt', { min })),
+			message || ((v, i18n) => i18n.s('validator_gt', { min })),
 		),
 	ge: (min: number, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => typeof v !== 'number' || v >= min,
-			message || ((v, i18n) => i18n.str('validator_ge', { min })),
+			message || ((v, i18n) => i18n.s('validator_ge', { min })),
 		),
 	lt: (max: number, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => typeof v !== 'number' || v < max,
-			message || ((v, i18n) => i18n.str('validator_lt', { max })),
+			message || ((v, i18n) => i18n.s('validator_lt', { max })),
 		),
 	le: (max: number, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => typeof v !== 'number' || v <= max,
-			message || ((v, i18n) => i18n.str('validator_le', { max })),
+			message || ((v, i18n) => i18n.s('validator_le', { max })),
 		),
 	between: (min: number, max: number, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => typeof v !== 'number' || (v >= min && v <= max),
-			message || ((v, i18n) => i18n.str('validator_between', { min, max })),
+			message || ((v, i18n) => i18n.s('validator_between', { min, max })),
 		),
 	regExp: (re: RegExp, message?: MessageType) =>
 		new ValidatorBase(
 			(v) => typeof v !== 'string' || re.test(`${v}`),
-			message || ((v, i18n) => i18n.str('validator_not_valid')),
+			message || ((v, i18n) => i18n.s('validator_not_valid')),
 		),
 };
 

@@ -1,3 +1,5 @@
+import type { I18n } from '$lib/utils/i18n.js';
+
 export type PasswordValidity = {
 	min_length: boolean;
 	max_length?: boolean;
@@ -17,9 +19,9 @@ export type PasswordValidatorConfig = {
 	all_symbols?: string;
 };
 
-export const passwordValidatorTranslationsPrefix = 'password_validator_';
+const passwordValidatorTranslationsPrefix = 'password_validator_';
 
-export const passwordValidatorTranslationsEs: Record<keyof PasswordValidity, string> = {
+const passwordValidatorTranslationsEs: Record<keyof PasswordValidity, string> = {
 	min_length: 'Debe tener a lo menos {MIN_LENGTH} caracteres',
 	max_length: 'Debe tener a lo más {MAX_LENGTH} caracteres',
 	min_lower: 'Debe tener a lo menos {MIN_LOWER} minúsculas',
@@ -27,7 +29,7 @@ export const passwordValidatorTranslationsEs: Record<keyof PasswordValidity, str
 	min_digits: 'Debe tener a lo menos {MIN_DIGITS} dígitos',
 	min_symbols: 'Debe tener a lo menos {MIN_SYMBOLS} símbolos de: {ALL_SYMBOLS}',
 };
-export const passwordValidatorTranslationsEn: Record<keyof PasswordValidity, string> = {
+const passwordValidatorTranslationsEn: Record<keyof PasswordValidity, string> = {
 	min_length: 'Should have at least {MIN_LENGTH} characters',
 	max_length: 'Should have at most {MAX_LENGTH} characters',
 	min_lower: 'Should have at least {MIN_LOWER} lowercase letters',
@@ -35,3 +37,11 @@ export const passwordValidatorTranslationsEn: Record<keyof PasswordValidity, str
 	min_digits: 'Should have at least {MIN_DIGITS} digits',
 	min_symbols: 'Should have at least {MIN_SYMBOLS} symbols of: {ALL_SYMBOLS}',
 };
+
+export function i18nPasswordValidatorEs(i18n: I18n) {
+	return i18n.merge(passwordValidatorTranslationsEs, passwordValidatorTranslationsPrefix);
+}
+
+export function i18nPasswordValidatorEn(i18n: I18n) {
+	return i18n.merge(passwordValidatorTranslationsEn, passwordValidatorTranslationsPrefix);
+}

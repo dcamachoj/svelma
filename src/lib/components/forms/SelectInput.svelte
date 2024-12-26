@@ -17,7 +17,7 @@
 
 	$: id = validator.field;
 	$: label = validator.label(i18n);
-	$: err = error && $error ? i18n.str($error) : '';
+	$: err = error && $error ? i18n.s($error) : '';
 	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true });
 	$: clsSelect = selectClass.cls({});
 </script>

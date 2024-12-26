@@ -1,4 +1,7 @@
-export const formSchemaTranslationsEs = {
+import { formSchemaTranslationsPrefix } from '$lib/utils/form-field.js';
+import type { I18n } from '$lib/utils/i18n.js';
+
+const formSchemaTranslationsEs = {
 	required: 'Requerido',
 	max_length: 'Debe tener a lo más {MAX} caracteres',
 	empty: 'No vacío',
@@ -25,7 +28,7 @@ export const formSchemaTranslationsEs = {
 	type_string: 'Debe ser texto',
 };
 
-export const formSchemaTranslationsEn: Record<keyof typeof formSchemaTranslationsEs, string> = {
+const formSchemaTranslationsEn: Record<keyof typeof formSchemaTranslationsEs, string> = {
 	required: 'Required',
 	max_length: 'Should have at most {MAX} characters',
 	empty: 'Not empty',
@@ -51,3 +54,11 @@ export const formSchemaTranslationsEn: Record<keyof typeof formSchemaTranslation
 	between: 'Should be between {MIN} and {MAX}',
 	type_string: 'Debe ser texto',
 };
+
+export function i18nFormSchemaEs(i18n: I18n) {
+	return i18n.merge(formSchemaTranslationsEs, formSchemaTranslationsPrefix);
+}
+
+export function i18nFormSchemaEn(i18n: I18n) {
+	return i18n.merge(formSchemaTranslationsEn, formSchemaTranslationsPrefix);
+}

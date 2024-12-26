@@ -63,7 +63,7 @@ export abstract class FieldValidator {
 	}
 	abstract map(src: any): any;
 	label(i18n: I18n): string {
-		return i18n.str([this.prefix, this.field].filter(Boolean).join('_'));
+		return i18n.s([this.prefix, this.field].filter(Boolean).join('_'));
 	}
 	validate(errors: ValidatorErrors, value: any) {
 		this.validators.forEach((v) => v(errors, value));

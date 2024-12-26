@@ -23,9 +23,9 @@
 	$: idNumber = fieldNumber.id;
 	$: label = fieldNumber.labelText(i18n, prefix);
 	$: err = errorPrefix
-		? i18n.str(errorPrefix.message, errorPrefix.params)
+		? i18n.s(errorPrefix.message, errorPrefix.params)
 		: errorNumber
-			? i18n.str(errorNumber.message, errorNumber.params)
+			? i18n.s(errorNumber.message, errorNumber.params)
 			: '';
 	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true });
 	$: clsSelect = selectClass.cls({});

@@ -5,28 +5,20 @@ export type I18nLang = {
 };
 export type I18nData = { [key: string]: string };
 export type I18nParams = { [key: string]: any };
-export interface I18nValue {
-	key: string;
-	getValue(params?: I18nParams): string;
-}
-
-export interface LangGetter {
-	getLang(): string;
-}
-
-export interface LangSetter {
-	setLang(value: string): PromiseLike<void> | void;
-}
-
-export interface I18nGetter {
-	getI18nData(lang: string): PromiseLike<I18nData>;
-}
+export type I18nCallback = (i18n: I18n) => I18n;
 
 export class I18n {
 	private readonly data: I18nData = {};
 
 	constructor(readonly lang: string) {}
 
+	chain(...cbs: I18nCallback[]): I18n {
+		let i18n: I18n = this;
+		for (let cb of cbs) {
+			i18n = cb(i18n);
+		}
+		return i18n;
+	}
 	has(key: string): boolean {
 		return this.data.hasOwnProperty(key);
 	}
@@ -39,8 +31,7 @@ export class I18n {
 		});
 		return this;
 	}
-
-	str(key: string, params?: I18nParams): string {
+	s(key: string, params?: I18nParams): string {
 		let value = this.has(key) ? this.data[key] : key;
 		if (!params) {
 			return value;
@@ -49,9 +40,6 @@ export class I18n {
 			value = value.replaceAll(`{${key.toUpperCase()}}`, `${val}`);
 		});
 		return value;
-	}
-	s(key: string, params?: I18nParams): string {
-		return this.str(key, params);
 	}
 	clone(): I18n {
 		const copy = new I18n(this.lang);

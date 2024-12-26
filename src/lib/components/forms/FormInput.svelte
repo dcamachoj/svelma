@@ -25,7 +25,7 @@
 
 	$: id = field.id;
 	$: label = field.labelText(i18n, prefix || '');
-	$: err = error ? i18n.str(error.message, error.params) : '';
+	$: err = error ? i18n.s(error.message, error.params) : '';
 </script>
 
 <Field let:Control let:Label let:Help>

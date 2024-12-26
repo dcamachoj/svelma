@@ -15,7 +15,7 @@
 
 	$: id = validator.field;
 	$: label = validator.label(i18n);
-	$: err = error && $error ? i18n.str($error) : '';
+	$: err = error && $error ? i18n.s($error) : '';
 </script>
 
 <Field let:Control let:Label let:Help>

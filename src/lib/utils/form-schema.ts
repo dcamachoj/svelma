@@ -69,6 +69,20 @@ export class FormSchema<T> {
 		result.hasErrors = Object.values(result.errors).filter(Boolean).length > 0;
 		return result;
 	}
+	addErrors(
+		result: FormSchemaResult<T>,
+		errors: Partial<FormSchemaErrors<T>>,
+	): FormSchemaResult<T> {
+		const resErrors: FormSchemaErrors<T> = {
+			...(result.errors || {}),
+			...errors,
+		};
+		return {
+			value: result.value,
+			errors: resErrors,
+			hasErrors: Object.values(resErrors).filter(Boolean).length > 0,
+		};
+	}
 }
 
 class FormDef {

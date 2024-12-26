@@ -100,7 +100,7 @@ export abstract class FormField {
 	}
 
 	labelText(i18n: I18n, prefix: string = ''): string {
-		return i18n.str(`field_${prefix}${this.id}`);
+		return i18n.s(`field_${prefix}${this.id}`);
 	}
 
 	protected validateChain(value: FormFieldValidation, ...chain: FormValidateFunction[]) {

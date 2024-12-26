@@ -21,9 +21,9 @@
 	$: label = validatorNumber.label(i18n);
 	$: err =
 		errorPrefix && $errorPrefix
-			? i18n.str($errorPrefix)
+			? i18n.s($errorPrefix)
 			: errorNumber && $errorNumber
-				? i18n.str($errorNumber)
+				? i18n.s($errorNumber)
 				: '';
 	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true });
 	$: clsSelect = selectClass.cls({});

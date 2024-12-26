@@ -12,9 +12,6 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"zip": "rm dist.zip; zip -r9 dist.zip dist",
-		"unzip": "rm -rf dist; mkdir dist; unzip dist.zip -d .",
-		"pub": "npm run package && npm run zip",
 		"format": "prettier --write ."
 	},
 	"exports": {

@@ -18,7 +18,7 @@
 
 	$: id = field.id;
 	$: label = field.labelText(i18n, prefix);
-	$: err = error ? i18n.str(error.message, error.params) : '';
+	$: err = error ? i18n.s(error.message, error.params) : '';
 	$: clsWrapper = selectWrapperClass.cls({ fullwidth: true, color: err ? 'warning' : undefined });
 	$: clsSelect = selectClass.cls({});
 </script>
