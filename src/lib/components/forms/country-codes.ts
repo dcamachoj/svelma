@@ -1205,9 +1205,8 @@ countryCodes.forEach((cc) => {
 		dupCountryCodes[key] = [cc];
 	}
 });
-export const countryCodeOptions: Option[] = Object.entries(dupCountryCodes)
-	.map(([key, list]) => ({
-		text: `${key}: ${list.map((cc) => cc.code).join('/')}`,
-		value: key,
-	}))
-	.toSorted((a, b) => a.value.localeCompare(b.value));
+export const countryCodeOptions: Option[] = Object.entries(dupCountryCodes).map(([key, list]) => ({
+	text: `${key}: ${list.map((cc) => cc.code).join('/')}`,
+	value: key,
+}));
+countryCodeOptions.sort((a, b) => a.value.localeCompare(b.value));
