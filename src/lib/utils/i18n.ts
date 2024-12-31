@@ -6,6 +6,12 @@ export type I18nLang = {
 export type I18nData = { [key: string]: string };
 export type I18nParams = { [key: string]: any };
 export type I18nCallback = (i18n: I18n) => I18n;
+export type I18nTranslation<T> = Record<keyof T, string>;
+
+export const okEs = 'exitósamente';
+export const okEn = 'successfully';
+export const areYouSureEs = '¿Está seguro que desea';
+export const areYouSureEn = 'Are you sure you want to';
 
 export class I18n {
 	private readonly data: I18nData = {};

@@ -19,7 +19,7 @@ export type PasswordValidatorConfig = {
 	all_symbols?: string;
 };
 
-const passwordValidatorTranslationsPrefix = 'password_validator_';
+export const passwordValidatorTranslationsPrefix = 'password_validator_';
 
 const passwordValidatorTranslationsEs: Record<keyof PasswordValidity, string> = {
 	min_length: 'Debe tener a lo menos {MIN_LENGTH} caracteres',

@@ -6,6 +6,8 @@ type FormField = {
 	input: HTMLInputElement | HTMLSelectElement;
 };
 
+export type FormDataSource = Record<string, string | number | bigint | undefined>;
+
 export function fillForm(form: HTMLFormElement, data: {}) {
 	const logger = Logger.getInstance();
 	form.reset();
@@ -145,4 +147,24 @@ export function fillFormAttributes(form: HTMLFormElement, data: {}) {
 					logger.warn(`input key: ${key} not supported. type: ${type}`);
 			}
 		});
+}
+
+export function joinFormData(src: Record<string, FormDataSource>): FormData {
+	const formData = new FormData();
+	Object.entries(src).forEach(([prefix, data]) => {
+		Object.entries(data).forEach(([key, val]) => {
+			if (val != null) formData.set(`${prefix}_${key}`, val.toString());
+		});
+	});
+	return formData;
+}
+export function extractFormData(src: FormData, prefix: string): FormData {
+	const formData = new FormData();
+	if (!prefix.endsWith('_')) prefix += '_';
+	Array.from(src.entries())
+		.filter(([key, val]) => key.startsWith(prefix))
+		.forEach(([key, val]) => {
+			formData.set(key.slice(prefix.length), val);
+		});
+	return formData;
 }

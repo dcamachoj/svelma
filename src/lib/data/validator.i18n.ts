@@ -1,6 +1,8 @@
-export const validatorTranslationsPrefix = 'validator_';
+import type { I18n } from '$lib/utils/i18n.js';
 
-export const validatorTranslationsEs = {
+const validatorTranslationsPrefix = 'validator_';
+
+const validatorTranslationsEs = {
 	required: 'Requerido',
 	max_length: 'Debe tener a lo más {MAX} caracteres',
 	empty: 'No vacío',
@@ -25,7 +27,7 @@ export const validatorTranslationsEs = {
 	type_string: 'Debe ser texto',
 };
 
-export const validatorTranslationsEn: Record<keyof typeof validatorTranslationsEs, string> = {
+const validatorTranslationsEn: Record<keyof typeof validatorTranslationsEs, string> = {
 	required: 'Required',
 	max_length: 'Should have at most {MAX} characters',
 	empty: 'Not empty',
@@ -49,3 +51,11 @@ export const validatorTranslationsEn: Record<keyof typeof validatorTranslationsE
 	between: 'Should be between {MIN} and {MAX}',
 	type_string: 'Debe ser texto',
 };
+
+export function i18nValidatorEs(i18n: I18n) {
+	return i18n.merge(validatorTranslationsEs, validatorTranslationsPrefix);
+}
+
+export function i18nValidatorEn(i18n: I18n) {
+	return i18n.merge(validatorTranslationsEn, validatorTranslationsPrefix);
+}

@@ -4,4 +4,3 @@ export { default as LayoutTitle } from './LayoutTitle.svelte';
 export { default as LayoutTransition } from './LayoutTransition.svelte';
 export { default as Overflow } from './Overflow.svelte';
 export { default as Search } from './Search.svelte';
-export { default as List } from './List.svelte';

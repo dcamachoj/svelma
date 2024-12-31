@@ -1,51 +1,51 @@
 <script lang="ts">
+	import { classnames, type ClsArgument } from '$lib/utils/classnames.js';
 	import { EnvPublic } from '$lib/utils/env.js';
 	import { onMount } from 'svelte';
 
 	const env = EnvPublic.getInstance();
 
-	export let offset: string = '';
+	export let overflowClassname: ClsArgument = '';
+	export let overflowContainerClassname: ClsArgument = '';
+	export let gap: string = '';
 
-	let headerHeight = 0;
-	let headerEl: HTMLDivElement;
+	let divEl: HTMLElement;
+	let mounted = false;
+	let height = 0;
 
-	$: styleCalc = [
-		'100vh',
-		`${env.mainHeaderHeight}px`,
-		`${env.mainFooterHeight}px`,
-		'1rem',
-		offset,
-		headerHeight ? `${headerHeight}px` : '',
-	].filter(Boolean);
-	$: style = `max-height: calc(${styleCalc.join(' - ')});`;
+	$: style = height ? `max-height: ${height}px;` : '';
+	$: containerStyle = gap ? `gap: ${gap};` : '';
 
 	onMount(() => {
-		headerHeight = headerEl?.clientHeight;
+		height = divEl.clientHeight;
+		mounted = true;
 	});
 </script>
 
-<div class="overflow-container">
-	<div class="header" bind:this={headerEl}><slot name="header" /></div>
-	<div class="overflow" {style}><slot /></div>
+<div bind:this={divEl} class="overflow {classnames(overflowClassname)}" class:mounted {style}>
+	<div class="overflow-content {classnames(overflowContainerClassname)}" style={containerStyle}>
+		<slot />
+	</div>
 </div>
 
 <style lang="less">
-	.overflow-container {
-		display: flex;
-		flex-direction: column;
+	.overflow {
+		width: 100%;
 		height: 100%;
 
-		.header {
-			display: flex;
+		.overflow-content {
+			width: 100%;
+			height: 100%;
+			overflow-y: auto;
+			display: none !important;
 			flex-direction: column;
 			align-items: stretch;
-
-			& :global(> *) {
-				width: 100%;
-			}
 		}
-		.overflow {
-			overflow-y: auto;
+
+		&.mounted {
+			.overflow-content {
+				display: flex !important;
+			}
 		}
 	}
 </style>

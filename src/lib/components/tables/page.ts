@@ -17,6 +17,17 @@ export type PageResponse<Res extends Object = {}> = PageRequest & {
 	totalCount: number;
 };
 
+export function pageResponseToRequest(
+	src: PageResponse,
+	partial: Partial<PageRequest> = {},
+): PageRequest {
+	const pageRequest: any = { ...src };
+	delete pageRequest.list;
+	delete pageRequest.pageCount;
+	delete pageRequest.totalCount;
+	return { ...pageRequest, ...partial } as PageRequest;
+}
+
 export function parsePageRequestFromSearchParams(src: URLSearchParams): PageRequest {
 	const pageSize = src.get('pageSize');
 	return {

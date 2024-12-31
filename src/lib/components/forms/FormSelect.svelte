@@ -27,7 +27,15 @@
 	<Label {id}>{label}</Label>
 	{#if readonly}
 		<Control iconsLeft>
-			<input {id} name={id} class="input" type="text" placeholder={label} readonly />
+			<input
+				{id}
+				name={id}
+				class="input"
+				type="text"
+				placeholder={label}
+				readonly
+				value={options.find((o) => o.value == value.toString())?.text || ''}
+			/>
 			<Icon icon={mdiCancel} size="small" iconClassname="is-left" />
 		</Control>
 	{:else}
