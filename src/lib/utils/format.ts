@@ -7,7 +7,11 @@ export class Formatter {
 	}
 	constructor(readonly locale: string = 'es') {
 		injectable.add(Formatter.DI, this);
-		this.dateFormat = new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
+		this.dateFormat = new Intl.DateTimeFormat(locale, {
+			day: '2-digit',
+			month: 'short',
+			year: 'numeric',
+		});
 		this.timeFormat = new Intl.DateTimeFormat(locale, {
 			hour: '2-digit',
 			minute: '2-digit',

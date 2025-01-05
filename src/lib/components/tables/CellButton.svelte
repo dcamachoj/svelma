@@ -6,6 +6,8 @@
 
 	export let col: GridColumn<any>;
 	export let row: any;
+	export let colIdx: number;
+	export let rowIdx: number;
 	export let options: {
 		icon?: GridCellFn<any, string>;
 		text?: GridCellFn<any, string>;
@@ -20,12 +22,12 @@
 
 <Button
 	element="button"
-	color={options.color ? options.color(col, row) : undefined}
-	size={options.size ? options.size(col, row) : undefined}
-	on:click={() => options.click(col, row)}
+	color={options.color ? options.color({ col, row, colIdx, rowIdx }) : undefined}
+	size={options.size ? options.size({ col, row, colIdx, rowIdx }) : undefined}
+	on:click={() => options.click({ col, row, colIdx, rowIdx })}
 >
 	<IconText
-		icon={options.icon ? options.icon(col, row) : undefined}
-		text={options.text ? options.text(col, row) : undefined}
+		icon={options.icon ? options.icon({ col, row, colIdx, rowIdx }) : undefined}
+		text={options.text ? options.text({ col, row, colIdx, rowIdx }) : undefined}
 	/>
 </Button>

@@ -8,6 +8,7 @@
 	} from './grid.js';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import FilterModal from './FilterModal.svelte';
+	import { I18n } from '$lib/utils/i18n.js';
 
 	const dispatch = createEventDispatcher();
 	const dateFormats: Record<string, string> = {
@@ -16,6 +17,7 @@
 		datetime: 'yyyy-mm-dd HH:MM:ss',
 	};
 
+	export let i18n: I18n;
 	export let col: GridColumn<any>;
 	export let filter: GridFilter;
 	export let options: GridFilterOptions;
@@ -55,7 +57,12 @@
 	}
 </script>
 
-<FilterModal header={col.header} on:hide={hideFilter} on:clear={clearFilter} on:save={saveFilter}>
+<FilterModal
+	header={col.header ? i18n.s(col.header) : undefined}
+	on:hide={hideFilter}
+	on:clear={clearFilter}
+	on:save={saveFilter}
+>
 	<div class="field">
 		<label class="label" for="operator">Operador</label>
 		<div class="control">

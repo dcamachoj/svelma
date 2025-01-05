@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { classnames, type ClsArgument } from '$lib/utils/classnames.js';
 	import { EnvPublic } from '$lib/utils/env.js';
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
+	const dispatch = createEventDispatcher();
 	const env = EnvPublic.getInstance();
 
 	export let overflowClassname: ClsArgument = '';
@@ -15,11 +16,15 @@
 
 	$: style = height ? `max-height: ${height}px;` : '';
 	$: containerStyle = gap ? `gap: ${gap};` : '';
+	$: onMounted(mounted);
 
 	onMount(() => {
 		height = divEl.clientHeight;
 		mounted = true;
 	});
+	function onMounted(value: boolean) {
+		dispatch('mounted', value);
+	}
 </script>
 
 <div bind:this={divEl} class="overflow {classnames(overflowClassname)}" class:mounted {style}>

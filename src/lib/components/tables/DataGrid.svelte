@@ -23,9 +23,12 @@
 		mdiSortDescending,
 	} from '@mdi/js';
 	import { bulmaClassnames } from '$lib/utils/bulma.js';
+	import Overflow from '../layouts/Overflow.svelte';
+	import type { I18n } from '$lib/utils/i18n.js';
 
 	const dispatch = createEventDispatcher();
 
+	export let i18n: I18n;
 	export let opts: BulmaOptions = {};
 	export let bordered: boolean = false;
 	export let striped: boolean = false;
@@ -37,11 +40,11 @@
 	export let stats: GridStats;
 	export let request: GridRequest;
 	export let options: GridOptions<any> = {};
-	export let vMargin: number | undefined = undefined;
 
 	let filterColumn: GridColumn<any> | undefined = undefined;
 	let selectedFilter: GridFilter | undefined = undefined;
 
+	let elTable: HTMLTableElement;
 	let elHead: HTMLElement;
 	let elFoot: HTMLElement;
 
@@ -50,9 +53,6 @@
 	$: clsTable = tableClass.cls({ opts, bordered, striped, narrow, hoverable, fullwidth });
 	$: canFirst = stats.pageIndex > 0;
 	$: canLast = stats.pageIndex < stats.pageCount - 1;
-	$: tbodyStyle = `max-height: calc(100vh - 100px - ${vMargin || 0}px - ${elHead?.clientHeight || 0}px - ${elFoot?.clientHeight || 0}px);`;
-	$: trHeaderStyle = options.headerHeight ? `height: ${options.headerHeight}px;` : '';
-	$: trBodyStyle = options.bodyRowHeight ? `height: ${options.bodyRowHeight}px;` : '';
 
 	onMount(() => {
 		const filters: GridFilter[] = columns
@@ -156,17 +156,70 @@
 		onPage({ filters, pageIndex: 0 });
 		hideFilter();
 	}
+	function onMounted(e: CustomEvent<boolean>) {
+		if (!e.detail) return;
+		setTimeout(() => resizeTable());
+	}
+	function resizeTable() {
+		const headerCells: HTMLTableCellElement[] = Array.from(elTable.querySelectorAll('th'));
+		const bodyRows: HTMLTableRowElement[] = Array.from(elTable.querySelectorAll('tbody > tr'));
+		const widths = headerCells.map((el: HTMLElement) => el.clientWidth);
+		widths.forEach((w, colIdx) => {
+			const cells: HTMLTableCellElement[] = bodyRows.map(
+				(r) => r.querySelector(`td.col-${colIdx}`) as HTMLTableCellElement,
+			);
+			const colWidth =
+				cells.map((c) => c.clientWidth).reduce((prev, curr) => Math.max(prev, curr), w) + 'px';
+			applyColWidth(colWidth, headerCells[colIdx], columns[colIdx]);
+			headerCells[colIdx].style.width = colWidth;
+			cells.forEach((c) => applyColWidth(colWidth, c, columns[colIdx]));
+		});
+		setTimeout(() => resizeTableFlex());
+	}
+	function resizeTableFlex() {
+		const flexTotal = columns.reduce((prev, curr) => prev + (curr.flex ?? 0), 0);
+		if (flexTotal == 0) return;
+		const headerCells: HTMLTableCellElement[] = Array.from(elTable.querySelectorAll('th'));
+		const bodyRows: HTMLTableRowElement[] = Array.from(elTable.querySelectorAll('tbody > tr'));
+		const tableWidth = elTable.clientWidth;
+		let usedWidth = 0;
+		headerCells
+			.filter((th, idx) => !columns[idx].flex)
+			.forEach((th) => {
+				usedWidth += th.clientWidth;
+			});
+		const leftWidth = tableWidth - usedWidth;
+		columns.forEach((col, idx) => {
+			if (!col.flex) return;
+			const colWidth = (col.flex / flexTotal) * leftWidth - 1 + 'px';
+			headerCells[idx].style.width = colWidth;
+			const cells: HTMLTableCellElement[] = bodyRows.map(
+				(r) => r.querySelector(`td.col-${idx}`) as HTMLTableCellElement,
+			);
+			cells.forEach((c) => {
+				c.style.width = colWidth;
+			});
+		});
+	}
+	function applyColWidth(width: string, el: HTMLTableCellElement, col: GridColumn<any>) {
+		if (el.style.flex) return;
+		if (!col.flex) el.style.width = width;
+	}
 </script>
 
-<table class={clsTable}>
-	<thead class={options.tHead} bind:this={elHead}>
+<table bind:this={elTable} class={clsTable} style={gridManager.getTableStyle(options)}>
+	<thead
+		class={options.tHead}
+		bind:this={elHead}
+		style={gridManager.getSectionStyle(options, 'head')}
+	>
 		{#if $$slots.thead}
 			<slot name="thead" />
 		{/if}
-		<tr class={options.headerRow} style={trHeaderStyle}>
-			{#each columns as col (col.id)}
+		<tr class={options.headerRow} style={gridManager.getRowStyle(options, 'head')}>
+			{#each columns as col, colidx (col.id)}
 				<th
-					class={gridManager.getColClass(col, options.headerCell)}
+					class={gridManager.getColClass(col, colidx, options.headerCell)}
 					style={gridManager.getColWidthStyle(col)}
 				>
 					<div class="fullwidth">
@@ -183,7 +236,7 @@
 						{/if}
 						<span class="grid-header"
 							>{#if col.header}
-								{col.header}
+								{i18n.s(col.header)}
 							{:else}
 								&nbsp;
 							{/if}
@@ -202,30 +255,53 @@
 			{/each}
 		</tr>
 	</thead>
-	<tbody class={options.tBody} style={tbodyStyle}>
-		{#each rows as row}
-			<tr class={gridManager.getRowClass(row, options.bodyRow)} style={trBodyStyle}>
-				{#each columns as col (col.id)}
-					<td
-						class={gridManager.getCellClass(col, row, col.rendererOptions.classFn)}
-						title={col.rendererOptions.tooltip ? col.rendererOptions.tooltip(col, row) : undefined}
-						style={gridManager.getColWidthStyle(col)}
-					>
-						<svelte:component this={col.renderer} options={col.rendererOptions} {col} {row} />
-					</td>
-				{/each}
-			</tr>
-		{/each}
-	</tbody>
-
+	<Overflow on:mounted={onMounted}>
+		<tbody class={options.tBody} style={gridManager.getSectionStyle(options, 'body')}>
+			{#each rows as row, rowIdx}
+				<tr
+					class={gridManager.getRowClass(row, rowIdx, options.bodyRow)}
+					style={gridManager.getRowStyle(options, 'body')}
+				>
+					{#each columns as col, colIdx (col.id)}
+						<td
+							class={gridManager.getCellClass(
+								col,
+								row,
+								colIdx,
+								rowIdx,
+								col.rendererOptions.classFn,
+							)}
+							title={col.rendererOptions.tooltip
+								? col.rendererOptions.tooltip({ col, row, colIdx, rowIdx })
+								: undefined}
+							style={gridManager.getColWidthStyle(col)}
+						>
+							<svelte:component
+								this={col.renderer}
+								options={col.rendererOptions}
+								{col}
+								{row}
+								{colIdx}
+								{rowIdx}
+							/>
+						</td>
+					{/each}
+				</tr>
+			{/each}
+		</tbody>
+	</Overflow>
 	{#if $$slots.tfoot || stats}
-		<tfoot class={options.tFoot} bind:this={elFoot}>
+		<tfoot
+			class={options.tFoot}
+			bind:this={elFoot}
+			style={gridManager.getSectionStyle(options, 'foot')}
+		>
 			{#if $$slots.tfoot}
-				<tr>
+				<tr style={gridManager.getRowStyle(options, 'foot')}>
 					<slot name="tfoot" />
 				</tr>
 			{/if}
-			<tr>
+			<tr style={gridManager.getRowStyle(options, 'foot')}>
 				<td class={bulmaClassnames({ flexGrow: 1, flexShrink: 1 })}>
 					<nav class="pagination is-centered" aria-label="pagination">
 						<a
@@ -287,6 +363,7 @@
 {#if filterColumn}
 	<svelte:component
 		this={filterColumn.filter}
+		{i18n}
 		col={filterColumn}
 		filter={selectedFilter}
 		options={filterColumn.filterOptions}

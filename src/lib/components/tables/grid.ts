@@ -62,10 +62,18 @@ export type GridFilterOptions = {
 	multiple?: boolean;
 };
 
+export type GridColArg<Row> = {
+	col: GridColumn<Row>;
+	colIdx: number;
+};
+export type GridRowArg<Row> = {
+	row: Row;
+	rowIdx: number;
+};
 export type GridClassFn = (data: any) => string;
-export type GridRowFn<Row, Res> = (data: Row) => Res | undefined;
-export type GridColFn<Row, Res> = (col: GridColumn<Row>) => Res | undefined;
-export type GridCellFn<Row, Res> = (col: GridColumn<Row>, data: Row) => Res | undefined;
+export type GridRowFn<Row, Res> = (arg: GridRowArg<Row>) => Res | undefined;
+export type GridColFn<Row, Res> = (arg: GridColArg<Row>) => Res | undefined;
+export type GridCellFn<Row, Res> = (arg: GridColArg<Row> & GridRowArg<Row>) => Res | undefined;
 
 export type GridRenderOptions<Row> = {
 	icon?: GridCellFn<Row, string>;
@@ -89,9 +97,9 @@ export type GridColumn<Row> = {
 	sortAsc?: boolean;
 	filter?: any;
 	filterOptions?: GridFilterOptions;
-	width?: number;
-	minWidth?: number;
-	maxWidth?: number;
+	width?: string;
+	minWidth?: string;
+	maxWidth?: string;
 	flex?: number;
 };
 
@@ -100,13 +108,14 @@ export type GridOptions<Row> = {
 	tBody?: string;
 	tFoot?: string;
 	headerRow?: string;
+	sectionGap?: string;
 	headerCell?: GridColFn<Row, string>;
 	bodyRow?: GridRowFn<Row, string>;
 	bodyCell?: GridCellFn<Row, string>;
 	footRow?: string;
 	footCell?: GridColFn<Row, string>;
-	headerHeight?: number;
-	bodyRowHeight?: number;
+	headerHeight?: string;
+	bodyRowHeight?: string;
 };
 
 export type GridFilter = {
@@ -218,22 +227,43 @@ export class GridManager {
 		}
 		search.sort = [request.sort.asc === false ? '-' : '', request.sort.field].join('');
 	}
-	getRowClass<Row>(data: any, cls: GridRowFn<Row, string> | undefined) {
-		if (cls) return cls(data);
+	getRowClass<Row>(data: any, idx: number, cls: GridRowFn<Row, string> | undefined) {
+		return `row-${idx} ${cls ? cls({ row: data, rowIdx: idx }) : ''}`;
 	}
-	getColClass<Row>(col: GridColumn<Row>, cls: GridColFn<Row, string> | undefined) {
-		if (cls) return cls(col);
+	getColClass<Row>(col: GridColumn<Row>, idx: number, cls: GridColFn<Row, string> | undefined) {
+		return `col-${idx} ${cls ? cls({ col, colIdx: idx }) : ''}`;
 	}
-	getCellClass<Row>(col: GridColumn<Row>, data: Row, cls: GridCellFn<Row, string> | undefined) {
-		if (cls) return cls(col, data);
+	getCellClass<Row>(
+		col: GridColumn<Row>,
+		row: Row,
+		colIdx: number,
+		rowIdx: number,
+		cls: GridCellFn<Row, string> | undefined,
+	) {
+		return `col-${colIdx} ${cls ? cls({ col, colIdx, row, rowIdx }) : ''}`;
 	}
 	getColWidthStyle<Row>(col: GridColumn<Row>): string {
 		const styles: string[] = [];
-		if (col.width != null) styles.push(`width: ${col.width}px;`);
-		if (col.minWidth != null) styles.push(`min-width: ${col.minWidth}px;`);
-		if (col.maxWidth != null) styles.push(`max-width: ${col.maxWidth}px;`);
-		if (col.flex != null) styles.push(`flex: ${col.flex};`);
+		if (col.width != null) styles.push(`width: ${col.width};`);
+		if (col.minWidth != null) styles.push(`min-width: ${col.minWidth};`);
+		if (col.maxWidth != null) styles.push(`max-width: ${col.maxWidth};`);
+		//if (col.flex != null) styles.push(`flex: ${col.flex};`);
 		return styles.join(' ');
+	}
+	getTableStyle<Row>(opts: GridOptions<Row>) {
+		const lines: string[] = [];
+		if (opts.sectionGap) lines.push(`gap: ${opts.sectionGap};`);
+		return lines.join(' ');
+	}
+	getSectionStyle<Row>(opts: GridOptions<Row>, type: 'head' | 'body' | 'foot') {
+		const lines: string[] = [];
+		if (type == 'head' && opts.headerHeight) lines.push(`height: ${opts.headerHeight};`);
+		if (type == 'body' && opts.bodyRowHeight) lines.push(`height: ${opts.bodyRowHeight};`);
+		return lines.join(' ');
+	}
+	getRowStyle<Row>(opts: GridOptions<Row>, type: 'head' | 'body' | 'foot') {
+		const lines: string[] = [];
+		return lines.join(' ');
 	}
 	isValidFilter(filter?: GridFilter) {
 		if (!filter) return false;
@@ -245,5 +275,9 @@ export class GridManager {
 			default:
 				return !!filter.field && !!filter.value;
 		}
+	}
+	gridResultToRequest<T>(res: GridResult<T>, req: Partial<GridRequest> = {}): GridRequest {
+		const { pageIndex, pageSize, filters, sort } = res;
+		return { pageIndex, pageSize, filters, sort, ...req };
 	}
 }
