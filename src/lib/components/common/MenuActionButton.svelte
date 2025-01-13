@@ -9,7 +9,10 @@
 
 	$: size = action.size;
 	$: title = action.title;
-	$: disabled = action.disabled || writable(false);
+	$: disabled =
+		typeof action.disabled == 'boolean'
+			? writable(action.disabled)
+			: action.disabled || writable(false);
 </script>
 
 {#if action.href}

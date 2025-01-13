@@ -20,7 +20,7 @@ export type MenuAction = {
 	size?: ButtonSize;
 	preloadData?: 'tap' | 'hover';
 	isNotCentered?: boolean;
-	disabled?: Readable<boolean>;
+	disabled?: boolean | Readable<boolean>;
 	click?: () => void;
 };
 
