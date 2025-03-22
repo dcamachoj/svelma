@@ -5,6 +5,7 @@ export class Formatter {
 	static getInstance(): Formatter {
 		return injectable.get(Formatter.DI);
 	}
+	private _offsetMs: number = 0;
 	constructor(readonly locale: string = 'es') {
 		injectable.add(Formatter.DI, this);
 		this.dateFormat = new Intl.DateTimeFormat(locale, {
@@ -17,6 +18,7 @@ export class Formatter {
 			minute: '2-digit',
 			second: '2-digit',
 			hour12: false,
+			hourCycle: 'h23',
 		});
 		this.floatFormat = new Intl.NumberFormat(locale, {
 			maximumFractionDigits: 2,
@@ -43,23 +45,35 @@ export class Formatter {
 	private readonly intFormat: Intl.NumberFormat;
 	private readonly floatFormat1: Intl.NumberFormat;
 
+	get offsetMs() {
+		return this._offsetMs;
+	}
+	get offsetMin() {
+		return this._offsetMs * 60000;
+	}
+
+	set offsetMin(value: number) {
+		this._offsetMs = value * 60000;
+	}
+
 	clamp(value: number, min: number, max: number): number {
 		return Math.max(min, Math.min(max, value));
 	}
-
-	dateString(date: Date | undefined, offset: number = 0): string | undefined {
+	getDate(src: Date): Date | undefined {
+		const date = new Date(src);
+		return new Date(date.getTime() + this._offsetMs);
+	}
+	dateString(date: Date | undefined): string | undefined {
 		if (!date) return undefined;
-		date = new Date(date);
-		if (offset) date = new Date(date.getTime() + offset * date.getTimezoneOffset() * 60000);
+		date = this.getDate(date);
 		return this.dateFormat.format(date);
 	}
-	timeString(date: Date | undefined, offset: number = 0): string | undefined {
+	timeString(date: Date | undefined): string | undefined {
 		if (!date) return undefined;
-		date = new Date(date);
-		if (offset) date = new Date(date.getTime() + offset * date.getTimezoneOffset() * 60000);
+		date = this.getDate(date);
 		return this.timeFormat.format(date);
 	}
-	dateTimeString(date: Date | undefined, offset: number = 0): string | undefined {
+	dateTimeString(date: Date | undefined): string | undefined {
 		if (!date) return undefined;
 		return [this.dateString(date), this.timeString(date)].join(' ');
 	}
