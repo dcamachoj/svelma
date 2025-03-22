@@ -49,7 +49,7 @@ export class Formatter {
 		return this._offsetMs;
 	}
 	get offsetMin() {
-		return this._offsetMs * 60000;
+		return this._offsetMs / 60000;
 	}
 
 	set offsetMin(value: number) {
