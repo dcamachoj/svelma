@@ -24,6 +24,7 @@
 	});
 	function onMounted(value: boolean) {
 		dispatch('mounted', value);
+		dispatch('mounted-height', height);
 	}
 </script>
 
