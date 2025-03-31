@@ -59,23 +59,23 @@ export class Formatter {
 	clamp(value: number, min: number, max: number): number {
 		return Math.max(min, Math.min(max, value));
 	}
-	getDate(src: Date): Date | undefined {
+	getDate(src: Date, offset: number = 1): Date | undefined {
 		const date = new Date(src);
-		return new Date(date.getTime() + this._offsetMs);
+		return new Date(date.getTime() + this._offsetMs * offset);
 	}
-	dateString(date: Date | undefined): string | undefined {
+	dateString(date: Date | undefined, offset: number = 1): string | undefined {
 		if (!date) return undefined;
-		date = this.getDate(date);
+		date = this.getDate(date, offset);
 		return this.dateFormat.format(date);
 	}
-	timeString(date: Date | undefined): string | undefined {
+	timeString(date: Date | undefined, offset: number = 1): string | undefined {
 		if (!date) return undefined;
-		date = this.getDate(date);
+		date = this.getDate(date, offset);
 		return this.timeFormat.format(date);
 	}
-	dateTimeString(date: Date | undefined): string | undefined {
+	dateTimeString(date: Date | undefined, offset: number = 1): string | undefined {
 		if (!date) return undefined;
-		return [this.dateString(date), this.timeString(date)].join(' ');
+		return [this.dateString(date, offset), this.timeString(date, offset)].join(' ');
 	}
 	floatString(value: number | undefined): string | undefined {
 		if (value == undefined) return undefined;
